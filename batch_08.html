@@ -1,0 +1,2303 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Track F methods review, batch_08</title><style>
+:root{
+--primary:#533afd; --primary-deep:#4434d4; --primary-press:#2e2b8c;
+--primary-soft:#665efd; --primary-subdued:#b9b9f9; --brand-dark-900:#1c1e54;
+--canvas:#ffffff; --canvas-soft:#f6f9fc; --canvas-cream:#f5e9d4;
+--hairline:#e3e8ee; --hairline-input:#a8c3de;
+--ink:#0d253d; --ink-secondary:#273951; --ink-mute:#64748d; --on-primary:#ffffff;
+--r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-pill:9999px;
+--sh1:rgba(0,55,112,.08) 0 1px 3px;
+--sh2:rgba(0,55,112,.08) 0 8px 24px, rgba(0,55,112,.04) 0 2px 6px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);
+font-family:Inter,"SF Pro Display",system-ui,-apple-system,"Segoe UI",sans-serif;
+font-weight:300;font-size:15px;line-height:1.4;
+font-feature-settings:"ss01";-webkit-font-smoothing:antialiased}
+.mesh{position:absolute;inset:0 0 auto;height:280px;z-index:0;pointer-events:none;
+background:
+ radial-gradient(60% 120% at 8% 40%, #f5e9d4 0%, rgba(245,233,212,0) 60%),
+ radial-gradient(50% 120% at 30% 30%, #ffd9b0 0%, rgba(255,217,176,0) 62%),
+ radial-gradient(55% 130% at 55% 45%, #cdc4fb 0%, rgba(205,196,251,0) 62%),
+ radial-gradient(50% 120% at 76% 30%, #533afd 0%, rgba(83,58,253,0) 60%),
+ radial-gradient(55% 120% at 96% 55%, #ea2261 0%, rgba(234,34,97,0) 62%);
+opacity:.30;filter:blur(18px)}
+.wrap{max-width:1200px;margin:0 auto;padding:40px 24px 104px;position:relative;z-index:1}
+h1{font-size:32px;font-weight:300;letter-spacing:-.64px;line-height:1.1;margin:0 0 6px}
+h2{font-size:10px;font-weight:400;letter-spacing:.1px;text-transform:uppercase;
+color:var(--ink-mute);margin:0}
+.sub{color:var(--ink-secondary);font-size:15px;margin:0 0 24px;max-width:62ch}
+.card{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);
+padding:24px;margin-bottom:14px;box-shadow:var(--sh1)}
+.card.cream{background:var(--canvas-cream);border-color:transparent;box-shadow:none}
+.card h3{font-size:18px;font-weight:300;letter-spacing:0;margin:0 0 10px}
+.note{color:var(--ink-secondary);font-size:15px}
+.note b{font-weight:400}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.num{font-feature-settings:"tnum","ss01";letter-spacing:-.42px}
+.pill{display:inline-block;background:var(--primary-subdued);color:var(--primary-deep);
+font-size:10px;font-weight:400;letter-spacing:.1px;text-transform:uppercase;
+padding:4px 8px;border-radius:var(--r-pill)}
+.paper-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+flex-wrap:wrap;margin-bottom:4px}
+.split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;
+align-items:start}
+/* clears the sticky action bar, which is about 60px tall */
+.col-text{position:sticky;top:80px}
+@media (max-width:1023px){.split{grid-template-columns:1fr}.col-text{position:static}}
+.methods{background:var(--canvas-soft);border:1px solid var(--hairline);
+border-radius:var(--r-md);padding:18px 20px;min-height:320px;
+overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.7;
+color:var(--ink-secondary);margin:10px 0 0;user-select:text;cursor:text;
+height:calc(100vh - 296px)}
+@media (max-width:1023px){.methods{height:46vh}}
+.methods mark{background:var(--canvas-cream);color:inherit;border-radius:var(--r-xs);
+padding:1px 0}
+.methods mark.cur{background:var(--primary-subdued)}
+.methods ::selection{background:var(--primary-soft);color:#fff}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;
+font-size:13px;color:var(--ink-mute);letter-spacing:-.39px}
+.tools .aid{margin-left:auto;font-size:11px;font-weight:300}
+button{font-family:inherit;font-size:14px;font-weight:400;line-height:1;
+padding:8px 16px;border-radius:var(--r-pill);border:1px solid var(--primary);
+background:var(--primary);color:var(--on-primary);cursor:pointer}
+button:hover{background:var(--primary-deep);border-color:var(--primary-deep)}
+button:active{background:var(--primary-press);border-color:var(--primary-press)}
+button.sec{background:var(--canvas);color:var(--primary);border-color:var(--primary)}
+button.sec:hover{background:var(--canvas-soft)}
+button.quiet{background:transparent;color:var(--ink-mute);border-color:var(--hairline)}
+button.quiet:hover{background:var(--canvas-soft);color:var(--ink)}
+button:disabled{opacity:.4;cursor:not-allowed}
+input[type=text]{width:100%;background:var(--canvas);color:var(--ink);
+font-family:inherit;font-size:15px;font-weight:300;padding:8px 12px;
+border-radius:var(--r-sm);border:1px solid var(--hairline-input)}
+input[type=text]:focus{outline:none;border-color:var(--primary)}
+.q{border:1px solid var(--hairline);border-radius:var(--r-lg);padding:18px 20px;
+margin-bottom:10px;background:var(--canvas)}
+.q.active{border-color:var(--primary);box-shadow:var(--sh1)}
+.q.done{padding:12px 16px;background:var(--canvas-soft);box-shadow:none}
+.q.done .qdef,.q.done .qhow,.q.done .acts,.q.done .grab{display:none}
+.q.done .qname{cursor:pointer;margin:0}
+.qname{display:flex;justify-content:space-between;gap:12px;align-items:baseline;
+font-size:18px;font-weight:300;letter-spacing:0;margin-bottom:6px}
+.q.done .qname{font-size:15px;color:var(--ink-secondary)}
+.qname .ans{font-size:13px;color:var(--ink-mute);letter-spacing:-.39px;
+white-space:nowrap;max-width:52%;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.qdef{color:var(--ink-secondary);font-size:15px;margin-bottom:10px}
+.qhow{background:var(--canvas-soft);border-radius:var(--r-md);padding:10px 12px;
+font-size:13px;color:var(--ink-secondary);letter-spacing:-.39px;margin-bottom:12px}
+.qhow b{font-weight:400;color:var(--ink)}
+.qhow .eg{display:block;margin-top:5px;color:var(--ink-mute)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.grab{margin-top:11px;display:none}
+.grab.on{display:block}
+.grab .cap{font-size:10px;text-transform:uppercase;letter-spacing:.1px;
+color:var(--ink-mute);margin-bottom:5px}
+.grab blockquote{margin:0;background:var(--canvas-cream);border-radius:var(--r-md);
+padding:10px 12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+font-size:13px;color:var(--ink);line-height:1.6}
+/* one row per marked span; an antibody table can produce eight */
+.spans{list-style:decimal;margin:0;padding:0 0 0 22px}
+.spans li{background:var(--canvas-cream);border-radius:var(--r-md);
+padding:7px 10px;margin-bottom:5px;display:flex;gap:10px;align-items:baseline;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+color:var(--ink);line-height:1.55}
+.spans li span{flex:1;overflow-wrap:anywhere}
+.spans li .x{padding:2px 9px;font-size:11px;flex:none;font-family:inherit}
+.morewrap{display:none;align-items:center;gap:8px;margin-top:8px;
+font-size:13px;color:var(--ink-secondary);letter-spacing:-.39px;cursor:pointer}
+.morewrap.on{display:flex}
+.morewrap input{accent-color:var(--primary);width:16px;height:16px;cursor:pointer}
+.q.done .spans li .x{display:none}
+/* Action bar pinned to the TOP. Submit lives here rather than at the foot of a
+   30-minute page, so it is reachable without scrolling once a batch is finished. */
+.bar{position:sticky;top:0;z-index:6;background:var(--canvas);
+border-bottom:1px solid var(--hairline);box-shadow:var(--sh1);
+margin:0 -24px 20px;padding:12px 24px;
+display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.bar .grow{flex:1 1 220px;min-width:140px}
+.prog{height:4px;border-radius:var(--r-pill);background:var(--hairline);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--primary);width:0;transition:width .2s}
+.count{font-size:14px;color:var(--ink-secondary);font-feature-settings:"tnum";
+letter-spacing:-.42px;white-space:nowrap}
+.status{font-size:13px;color:var(--ink-mute);letter-spacing:-.39px;flex-basis:100%}
+.status b{color:var(--ink);font-weight:400}
+.hint{position:fixed;z-index:12;background:var(--brand-dark-900);color:#fff;
+font-size:13px;padding:8px 14px;border-radius:var(--r-pill);box-shadow:var(--sh2);
+left:50%;transform:translateX(-50%);bottom:28px;
+pointer-events:none;opacity:0;transition:opacity .15s}
+.hint.on{opacity:1}
+
+/* Guide. The rules are needed on question 40 as much as on question 1, so they
+   live behind a button that is always in reach rather than scrolled past once. */
+.scrim{position:fixed;inset:0;z-index:10;background:rgba(13,37,61,.34);
+display:none}
+.scrim.on{display:block}
+.guide{position:fixed;top:0;right:0;bottom:0;z-index:11;width:min(560px,100%);
+background:var(--canvas);box-shadow:var(--sh2);overflow:auto;
+padding:28px 28px 64px;transform:translateX(100%);transition:transform .18s ease-out}
+.guide.on{transform:none}
+.guide h2{margin-bottom:14px}
+.guide h3{font-size:20px;font-weight:300;letter-spacing:-.2px;margin:26px 0 8px}
+.guide h3:first-of-type{margin-top:10px}
+.guide p{color:var(--ink-secondary);margin:0 0 10px}
+.guide .close{position:absolute;top:20px;right:24px}
+.guide table{border-collapse:collapse;width:100%;margin-top:6px}
+.guide td{border-bottom:1px solid var(--hairline);padding:8px 10px 8px 0;
+vertical-align:top;font-size:13px;color:var(--ink-secondary)}
+.guide td:first-child{color:var(--ink);white-space:nowrap;padding-right:16px}
+.guide blockquote{margin:8px 0 0;padding:10px 12px;background:var(--canvas-cream);
+border-radius:var(--r-md);font-size:13px;color:var(--ink)}
+</style></head><body><div class='mesh'></div><div class='wrap'><div class='bar'><span class='count' id='count'>0 answered</span><span class='grow'><span class='prog'><i id='bar'></i></span></span><button type='button' class='quiet' onclick='guide(true)'>Guide</button><button class='sec' onclick='download()'>Download CSV</button><button id='send' onclick='send()' disabled>Submit</button><span class='status' id='status'></span></div><h1>Western blot methods review</h1><p class='sub'><span class='num'>7</span> papers, <span class='num'>30</span> questions, about <span class='num'>33</span> minutes. For each paper you read one Methods section, then say whether that text states each of a short list of details. You never type a value: you select the words in the text. Press <b>Guide</b> at any point for the rules.</p><div class='card'><h2>Your name or initials</h2><p class='note' style='margin:6px 0 10px'>Only used to tell reviewers apart when two people code the same batch.</p><input type='text' id='rev' placeholder='for example BH' autocomplete='off'></div><div class='card cream'><h3>The three answers</h3><div class='note'><b>Select the words in the Methods text, then press Use highlighted text.</b> The exact words you selected are what gets recorded. If the paper gives several, mark each one and they stack up in a list; press <b>Done, next</b> when the list is complete.<br><b>Not stated.</b> The Methods text does not give this detail.<br><b>Unclear.</b> You cannot tell either way. These are set aside rather than counted, so it is a safe answer when you are stuck.<br><br>Every question carries its own <b>What to mark</b> rule with a worked example. Follow it rather than your instinct: consistency between reviewers matters more here than any single choice. Full rules under <b>Guide</b>.</div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>1</span> of <span class='num'>7</span></h2><span class='pill'>PMC8384215</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>PLoS ONE · <span class='num'>2021</span> <span class='pill'>no Methods heading found, full text shown</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC8384215'>RESEARCH ARTICLE
+MiRNA-1202 promotes the TGF-β1-induced
+proliferation, differentiation and collagen
+production of cardiac fibroblasts by targeting
+nNOS
+Jingwen XiaoID1, Yan Zhang1*, Yuan Tang2, Hengfen Dai3, Yu OuYang1, Chuanchuan Li1,
+Meiqin Yu2
+1 The Department of Cardiovascular Medicine, FuZhou First Hospital, FuZhou, Fujian, P.R. China, 2 The
+Cardiac Function Laboratory of Cardiovascular Medicine, FuZhou First Hospital, FuZhou, Fujian, P.R. China,
+3 The Department of Clinical Pharmacy, FuZhou First Hospital, FuZhou, Fujian, P.R. China
+* zangtoto@163.com
+Abstract
+Background
+Atrial fibrillation (AF) is a clinically common arrhythmia that affects human health. Myocar-
+dial fibrosis serves as an important contributor to AF. Recently, miRNA-1202 have been
+reported to be up-regulated in AF. However, the role of miRNA-1202 and its mechanism in
+myocardial fibrosis remain unclear.
+Methods
+Human cardiac fibroblasts (HCFs) were used to construct a fibrosis model by TGF-β1 induc-
+tion. The expression of miR-1202 was measured by qRT-PCR. Cell proliferation was
+assessed by CCK-8 assays. Protein expression levels were measured by western blot. Col-
+lagen accumulation was measured by ELISA. The relationship between miR-1202 and
+nNOS was investigated by luciferase reporter assays.
+Results
+MiR-1202 expression was obviously increased in HCFs and was both time- and dose-inde-
+pendent. MiR-1202 could increase the proliferation and collagen I, collagen III, and α-SMA
+levels with or without TGF-β1. MiR-1202 could also increase TGF-β1 and p-Smad2/3 pro-
+tein levels in comparison to the control group. However, they were obviously decreased
+after inhibitor transfection. MiR-1202 targets nNOS for negative regulation of HCFs fibrosis
+by decreasing cell differentiation, collagen deposition and the activity of the TGF-β1/Smad2/
+3 pathway. Co-transfection of miR-1202 inhibitor and siRNA of nNOS inhibited nNOS pro-
+tein expression, thereby enhancing the HCFs proliferation. Furthermore, co-transfection of
+the miR-1202 inhibitor and siRNA of nNOS significantly promoted collagen I, collagen III,
+TGF-β1, Smad2/3 and α-SMA protein expression and Smad2/3 protein phosphorylation.
+PLOS ONE
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+1 / 18
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+OPEN ACCESS
+Citation: Xiao J, Zhang Y, Tang Y, Dai H, OuYang
+Y, Li C, et al. (2021) MiRNA-1202 promotes the
+TGF-β1-induced proliferation, differentiation and
+collagen production of cardiac fibroblasts by
+targeting nNOS. PLoS ONE 16(8): e0256066.
+https://doi.org/10.1371/journal.pone.0256066
+Editor: Daniel M. Johnson, The Open University,
+UNITED KINGDOM
+Received: July 22, 2020
+Accepted: July 30, 2021
+Published: August 24, 2021
+Copyright: © 2021 Xiao et al. This is an open
+access article distributed under the terms of the
+Creative Commons Attribution License, which
+permits unrestricted use, distribution, and
+reproduction in any medium, provided the original
+author and source are credited.
+Data Availability Statement: All relevant data are
+within the paper and its Supporting Information
+files.
+Funding: The study was supported by the Natural
+Science Foundation of Fujian province in the form
+of a grant awarded to JX (2018J01368), by the
+Foundation of Fuzhou Administration of Science
+and Technology in the form of a grant awarded to
+JX (2017-S-129-1), by the Foundation of Fuzhou
+Health and Family Planning Research Talents
+Cultivate Youth Research Projects through a grant
+ These findings suggested that miR-1202 promotes HCFs transformation to a pro-fibrotic
+phenotype by targeting nNOS through activating the TGF-β1/Smad2/3 pathway.
+Introduction
+Atrial fibrillation (AF) is the most prevalent sustained arrhythmia in clinical practice, and it is
+responsible for a high burden of morbidity and mortality due to the limited efficacy of the
+available therapeutic approaches [1, 2]. Myocardial fibrosis is one of the pathogenesis of atrial
+fibrillation [3]. Therefore, knowledge of the underlying molecular mechanisms of myocardial
+fibrosis in AF are required to develop novel therapeutic approaches for AF therapeutic
+interventions.
+Cardiac fibroblasts (CFs) are the major type of cells responsible for myocardial fibrosis [4].
+In the cardiac fibroblasts model, excessive deposition of extracellular matrix (ECM) leads to
+cardiac fibrosis [5]. ECM is essential in maintaining cardiac function and is also an important
+component in the progression of cardiac fibrosis [6]. A series of studies have demonstrated
+that transforming growth factor (TGF)-β1 is an important pro-fibrotic growth factor that is
+involved in the upstream regulation of various biological processes and signaling pathways
+and directly stimulates cardiac fibroblasts proliferation; the TGF-β1 pathway induces myocar-
+dial fibrosis in response to various factors [7]. Ligand binding of TGF-β1 to its type-I and type-
+II receptors through different pathways, such as Smad, TGF-β protein kinase, and connective
+tissue growth factor, can increase collagen synthesis and inhibit collagen degradation, resulting
+in an imbalance in extracellular matrix synthesis and degradation, thereby increasing collagen
+deposition in the stroma [8-11]. Therefore, cardiac fibroblasts could be used as a cellular
+model to study myocardial fibrosis induced by TGF-β1.
+Previous studies have indicated that 28 miRNAs were differentially expressed in mitral ste-
+nosis (MS) patients with atrial fibrillation (AF) compared with the MS patients without AF.
+Among these, miR-1202 was the most up-regulated [12]. MicroRNAs (miRs) are a class of
+small, non-coding, endogenous RNAs that consist of 21-25 ribonucleotides and can bind to
+the 3’-untranslated region (3’UTR) of target mRNAs to regulate gene expression [13-15].
+Previous data indicated that miR-939 directly regulates the expression of human inducible
+nitric oxide synthase (hiNOS) by binding to its 30-UTR, thereby blocking translation. These
+results indicated that the regulation of iNOS expression leads to translational inhibition by
+increasing miR-939 expression [16]. Additionally, other results suggested that atrial-specific
+up-regulation of miR-31 was a key anti-fibrotic mechanism by causing atrial loss of dystrophin
+and neuronal NOS (nNOS), which is a key enzyme in the synthesis of nitric oxide (NO) to
+anti-fibrotic by decreasing the mRNA and protein expression of fiber-junction protein and
+collagen I and III [17, 18].
+Increased nNOS expression in the sarcolemmal membrane and sarcoplasmic reticulum of
+cardiomyocytes was proven to prevent arrhythmic death after myocardial infarction [19-21].
+Furthermore, it was previously reported that NO could induce Smad2/3 protein degradation
+leading to the inhibition of TGF-β1-induced signaling [22], and it also increased the release of
+TGF-β1 in myocytes [23]. Thus, nNOS signaling may be essential during the progression of
+myocardial fibrosis.
+Myocardial fibrosis mainly manifests as an imbalance between the synthesis and degrada-
+tion of extracellular matrix, with increasing collagen deposition in the interstitium, imbalances
+in collagen composition and arrangement, and remodeling of the extracellular matrix. These
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+2 / 18
+(2017-1-83), and by the Fuzhou key specialty
+project through a grant (201912005).
+Competing interests: The authors have declared
+that no competing interests exist.
+ effects lead to changes in the electrical coupling and conduction of atrial muscle and the for-
+mation of diffuse fibrotic scars. These effects are mainly due to fibroblasts producing collagen
+and contributing to reactive fibrosis [24]. The principal manifestation of the myocardial fibro-
+sis is pro-fibrogenic transformation of fibroblasts. However, the roles of nNOS-derived NO
+and the effects of TGF-β1 activation on myocardial fibrosis are still unclear. Therefore, in this
+study, we tested the hypothesis that miR-1202 contributes to fibrosis. We also demonstrated
+that miR-1202 targets nNOS to regulate TGF-β1-induced proliferation, differentiation and
+collagen production of cardiac fibroblasts through the TGF-β1/Smad2/3 pathway. Clarifying
+the role of miR-1202 in myocardial fibrosis will help us to further understand the mechanism
+of TGF-β1-induced myocardial fibrosis and will provide new targets for the treatment of AF.
+2. Materials and methods
+2.1 Cell culture
+Human cardiac fibroblasts (HCFs) were isolated from the atrium of a healthy adult (Lonza,
+CC-2903). Passage 3-5 HCFs were used for the experiments. The cells were maintained at
+37 ̊C in a 5% CO2 incubator (SANYO, Osaka, Japan) and cultured in DMEM-F12 medium
+(Gibco1, Grand Island, NY, USA) containing 10% fetal bovine serum (PAN bio-tech, P30-
+3302). The growth medium was replaced with fresh medium every day until the cells reached
+confluence.
+2.2 Total RNA isolated and qPCR analysis
+Total RNA was isolated from the cells with RNAiso reagent (TaKaRa Company, Dalian,
+China) according to the manufacturer’s instructions. Then, 2 μg of RNA per sample was
+used as input material to obtain miRNAs by using a miRNeasy Mini Kit (Qiagen, Germany),
+and it was reverse transcribed with a TaqMan MicroRNA RT Kit according to the manufactur-
+er’s protocol as previously described [25]. For qPCR, 2.0 μL of the reverse transcription
+(RT) product was mixed with 10.0 μL of qPCR SYBR1 Green Master Mix (A6001, Promega,
+USA), 1.0 μL of primers and 7.0 μL of nuclease-free water to a final volume of 20.0 μL.
+According to the method described in a previous study, the mRNA expression was assayed
+with an ABI 7500 PCR system (ABI, USA) and calculated by the 2-44Ct method [26].
+The qPCR conditions were as follows: 95 ̊C for 5 min, followed by 40 cycles at 95 ̊C for
+10 thinsp;s, 60 ̊C for 30 s, 72 ̊C for 30 s, and 95 ̊C for 15 s. The primers were designed and
+synthesized by Sangon Bio-tech (Shanghai, China). The following primer sequences were
+used: miR-1202, CGGTGCCAGCTGCAGTG (F) and AGTGCAGGGTCCGAGGTATT (R);
+RT: GTCGTATCCAGTGCAGGGTCCGAGGTATTCGCACTGGATACGACCTCCCC; U6,
+CTCGCTTCGGCAGCACATATACT (F) and ACGCTTCACGAATTTGCGTGTC (R); and RT;
+AAAATATGGAACGCTTCACGAATTTG. The level of miR-1202 was normalized to the U6 level.
+2.3 Transfection
+The following mimics, inhibitors and siRNAs were designed and constructed by Zolgene Bio-
+technology Co., Ltd. (Fuzhou, CHINA): miR-1202 mimic (sequence: 50- GUGCCAGCUG
+CAGUGGGGGAG-30); mimic NC (sequence: 50-UCUACUCUUUCUAGGAGGUUGUGA-30);
+miR-1202 inhibitor (sequence: 50-CUCCCCCACUGCAGCUGGCAC-30); inhibitor NC
+(sequence: 50-UCUACUCUUUCUAGGAGGUUGUGA-30); si-NC (sense: 5-UUCUCCGA
+ACGUGUCACGUTT-30 and anti-sense: 5’-ACGUGACACGUUCGGAGAATT-30); and si-nNOS
+(sense: 5’- GAUCAAUACUAUUCAUCAATT-30 and anti-sense: 5’-UUGAUGAAUA
+GUAUUGAUCTT-30). All mimics, inhibitors or siRNAs were transfected into cells with
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+3 / 18
+ LipofectamineTM2000 transfection reagent (11668027, Invitrogen). The method of transfection
+followed the manufacturer’s protocol. The mimics final concentration was 20 nM, the inhibi-
+tor was 40 nM and the siRNA was 50 nM. The transfection efficiencies after at least 48 h of all
+of the mimics and inhibitors were verified when the cells were used for further
+experimentation.
+2.4 CCK-8 assay
+The cell viability was measured by the CCK-8 method using the Cell Counting Kit-8 kit
+(CK04, Dojindo). The cells were adjusted to 4×104 cells/mL in 96-well plates and incubated for
+24 h at 37 ̊C and 5% CO2. Then, 100 ng/ml IL-6 was added into the cell plates. After incubating
+for 24 h at 5% CO2 and 37 ̊C with IL-6, 10 μL CCK-8 was added into every well. After 4 h, the
+values were detected at 450 nm using a Biotek Synergy 2 plate reader (Winooski, VT).
+2.5 Luciferase reporter assays
+The Light switch luciferase assay reagent was obtained from Promega (Corporation, USA).
+The NOS1-WT and NOS1-MUT were prepared and transfected together with the Renilla
+luciferase expressing vector and the luciferase reporter plasmid for 24 h. The activity of lucifer-
+ase was analyzed by a dual reporter assay system according to the manufacturer’s instructions.
+Renilla luciferase was used for normalization.
+2.6 Western blot analysis
+Total proteins were isolated from the cells, which were collected and mixed with RIPA lysis
+buffer containing PMSF. The samples were placed on ice for 20 min at 4 ̊C and were then cen-
+trifuged for 20 min at 12000 rpm. The supernatant was collected and used to determine the
+protein concentrations by a BCA protein assay kit PC0020-500 (Solaibao, Beijing, China).
+Using methods described in a previous study, the proteins were separated on 10-20%
+SDS-PAGE [27]. After transfer of the separated proteins to an NC membrane, the blots were
+blocked and washed with TBS containing 0.5% Tween-20 (Beyotime Institute of Biotechnol-
+ogy, Jiangsu, China). The membranes were blocked with 5% bovine serum albumin (BSA) for
+1 h at room temperature. After washing three times with TBS, the membranes were incubated
+with anti-collagen I mAb (Abcam, ab34710, 1:1500 dilution), anti-collagen III mAb (Abcam,
+ab6310, 1:1500 dilution), anti-alpha smooth muscle actin (Abcam, ab5694, 1:1500 dilution),
+anti-TGF beta 1 mAb (1:1000 dilution), anti-Smad2/Smad3 mAb (Abcam, ab272332, 1:1500
+dilution), anti-p-Smad2/3 mAb (Abcam, ab272332, 1:1500 dilution), anti-TNF-β1 mAb
+(Abcam, ab215715, 1:1500 dilution), and anti-nNOS mAb (Abcam, ab5586, 1:1500 dilution)
+overnight at 4 ̊C. The membranes were then incubated with anti-mouse HRP-conjugated sec-
+ondary antibody (Abcam, 1:5000 dilution) for 2 h at room temperature. Then, the signal was
+detected by chemiluminescence with Thermo ECL (34080, Thermo). Anti-β-actin (1:5000
+dilution) was used as a loading control. All antibodies were purchased from Abcam (Beijing,
+China). The results were collected by a Versa DocTM imaging system (Peiqing Technology
+Co. Ltd., Shanghai, China) and analyzed with ImageJ software.
+2.7 Enzyme-Linked Immunosorbent Assay (ELISA)
+Collagen I and Collagen III ELISA kits were purchased from Nanjing Jiancheng Bioengineer-
+ing Institute (Nanjing, China). The level of collagen I and collagen III in the HCFs culture
+media were determined by ELISA kits according to the manufacturer’s protocols.
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+4 / 18
+ 2.8 Statistical analysis
+One-way ANOVA was used to analyze the results with SPSS 22.0 statistical software. P &lt; 0.05
+was marked “” to show significance. All data are expressed as the mean ± SD.
+3. Results
+3.1 miR-1202 expression levels in TGF-β1-induced HCFs
+For miR-1202 expression in HCFs, both time and dose were evaluated, and the results are
+shown in Fig 1. miR-1202 expression in HCFs was obviously increased in the groups treated
+with 5, 10 and 20 ng/mL TGF-β1 (P&lt;0.01 or P&lt;0.001), showing dose dependence. Moreover,
+the increasing trend tended to be stable between the 10 and 20 ng/mL TGF-β1 treatment
+groups. In addition, the miR-1202 expression was significantly up-regulated (P&lt;0.05, P&lt;0.01
+or P&lt;0.001) in the 10 ng/mL TGF-β1 treatment group, showing time dependence. In the 24-h
+group, the miR-1202 expression was the highest. Note that the small sample size in this study
+limits statistical power, so small differences may not have been detected.
+3.2 Effects of miR-1202 on the TGF-β1-induced proliferation,
+differentiation, and collagen synthesis of HCFs
+Next, we investigated the effect of miR-1202 on the proliferation, differentiation, collagen syn-
+thesis and TGF-β1/Smad2/3 pathway in HCFs. The miR-1202 mimic or inhibitor was trans-
+fected into HCFs. The transfection effects were confirmed by qRT-PCR. As expected, miR-
+1202 was up-regulated in the miR-1202 mimic group but was decreased in the knockdown
+group (Fig 2A). First, we observed that the miR-1202 mimic significantly promoted HCF pro-
+liferation with or without TGF-β1 compared with that of control group, while inhibiting miR-
+1202 suppressed the proliferation of HCFs (Fig 2B and 2C). In addition, the protein level of α-
+SMA (Fig 3A and 3B), a reliable and classic myofibroblast marker, and the protein levels of col-
+lagen I and collagen III (Figs 3A, 3B and 4) in HCFs treated with the miR-1202 mimic were
+significantly increased with or without TGF-β1 compared with those of the control group,
+while the miR-1202 inhibitor inhibited the expression of α-SMA (Fig 3A and 3B), collagen I
+and collagen III (Figs 3A, 3B and 4) with or without TGF-β1. Furthermore, our results demon-
+strated that the miR-1202 mimic increased the protein expression levels of TGF-β1 and
+Fig 1. The miR-1202 expression levels in HCFs. (A) The miR-1202 expression level was dose-dependent. (B) The miR-1202 expression
+level was time-dependent. All of the data are shown as the mean ± SD. Compared with the control group, n = 3, P &lt; 0.05; P &lt; 0.01,
+P &lt; 0.001.
+https://doi.org/10.1371/journal.pone.0256066.g001
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+5 / 18
+ p-Smad2/3 in TGF-β1-treated HCFs; however, the miR-1202 inhibitor showed the opposite
+effects (Fig 5). Collectively, these data indicated that miR-1202 promotes HCFs proliferation,
+differentiation, and collagen synthesis, and activates the TGF-β1/Smad2/3 pathway in HCFs.
+Note that the small sample size in this study limits statistical power, so small differences may
+not have been detected.
+3.3 Effect of miR-1202 on TGF-β1 induced proliferation, differentiation
+and collagen synthesis of HCFs by targeting nNOS
+To analyze miR-1202 as a candidate to regulate pro-fibrotic activities, it was searched using
+Target-Scans (http://www.targetscan.org/). Luciferase reporter assays containing the wild-type
+Fig 2. Effects of miR-1202 on the proliferation of HCFs treated with or without TGF-β1. (A) The miR-1202 levels in TGF-β1-induced HCFs
+cells; (B) The cell viability in TGF-β1-induced HCFs; (C) The cell viability in HCFs without TGF-β1 treatment. All of the data are expressed as the
+mean ± SD. Compared with the control group, n = 3, P &lt; 0.05; P &lt; 0.01, P &lt; 0.001. The analysis is not able to detect small significant
+differences due to small sample size.
+https://doi.org/10.1371/journal.pone.0256066.g002
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+6 / 18
+ PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+7 / 18
+ (wt) or mutant (mut) miR-1202 target sites in the NOS1 30-UTR were performed in HCFs.
+The results showed that the miR-1202 mimic obviously reduced the luciferase activity of the
+NOS1 WT 30-UTR relative to that of the mimic control group (P&lt;0.01), but the NOS1 MUT
+30-UTR showed no significant effect (Fig 6A). In addition, nNOS protein expression in HCFs
+was also inhibited by miR-1202 mimic transfection and TGF-β1 treatment, but this trend was
+reversed when the miR-1202 inhibitor was transfected (Fig 6B). These results indicated that
+miR-1202 reduced nNOS expression by binding to target sites in its mRNA. Note that the
+small sample size in this study limits statistical power, so small differences may not have been
+detected.
+To evaluate the effect of nNOS expression changes on myocardial fibrosis, HCFs were
+transfected with pcDNA-nNOS or si-nNOS. Western blot analysis showed that the nNOS pro-
+tein level was increased in HCFs transfected with pcDNA-nNOS and significantly decreased
+Fig 3. Effects of miR-1202 on the differentiation and collagen synthesis of HCFs treated with or without TGF-β1. The protein
+expression levels of α-SMA, collagen I and collagen III in HCFs treated with TGF-β1 (A) or in HCFs without TGF-β1 (B) were assessed by
+western blotting. All of the data are expressed as the mean ± SD. Compared with the control group, n = 3, P &lt; 0.05; P &lt; 0.01,
+P &lt; 0.001. The analysis is not able to detect small significant differences due to small sample size.
+https://doi.org/10.1371/journal.pone.0256066.g003
+Fig 4. Effects of miR-1202 on collagen synthesis of HCFs treated with or without TGF-β1. The expression levels of collagen I and collagen III in
+HCFs treated with TGF-β1 (A) or in HCFs without TGF-β1 (B) were assessed by ELISA assay. All of the data are expressed as the mean ± SD.
+Compared with the control group, n = 3, P &lt; 0.05; P &lt; 0.01, P &lt; 0.001. The analysis is not able to detect small significant differences due to
+small sample size.
+https://doi.org/10.1371/journal.pone.0256066.g004
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+8 / 18
+ in HCFs transfected with si-nNOS (Fig 7A). The viability of HCFs was significantly reduced
+after nNOS over-expression, but it was enhanced by transfection of si-nNOS (Fig 7B). Over-
+expression of nNOS markedly inhibited the increase in the TGF-β1-induced levels of α-SMA,
+collagen I and collagen III (Fig 7C and 7D). In contrast, knockdown of nNOS promoted TGF-
+β1-stimulated expression of α-SMA, collagen I and collagen III (Fig 7C and 7D). Furthermore,
+our results demonstrated that pcDNA-nNOS decreased the protein expression levels of TGF-
+β1 and p-Smad2/3 in TGF-β1-treated HCFs, however, si-nNOS showed the opposite results
+(Fig 8). These findings indicated that nNOS protected HCFs from TGF-β1-induced differenti-
+ation and collagen synthesis through the TGF-β1/Smad2/3 pathway. Note that the small sam-
+ple size in this study limits statistical power, so small differences may not have been detected.
+3.4 Effect of miR-1202 and nNOS co-transfection on TGF-β1 induced
+proliferation, differentiation and collagen synthesis of HCFs
+To determine the role of nNOS in miR-1202 regulation of the TGF-β1-induced proliferation,
+differentiation and collagen synthesis of HCFs, we co-transfected the miR-1202 inhibitor and
+si-nNOS into TGF-β1-induced HCFs. The results showed that the nNOS protein level was
+Fig 5. Effects of miR-1202 on the TGF-β1/Smad2/3 pathway. All of the data are shown as the mean ± SD. Compared with the control group.
+n = 3, P &lt; 0.05; P &lt; 0.01; P &lt; 0.001. The analysis is not able to detect small significant differences due to small sample size.
+https://doi.org/10.1371/journal.pone.0256066.g005
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+9 / 18
+ significantly enhanced after the miR-1202 inhibitor transfection (P&lt;0.01), but it was obviously
+inhibited (P&lt;0.01) with the co-transfection of the miR-1202 inhibitor and si-nNOS (Fig 9A).
+The viability of HCFs was significantly inhibited (P&lt;0.01) after the miR-1202 inhibitor trans-
+fection in comparison to the only TGF-β1 treated group, but the effect was obviously enhanced
+(P&lt;0.05) when the cells were co-transfected with the miR-1202 inhibitor and si-nNOS (Fig
+9B). These results revealed that co-transfection of the miR-1202 inhibitor and si-nNOS signifi-
+cantly promoted collagen I, collagen III and α-SMA protein expression (Fig 9C) and increased
+the TGF-β1 and Smad2/3 protein expression and Smad2/3 protein phosphorylation (Fig 10).
+These results showed that miR-1202 targets nNOS to inhibit nNOS expression and negatively
+regulated HCFs pro-fibrotic activities through the TGF-β1/Smad2/3 pathway. Note that the
+small sample size in this study limits statistical power, so small differences may not have been
+detected.
+Fig 6. nNOS is a target of miR-1202. (A) Left: Binding sites for miR-1202 in the 3’-UTR of nNOS mRNA; Right: Luciferase reporter assay showing
+reduced luciferase reporter activity in HCFs containing the nNOS-WT 3’-UTR fragment. (B) nNOS protein expression in HCFs infected with miR-
+1202 mimic or miR-1202 inhibitor was measured after 48 h. All of the data are expressed as the mean ± SD. Compared with the control group. n = 3,
+P &lt; 0.05; P &lt; 0.01; P &lt; 0.001. The analysis is not able to detect small significant differences due to small sample size.
+https://doi.org/10.1371/journal.pone.0256066.g006
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+10 / 18
+ PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+11 / 18
+ Discussion
+AF is one of the most common arrhythmias, which places a huge burden on society, but its
+pathogenic mechanism remains largely unknown. Myocardial fibrosis induced by pro-fibrotic
+responses is thought to significantly affect the development of AF [4]. In the present study,
+miR-1202 levels were obviously increased in the TGF-β1-treated HCF in a time- and dose-
+dependent fashion. Additionally, transfection of the miR-1202 mimic significantly increased
+the HCF proliferation. This is consistent with previous research, which described that TGF-β1
+over-expression could enhance the pro-fibrotic remodeling of the myocardium in a mouse
+model [28]. In the present study, the results indicated that miR-1202 mimic transfection obvi-
+ously increased the levels of collagen I, collagen III, α-SMA, and Smad2/3 protein and Smad2/
+3 protein phosphorylation, which could increase the deposition of ECM.
+Fig 7. Effect of nNOS on TGF-β1 induced proliferation, differentiation and collagen synthesis of HCFs. (A) The nNOS
+levels in TGF-β1-induced HCFs; (B) The cell viability of TGF-β1-induced HCFs; (C) The protein expression levels of α-
+SMA, collagen I and collagen III in TGF-β1-treated HCFs were assessed by western blotting; (D) The expression levels of
+collagen I and collagen III in TGF-β1-treated HCFs were assessed by ELISA assay. All of the data are shown as the
+mean ± SD. Compared with the control group. n = 3, P &lt; 0.05; P &lt; 0.01; P &lt; 0.001. The analysis is not able to detect
+small significant differences due to small sample size.
+https://doi.org/10.1371/journal.pone.0256066.g007
+Fig 8. Effects of nNOS on the TGF-β1/Smad2/3 pathway. All of the data are shown as the mean ± SD. Compared with the control group. n = 3,
+P &lt; 0.05; P &lt; 0.01; P &lt; 0.001. The analysis is not able to detect small significant differences due to small sample size.
+https://doi.org/10.1371/journal.pone.0256066.g008
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+12 / 18
+ PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+13 / 18
+ In addition, the miR-1202 promoted TGF-β1-induced pro-fibrotic responses in HCFs pos-
+sibly by enhancing collagen deposition and activation of the TGF-β1/Smad2/3 pathway. Rele-
+vant studies have suggested that in the heart, Smad2 binds to TGF-β1 and then binds to
+Smad3 and Smad4 through phosphorylation to form a transcription complex, which is then
+transferred into the nucleus where it binds to binding elements on DNA, ultimately altering
+the transcription of target genes [29].
+MiR-1202 in HCFs was evaluated as a candidate to regulate pro-fibrotic activities by a lucif-
+erase reporter assay with miR-1202 target sites in the NOS1 30-UTR. The results indicated that
+miR-1202 reduced nNOS expression by binding to target sites. nNOS is expressed in the sarco-
+lemmal membrane and sarcoplasmic reticulum of myocardial cells and produces NO to
+Fig 9. Effect of miR-1202 and nNOS co-transfection on TGF-β1 induced proliferation, differentiation and collagen
+synthesis of HCFs. (A) nNOS protein expression in TGF-β1-induced HCFs; (B) The cell viability in TGF-β1-induced
+HCFs; (C) The protein expression levels of α-SMA, collagen I and collagen III in TGF-β1-treated HCFs were assessed by
+western blotting; (D) The expression levels of collagen I and collagen III in TGF-β1-treated HCFs were assessed by
+ELISA assay. All of the data are expressed as the mean ± SD. Compared with the control group. n = 3, P &lt; 0.05;
+P &lt; 0.01; P &lt; 0.001. The analysis is not able to detect small significant differences due to small sample size.
+https://doi.org/10.1371/journal.pone.0256066.g009
+Fig 10. Effect of miR-1202 and nNOS co-transfection on the TGF-β1/Smad2/3 pathway. All of the data are expressed as the mean ± SD.
+Compared with the control group. n = 3, P &lt; 0.05; P &lt; 0.01; P &lt; 0.001. The analysis is not able to detect small significant differences due to
+small sample size.
+https://doi.org/10.1371/journal.pone.0256066.g010
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+14 / 18
+ regulate sarcolemmal ion conductance and prevent arrhythmic death in mice [17, 20, 21]. Pre-
+vious results suggested that NO could induce the degradation of Smad2/3, resulting in the sup-
+pression of TGF-β1-induced signaling in cultured myocytes [22, 23]. Thus, nNOS signaling
+may be important in maintaining the function of cardiomyocytes. In the present study, the via-
+bility of HCFs was significantly reduced after nNOS over-expression, and it was enhanced by
+transfection of si-nNOS. These results indicated that over-expressing the nNOS protein could
+reduce pro-fibrotic effects.
+To address the mechanism by which nNOS inhibits HCFs pro-fibrotic phenotypes, the
+present study revealed that nNOS was repressed by transfecting the siRNA. This significantly
+promoted collagen and α-SMA protein expression, enhanced TGF-β1 and Smad2/3 protein
+expression, and increased Smad2/3 protein phosphorylation, thereby activating the TGF-β1/
+Smad2/3 pathway and enhancing pro-fibrotic responses. This finding indicated that nNOS
+could be a biomarker for the negative regulation of HCFs pro-fibrotic phenotypes associated
+with collagen deposition and the TGF-β1/Smad2/3 pathway. A previous study has indicated
+that TGF-β1 could induce extracellular matrix protein synthesis and TIMP up-regulation
+through activation of the Smad signal pathway and induce matrix metalloproteinase (MMP) 2
+synthesis in myocardial fibroblasts, leading to cardiac remodeling [30]. In addition, TGF-β1
+mediates the expression of platelet-derived growth factor D, which also induces the synthesis
+of MMP-1, 2 and 9 in myocardial fibroblasts [31-33]. As a downstream signaling pathway,
+TGF-β1 is activated by the Smad pathway, causing cell proliferation, differentiation, transfor-
+mation and apoptosis; these processes jointly induce myocardial fibroblast differentiation and
+they participate in the regulation of fibrosis [34]. Our findings indicated that co-transfection of
+the miR-1202 inhibitor and siRNA of nNOS could repress nNOS protein expression, thereby
+significantly enhancing HCFs proliferation by promoting collagen I, III and α-SMA protein
+expression. This subsequently increased the protein levels of TGF-β1 and p-Smad2/3 in TGF-
+β1 induced pro-fibrotic responses in the HCFs. MiR-1202 targets nNOS, which participates in
+the regulation of collagen deposition and the TGF-β1/Smad2/3 pathway in pro-fibrotic pro-
+cess, and it also directly stimulates the proliferation of HCFs. Collagen synthesis induced by
+the TGF-β1/Smad3 pathway promotes pro-fibrotic activation of myocardial fibroblasts [35].
+Inhibition of TGF-β1 expression in animal models and in vitro culture can prevent pro-
+fibrotic responses [36].
+In addition, the miR-1202 is noted to be associated with ventricular assist device (VAD)
+failure [37]. Cardiac fibrosis induced by pro-fibrotic signals was considered as an important
+pathophysiological contributor to atrial fibrillation [1]. In our study, miR-1202 mediates pro-
+fibrotic responses in cultured cardiac fibroblasts, indicating that miR-1202 may be a
+potential trigger of atrial fibrillation. Development of atrial fibrillation episodes is associated
+with right ventricular failure and increased mortality after ventricular assist devices implanta-
+tion [38-40]. Therefore, miR-1202 might be up-regulated in the context of VAD failure, and
+associated with VAD failure may be due to increased atrial fibrillation.
+In conclusion, the current study showed that miR-1202 directly targets nNOS and nega-
+tively regulates its expression. MiR-1202 is a potential bio-marker that promoted pro-fibrotic
+activation of HCFs by enhancing collagen deposition and activating the TGF-β1/Smad2/3
+pathway. Studying miRNA targeting of the nNOS-mediated TGF-β1/Smad2/3 pathway allows
+us to better understand the role of miR-1202 in the pathophysiological processes of disease in
+order to develop therapeutic pathways with higher specificity and fewer side effects. However,
+we should note that there are some limitations in this study. First, MiR-1202 and miR-31 target
+3’UTR of nNOS in different position, and the mechanisms merit further investigation. Second,
+this study has a small sample size, it associated with a small statistical power.
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+15 / 18
+ Supporting information
+S1 Data.
+(ZIP)
+S2 Data.
+(ZIP)
+Acknowledgments
+The authors thank reviewers for helpful comments on the manuscript.
+Author Contributions
+Conceptualization: Jingwen Xiao, Yan Zhang.
+Data curation: Yuan Tang, Hengfen Dai, Yu OuYang, Chuanchuan Li, Meiqin Yu.
+Funding acquisition: Jingwen Xiao.
+Methodology: Yuan Tang, Hengfen Dai, Yu OuYang, Chuanchuan Li, Meiqin Yu.
+Supervision: Yan Zhang.
+Writing - original draft: Jingwen Xiao.
+Writing - review &amp; editing: Yan Zhang.
+References
+1.
+Nattel S, Harada M. Atrial remodeling and atrial fibrillation: recent advances and translational perspec-
+tives. J Am Coll Cardiol. 2014; 63(22):2335-45. https://doi.org/10.1016/j.jacc.2014.02.555 PMID:
+24613319
+2.
+Nattel S. Molecular and cellular mechanisms of atrial fibrosis in atrial fibrillation. JACC Clin Electrophy-
+siol. 2017; 3(5):425-35. https://doi.org/10.1016/j.jacep.2017.03.002 PMID: 29759598
+3.
+Xing XQ XU J. Myocardial Fibrosis Related to Occurrence and Maintenance of Atrial Fibrillation.
+Advances in Cardiovascular Diseases. 2009; 30(1):164-167.
+4.
+Brilla CG, Reams GP, Maisch B, Weber KT. Renin-angiotensin system and myocardial fibrosis in
+hypertension: regulation of the myocardial collagen matrix. Eur Heart J. 1993; 14 Suppl J:57-61.
+5.
+Krenning G, Zeisberg EM, Kalluri R. The Origin of Fibroblasts and Mechanism of Cardiac Fibrosis. Jour-
+nal of cellular physiology; 2010; 225: 631-637. https://doi.org/10.1002/jcp.22322 PMID: 20635395
+6.
+Zheng LL, Lin SH, Lv CY. MiR-26a-5p regulates cardiac fibroblasts collagen expression by targeting
+ULK1. Sci Rep. 2018; 8(1):2104. https://doi.org/10.1038/s41598-018-20561-4 PMID: 29391491
+7.
+Chen TL, Liao JW, Chan WH, Hsu CY, Yang JD, Ueng TH. Induction of cardiac fibrosis and transform-
+ing growth factor-beta 1 by motorcycle exhaust in rats. Inhal Toxicol. 2013; 25(9): 525-535,. https://doi.
+org/10.3109/08958378.2013.809393 PMID: 23905969
+8.
+Cutroneo KR. Evidence for TGF-beta 1 and bleomycin intracellular signaling through autocrine regula-
+tion of Smad 3 binding to the proximal promoter of the Smad 7 gene. J Cell Biochem. 2006; 97(5): 933-
+939. https://doi.org/10.1002/jcb.20594 PMID: 16187293
+9.
+Schiller M, Javelaud D, Mauviel A. TGF-beta-induced SMAD signaling and gene regulation: conse-
+quences for extracellular matrix remodeling and wound healing. J Dermatol Sci. 2004; 35(2): 83-92.
+https://doi.org/10.1016/j.jdermsci.2003.12.006 PMID: 15265520
+10.
+Khan R, Sheppard R. Fibrosis in heart disease: understanding the role of transforming growth factor-
+beta(1) in cardiomyopathy, valvular disease and arrhythmia. Immunology. 2006; 118(1): 10-24,.
+https://doi.org/10.1111/j.1365-2567.2006.02336.x PMID: 16630019
+11.
+Grotendorst GR: Connective tissue growth factor: a mediator of TGF-beta action on fibroblasts. Cyto-
+kine Growth Factor Rev.1997; 8(3): 171-179. https://doi.org/10.1016/s1359-6101(97)00010-5 PMID:
+9462483
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+16 / 18
+ 12.
+Xiao JJ, Liang DD, Zhang YY, Liu Y, Zhang H, Liu Y, et al. MicroRNA expression signature in atrial fibril-
+lation with mitral stenosis. Physiological genomics. 2011; 43(11): 655-664. https://doi.org/10.1152/
+physiolgenomics.00139.2010 PMID: 21325063
+13.
+Chen JF, Mandel EM, Thomson JM, Wu Qiulian, Callis TE, Hammond SM, et al. The role of microRNA-
+1 and microRNA-133 in skeletal muscle proliferation and differentiation. Nat Genet. 2006; 38(2):228-
+33. https://doi.org/10.1038/ng1725 PMID: 16380711
+14.
+Lee RC, Feinbaum RL, Ambros V. The C. elegans heterochronic gene lin-4 encodes small RNAs with
+antisense complementarity to lin-14. Cell. 1993; 75(5): 843-854. https://doi.org/10.1016/0092-8674
+(93)90529-y PMID: 8252621
+15.
+Bartel DP. MicroRNAs: genomics, biogenesis, mechanism, and function. Cell. 2004; 116: 281-297.
+https://doi.org/10.1016/s0092-8674(04)00045-5 PMID: 14744438
+16.
+Guo Z, Shao L, Zheng L, Qiang D, Li PY, John B, et al. miRNA-939 regulates human inducible nitric
+oxide synthase posttranscriptional gene expression in human hepatocytes. Proc Natl Acad Sci U S A.
+2012 Apr 10; 109(15):5826-31. https://doi.org/10.1073/pnas.1118118109 PMID: 22451906
+17.
+Cai H, Li Z, Goette A, Mera F, Honeycutt C, Feterik K, et al. Downregulation of endocardial nitric oxide
+synthase expression and nitric oxide production in atrial fibrillation: potential mechanisms for atrial
+thrombosis and stroke. Circulation. 2002; 106(22): 2854-2858. https://doi.org/10.1161/01.cir.
+0000039327.11661.16 PMID: 12451014
+18.
+Chun TY, Bloem LJ, Pratt JH. Aldosterone inhibits inducible nitric oxide synthase in neonatal rat cardio-
+myocytes. Endocrinology. 2003; 144: 1712-1717. https://doi.org/10.1210/en.2002-220956 PMID:
+12697675
+19.
+Tamargo J, Caballero R, Gomez R, Delpon E. Cardiac electrophysiological effects of nitric oxide. Cardi-
+ovasc res. 2010; 87(4): 593-600. https://doi.org/10.1093/cvr/cvq214 PMID: 20587506
+20.
+Zhang YH, Casadei B. Sub-cellular targeting of constitutive NOS in health and disease. J Mol Cell Car-
+diol. 2012; 52: 341-350. https://doi.org/10.1016/j.yjmcc.2011.09.006 PMID: 21945464
+21.
+Zhong J, Han HL, Zhang TQ, Puglisi J, Izu LT, Shaw JA, et al. Mechanochemotransduction During Car-
+diomyocyte Contraction Is Mediated by Localized Nitric Oxide Signaling. Sci Signal. 2014; 18;7(317):
+ra27.
+22.
+Saura M, Zaragoza C, Herranz B, Griera M, Diez-Marque ́s L, Rodriguez-Puyol D, et al. Nitric oxide reg-
+ulates transforming growth factor-beta signaling in endothelial cells. Circ Res. 2005 Nov 25; 97
+(11):1115-23. https://doi.org/10.1161/01.RES.0000191538.76771.66 PMID: 16239590
+23.
+Mehta JL, Chen HJ, Li DY. Protection of myocytes from hypoxia-reoxygenation injury by nitric oxide is
+mediated by modulation of transforming growth factor-beta(1). Circulation. 2002; 105: 2206-2211.
+https://doi.org/10.1161/01.cir.0000015602.94990.3d PMID: 11994256
+24.
+Fan D, Takawale A, Lee J, Kassiri Z. Cardiac fibroblasts, fibrosis and extracellular matrix remodeling in
+heart disease. Fibrogenesis Tissue Repair. 2012; 5(1): 15. https://doi.org/10.1186/1755-1536-5-15
+PMID: 22943504
+25.
+Qin F, Song Z, Chang M, Song Y, Frierson H, Li H. Recurrent cis-SAGe chimeric RNA, D2HGDH-
+GAL3ST2, in prostate cancer. Cancer lett. 2016; 380(1): 39-46. https://doi.org/10.1016/j.canlet.2016.
+06.013 PMID: 27322736
+26.
+Xie Z, Zhang J, Ma S, Huang X, Huang Y. Effect of Chinese herbal medicine treatment on plasma lipid
+profile and hepatic lipid metabolism in Hetian broiler. Poult sci. 2017; 96(6): 1918-1924. https://doi.org/
+10.3382/ps/pew456 PMID: 28339712
+27.
+Xie Z, Wang Y, Huang J, Qian N, Shen G, Chen L. Anti-inflammatory activity of polysaccharides from
+Phellinus linteus by regulating the NF-kappaB translocation in LPS-stimulated RAW264.7 macro-
+phages. Int J Biol Macromol. 2019; 129:61-67. https://doi.org/10.1016/j.ijbiomac.2019.02.023 PMID:
+30731160
+28.
+Reilly SN, Liu X, Carnicer R, Recalde A, Muszkiewicz A, Jayaram R, et al. Up-regulation of miR-31 in
+human atrial fibrillation begets the arrhythmia by depleting dystrophin and neuronal nitric oxide
+synthase. Sci Transl Med. 2016; 8(340):340ra74. https://doi.org/10.1126/scitranslmed.aac4296 PMID:
+27225184
+29.
+Haissaguerre M, Jais P, Shah DC, Takahashi A, Hocini M, Quiniou G, et al. Spontaneous initiation of
+atrial fibrillation by ectopic beats originating in the pulmonary veins. N Engl J Med. 1998; 339(10):659-
+66. https://doi.org/10.1056/NEJM199809033391003 PMID: 9725923
+30.
+Ehrlich JR, Cha TJ, Zhang L, Chartier D, Melnyk P, Hohnloser SH, et al. Cellular electrophysiology of
+canine pulmonary vein cardiomyocytes: action potential and ionic current properties. J Physiol. 2003;
+551(Pt 3):801-13. https://doi.org/10.1113/jphysiol.2003.046417 PMID: 12847206
+31.
+Wang Y, Chen P, Wang L, Zhao J, Zhong Z, Xu J. Inhibition of Histone Deacetylases Prevents Cardiac
+Remodeling After Myocardial Infarction by Restoring Autophagosome Processing in Cardiac
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+17 / 18
+ Fibroblasts. Cell Physiol Biochem. 2018; 49(5):1999-2011. https://doi.org/10.1159/000493672 PMID:
+30235443
+32.
+Xie J, Zhang Q, Zhu T, Zhang YY, Liu BL, Xu JW, et al. Substrate stiffness-regulated matrix metallopro-
+teinase output in myocardial cells and cardiac fibroblasts: implications for myocardial fibrosis. Acta Bio-
+mater. 2014; 10(6):2463-72. https://doi.org/10.1016/j.actbio.2014.01.031 PMID: 24508540
+33.
+Gherghiceanu M, Hinescu ME, Andrei F, Mandache E, Macarie CE, Faussone-Pellegrini MS, et al.
+Interstitial Cajal-like cells (ICLC) in myocardial sleeves of human pulmonary veins. J Cell Mol Med.
+2008; 12(5A):1777-81. https://doi.org/10.1111/j.1582-4934.2008.00444.x PMID: 18671760
+34.
+Leask A. Potential Therapeutic Targets for Cardiac Fibrosis TGF beta, Angiotensin, Endothelin, CCN2,
+and PDGF, Partners in Fibroblast Activation. Circulation res. 2010; 106: 1675-1680. https://doi.org/10.
+1161/CIRCRESAHA.110.217737 PMID: 20538689
+35.
+Ma FF, Li YL, Jia LX, Han YL, Cheng JZ, Li HH, et al. Macrophage-Stimulated Cardiac Fibroblast Pro-
+duction of IL-6 Is Essential for TGF beta/Smad Activation and Cardiac Fibrosis Induced by Angiotensin
+II. PloS one. 2012; 7(5):e35144. https://doi.org/10.1371/journal.pone.0035144 PMID: 22574112
+36.
+Lee KW, Everett TH, Rahmutula D, Guerra JM, Wilson E, Ding CJ, et al. Pirfenidone prevents the devel-
+opment of a vulnerable substrate for atrial fibrillation in a canine model of heart failure. Circulation.
+2006; 114(16): 1703-1712. https://doi.org/10.1161/CIRCULATIONAHA.106.624320 PMID: 17030685
+37.
+Morley-Smith AC, Mills A, Jacobs S, Meyns B, Rega F, Simon AR, et al. Circulating microRNAs for pre-
+dicting and monitoring response to mechanical circulatory support from a left ventricular assist device.
+Eur J Heart Fail. 2014; 16(8):871-879. https://doi.org/10.1002/ejhf.116 PMID: 24961598
+38.
+Koh S, Braun OO, Brambatti M, Kim P, Tran H, Pretorius V, et al. Atrial Fibrillation is Associated With
+Early Right Ventricular Failure Post-LVAD. J Heart Lung Transplant. 2018; 37(4):S131.
+39.
+Amrish D, Gene K, Martin B, Emeka A, Valluvan J, Nir U, et al. Atrial Arrhythmias and Electroanatomical
+Remodeling in Patients With Left Ventricular Assist Devices. J Am Heart Assoc. 2017; 6(3):e005340.
+https://doi.org/10.1161/JAHA.116.005340 PMID: 28275069
+40.
+Robert BH J Hunter M, Abra G, Eric JC, Alan MS, Jeffrey BR, et al. Postoperative atrial fibrillation is
+associated with increased morbidity and resource utilization after left ventricular assist device place-
+ment. J Thorac Cardiovasc Surg. 2018; 156(4):1543-1549. https://doi.org/10.1016/j.jtcvs.2018.03.169
+PMID: 29801690
+PLOS ONE
+MiRNA-1202 promote myocardial fibrosis
+PLOS ONE | https://doi.org/10.1371/journal.pone.0256066
+August 24, 2021
+18 / 18
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC8384215' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC8384215|gel_percentage' data-pmcid='PMC8384215' data-item='gel_percentage'><div class='qname'><span>Gel percentage</span><span class='ans'></span></div><div class='qdef'>The acrylamide percentage of the separating gel.</div><div class='qhow'><b>What to mark.</b> Mark the percentage. For a gradient, mark the whole range.<span class='eg'>In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|quantification_software' data-pmcid='PMC8384215' data-item='quantification_software'><div class='qname'><span>Quantification software, named</span><span class='ans'></span></div><div class='qdef'>A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark the package name only. Leave out the version and the supplier.<span class='eg'>In <i>quantified in ImageJ (v1.53, NIH)</i> mark <b>ImageJ</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|replicate_n' data-pmcid='PMC8384215' data-item='replicate_n'><div class='qname'><span>Replicate count</span><span class='ans'></span></div><div class='qdef'>A number of replicates. You are not being asked whether they are biological or technical.</div><div class='qhow'><b>What to mark.</b> Mark the number together with the words that make it a replicate count.<span class='eg'>In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|ab_catalog_any' data-pmcid='PMC8384215' data-item='ab_catalog_any'><div class='qname'><span>Antibody catalogue number</span><span class='ans'></span></div><div class='qdef'>A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block.<span class='eg'>In <i>(Abcam, ab1234)</i> mark <b>ab1234</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|protein_quant_method' data-pmcid='PMC8384215' data-item='protein_quant_method'><div class='qname'><span>Protein quantification method</span><span class='ans'></span></div><div class='qdef'>How total protein was measured before loading.</div><div class='qhow'><b>What to mark.</b> Mark the assay name only.<span class='eg'>In <i>quantified by BCA assay (Pierce)</i> mark <b>BCA</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|blocking_percent' data-pmcid='PMC8384215' data-item='blocking_percent'><div class='qname'><span>Blocking agent concentration</span><span class='ans'></span></div><div class='qdef'>A percentage attached to the blocking step. A blocking agent with no percentage does not count.</div><div class='qhow'><b>What to mark.</b> Mark the percentage only.<span class='eg'>In <i>blocked in 5% non-fat dry milk</i> mark <b>5%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|secondary_ab_conjugate' data-pmcid='PMC8384215' data-item='secondary_ab_conjugate'><div class='qname'><span>Secondary antibody conjugate</span><span class='ans'></span></div><div class='qdef'>What the secondary antibody is conjugated to.</div><div class='qhow'><b>What to mark.</b> Mark each distinct conjugate once.<span class='eg'>In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|lysis_buffer' data-pmcid='PMC8384215' data-item='lysis_buffer'><div class='qname'><span>Lysis buffer</span><span class='ans'></span></div><div class='qdef'>The lysis or extraction buffer, either named or given as a recipe.</div><div class='qhow'><b>What to mark.</b> Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors.<span class='eg'>In <i>isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor was added into the RIPA</i> mark just <b>RIPA</b>, the first time it appears.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|ab_dilution_any' data-pmcid='PMC8384215' data-item='ab_dilution_any'><div class='qname'><span>Antibody dilution</span><span class='ans'></span></div><div class='qdef'>Any antibody working dilution. Primary and secondary both count, and you are not being asked which is which.</div><div class='qhow'><b>What to mark.</b> Mark each distinct dilution once. If the same dilution is used repeatedly, one mark is enough.<span class='eg'>In <i>incubated at 1:1000 overnight</i> mark <b>1:1000</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|reducing_denaturing' data-pmcid='PMC8384215' data-item='reducing_denaturing'><div class='qname'><span>Reducing or denaturing conditions</span><span class='ans'></span></div><div class='qdef'>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.</div><div class='qhow'><b>What to mark.</b> Mark the phrase or the reagent that states it.<span class='eg'>In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|blocking_agent' data-pmcid='PMC8384215' data-item='blocking_agent'><div class='qname'><span>Blocking agent</span><span class='ans'></span></div><div class='qdef'>What the membrane was blocked in.</div><div class='qhow'><b>What to mark.</b> Mark the agent only. Leave the percentage out, it is a separate question.<span class='eg'>In <i>blocked in 5% non-fat dry milk</i> mark <b>non-fat dry milk</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|detection_chemistry' data-pmcid='PMC8384215' data-item='detection_chemistry'><div class='qname'><span>Detection chemistry</span><span class='ans'></span></div><div class='qdef'>How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.</div><div class='qhow'><b>What to mark.</b> Mark the words naming the detection method.<span class='eg'>In <i>visualised by enhanced chemiluminescence</i> mark <b>enhanced chemiluminescence</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|membrane_type' data-pmcid='PMC8384215' data-item='membrane_type'><div class='qname'><span>Membrane type</span><span class='ans'></span></div><div class='qdef'>PVDF or nitrocellulose, or another named membrane chemistry.</div><div class='qhow'><b>What to mark.</b> Mark the membrane name only.<span class='eg'>In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|loading_control_identity' data-pmcid='PMC8384215' data-item='loading_control_identity'><div class='qname'><span>Loading control, named</span><span class='ans'></span></div><div class='qdef'>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two.<span class='eg'>In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|protein_per_lane_ug' data-pmcid='PMC8384215' data-item='protein_per_lane_ug'><div class='qname'><span>Protein loaded per lane</span><span class='ans'></span></div><div class='qdef'>A mass of protein loaded per lane. A volume on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark the mass and its unit.<span class='eg'>In <i>30 ug of protein was loaded per lane</i> mark <b>30 ug</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8384215|primary_ab_vendor' data-pmcid='PMC8384215' data-item='primary_ab_vendor'><div class='qname'><span>Primary antibody vendor</span><span class='ans'></span></div><div class='qdef'>The company that supplied a primary antibody.</div><div class='qhow'><b>What to mark.</b> Mark every distinct company name. Leave out the city and country. A table can be marked as one block.<span class='eg'>In <i>(Cell Signaling Technology, Danvers, MA)</i> mark <b>Cell Signaling Technology</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>2</span> of <span class='num'>7</span></h2><span class='pill'>PMC7546413</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Frontiers in Cell and Developmental Biology · <span class='num'>2020</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC7546413'>
+Isolation and Culture of TSPCs
+Animal
+experiments
+were
+approved
+by
+the
+Institutional
+Animal Care and Use Committee (IACUC) of the Southeast
+University School of Medicine. The procedures for TSPC
+isolation have been well established (Rui et al., 2010, 2011b).
+Briefly, the middle substance of Achilles tendon tissues per
+group was minced and digested with type I collagenase
+(3
+mg/ml,
+Sigma-Aldrich,
+United
+States),
+and
+the
+cells
+were cultured in complete medium, which is low-glucose
+Dulbecco’s
+modified
+Eagle’s
+medium
+(LG-DMEM,
+Gibco,
+United States) containing 10% FBS, 100 U/ml penicillin,
+100 mg/ml streptomycin, and 2 mM l-glutamine (Invitrogen,
+United States). TSPCs at passage 3 (P3) to P5 were used
+for all experiments. All experiments were repeated at least
+three times.
+Radiological Evaluation
+Radiological evaluation was performed as previously described
+(Qiao et al., 2020). The analysis of heterotopic calcification was
+assessed by X-ray radiography and CT (computed tomography)
+scanning in 4M (young), 8M (middle-aged), and 20M (aged)
+male SD rats, and the aging model mainly refers to previous
+studies (Xing et al., 2016; Rui et al., 2019). Thirty-six rats
+were euthanized with CO2. X-ray radiography was performed
+with a Faxitron MX-20 X-ray machine at a voltage of
+30
+kV
+(Faxitron
+Bioptics,
+Wheeling,
+IL,
+United
+States).
+CT scans were acquired using a SkyScan 1176 radiograph
+microtomograph (BrukermicroCT, Kontich, Belgium) with an
+exposure time of 340 ms and a rotation step of 0.6◦, a
+voltage of 65 kV, and a current of 385 μA. Reconstruction
+was performed with the NReconV.1.6.9.4 software using GPU
+acceleration. The ring artifact correction was fixed at 6,
+the smoothing was set at 1, the smoothing kernel was set
+at 2, and the beam hardening correction was set at 35%.
+After reconstruction, SkyScan CTAn (version: 1.13.8.1) was
+used for segmentation, registration, and quantification of all
+reconstructed images.
+Frontiers in Cell and Developmental Biology | www.frontiersin.org
+2
+September 2020 | Volume 8 | Article 570605
+ Dai et al.
+Heterotopic Ossification in Aged Tendon
+General Histology and
+Immunohistochemistry Staining
+The
+sections
+of
+Achilles
+tendons
+were
+washed
+in
+PBS,
+fixed in buffered formalin and 100% ethanol, embedded
+in paraffin, cut longitudinally to 5-mm thick sections, and
+mounted on 3-aminopropyl-triethoxy-silane (Sigma-Aldrich,
+United States)-coated slides. After deparaffinization, the sections
+were
+stained
+with
+H&amp;E,
+Alcian
+blue,
+and
+Alizarin
+red
+staining, according to standard techniques. Briefly, the sections
+were reacted with Harris hematoxylin for 5 min and eosin
+for 3 min in H&amp;E staining; the sections were reacted
+for 12 min in Alcian blue (pH 2.5) and for 8 min in
+Alizarin red staining solution (G1027 and G1038; Servicebio,
+China); the calcified region was stained light blue by Alcian
+blue, while the mineralization was stained red by Alizarin
+red.
+Images
+were
+captured
+using
+a
+digital
+camera
+and
+Q-Capture Pro software (ver. 6.0 Media Cybernetics, Bethesda,
+United States). Immunohistochemistry staining was performed
+as previously described (Rui et al., 2012b), and primary
+antibodies against BMP-2, OPN and OCN (Proteintech, China),
+and Runx2 (Abcam, United States) were used. Goat anti-
+rabbit (Chemicon, Temecula, CA, United States) or goat anti-
+mouse horseradish peroxidase (HRP)-conjugated secondary
+antibodies (Millipore, Billerica, MA, United States), together with
+3,30 diaminobenzidine tetrahydrochloride (DAKO, Glostrup,
+Denmark), were used for signal detection. The sections from
+different age points were stained in the same batch and examined
+under light and polarized microscopies (DMRXA2 and DMRB,
+Leica Microsystems Wetzlar GmbH, Germany). The assessors
+were blinded to the grouping of the samples.
+Western Blot Assay
+Western blot was performed to examine BMP-2/4/7 protein
+expression as previously described (Zhang J. et al., 2016). Achilles
+tendon from different age points was collected and protein
+was obtained from them. The protein was separated by 12%
+SDS-PAGE, transferred to PVDF membranes, and subsequently
+blocked in 5% fat-free milk for 2 h, followed by incubation
+with primary antibodies at 4◦C overnight. All primary antibodies
+were from Bioworld Technology, Inc. Secondary antibody
+(Proteintech, China) conjugated with HRP was then applied.
+Finally, protein bands were detected with chemiluminescence
+(Beyotime, China). The protein expression levels assessed in this
+study was normalized to β -actin.
+Osteogenic Differentiation Assay
+The multi-differentiation methods of TSPCs were elaborated in
+previous studies (Rui et al., 2010; Shi et al., 2019). TSPCs (P3)
+isolated from ossified tendon were seeded at 4 × 103cells/cm2
+in 12-well plates and cultured in complete medium until
+confluence. Afterward, they were cultured in complete basal
+or osteogenic induction medium (OIM), which was complete
+basal medium supplemented with 1 nM dexamethasone,
+50
+mM
+ascorbic
+acid,
+and
+20
+mM
+β-glycerolphosphate
+(Sigma-Aldrich, United States) for 21 days to assess mRNA
+expression
+of
+Runx2,
+OPN,
+OCN,
+BMP2,
+BMP-4,
+and
+BMP-7
+by
+qRT-PCR
+and
+calcium
+nodule
+formation
+by
+Alizarin red S staining.
+Treatment of TSPCs With BMP-2 or
+Noggin
+TSPCs isolated from ossified tendon aged 4M (abbreviated as
+Y-TSPC) and 8M and 20M (abbreviated as A-TSPC) were seeded
+at 4 × 103 cells/cm2 in 12-well plates and cultured in complete
+medium until confluence. They were then cultured in OIM with
+or without recombinant human BMP-2 (rhBMP-2) (100 ng/ml;
+Solarbio, United States) (Rui et al., 2012a)/Noggin (0.25 μg/ml;
+Novoprotein, China) (Cho et al., 2005) for 7 days to assess mRNA
+expression of Runx2, OPN, and OCN by qRT-PCR and calcium
+nodule formation by Alizarin red S staining.
+Quantitative Real-Time PCR (qRT-PCR)
+Assay
+TSPCs were seeded at 4 × 103 cells/cm2 in six-well plates
+and cultured in complete medium or OIM until the desired
+time. Then, TSPCs were harvested and homogenized for RNA
+extraction with the Rneasy mini kit (Qiagen GmbH, Hilden,
+Germany). The mRNA was reverse transcribed to cDNA by the
+First-Strand cDNA kit (Promega, Madison, WI, United States).
+One microliter of total cDNA of each sample was amplified
+in the final volume of 20 μl of reaction mixture containing
+Power SYBR Green PCR Master Mix (Invitrogen Corporation,
+Carlsbad, CA, United States) and specific primers for target gene
+using the ABI StepOne Plus system (Applied Biosystems, CA,
+United States) (Supplementary Table S1). Cycling conditions
+were denaturation at 95◦C for 10 min, 45 cycles at 95◦C for 20 s,
+optimal annealing temperature (Supplementary Table S1) for
+20 s, 72◦C for 30 s, and finally at 60-95◦C with a heating rate
+of 0.1◦C/s. β-actin was used as an endogenous control. The data
+were calculated using the 2-11CT formula.
+DATA ANALYSIS
+All data were presented as mean ± SD. Statistical analysis of
+the data was performed with SPSS (SPSS Inc, Chicago, IL,
+United States; version 22.0) using one-way ANOVA or unpaired
+Student’s t-test. P &lt; 0.05 was regarded as statistically significant.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC7546413' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC7546413|gel_percentage' data-pmcid='PMC7546413' data-item='gel_percentage'><div class='qname'><span>Gel percentage</span><span class='ans'></span></div><div class='qdef'>The acrylamide percentage of the separating gel.</div><div class='qhow'><b>What to mark.</b> Mark the percentage. For a gradient, mark the whole range.<span class='eg'>In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC7546413|primary_ab_host' data-pmcid='PMC7546413' data-item='primary_ab_host'><div class='qname'><span>Primary antibody host or type</span><span class='ans'></span></div><div class='qdef'>The host species or the clonality of a primary antibody.</div><div class='qhow'><b>What to mark.</b> Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times.<span class='eg'>In <i>rabbit polyclonal anti-p53</i> mark <b>rabbit polyclonal</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC7546413|secondary_ab_conjugate' data-pmcid='PMC7546413' data-item='secondary_ab_conjugate'><div class='qname'><span>Secondary antibody conjugate</span><span class='ans'></span></div><div class='qdef'>What the secondary antibody is conjugated to.</div><div class='qhow'><b>What to mark.</b> Mark each distinct conjugate once.<span class='eg'>In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC7546413|reducing_denaturing' data-pmcid='PMC7546413' data-item='reducing_denaturing'><div class='qname'><span>Reducing or denaturing conditions</span><span class='ans'></span></div><div class='qdef'>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.</div><div class='qhow'><b>What to mark.</b> Mark the phrase or the reagent that states it.<span class='eg'>In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC7546413|blocking_agent' data-pmcid='PMC7546413' data-item='blocking_agent'><div class='qname'><span>Blocking agent</span><span class='ans'></span></div><div class='qdef'>What the membrane was blocked in.</div><div class='qhow'><b>What to mark.</b> Mark the agent only. Leave the percentage out, it is a separate question.<span class='eg'>In <i>blocked in 5% non-fat dry milk</i> mark <b>non-fat dry milk</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC7546413|membrane_type' data-pmcid='PMC7546413' data-item='membrane_type'><div class='qname'><span>Membrane type</span><span class='ans'></span></div><div class='qdef'>PVDF or nitrocellulose, or another named membrane chemistry.</div><div class='qhow'><b>What to mark.</b> Mark the membrane name only.<span class='eg'>In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>3</span> of <span class='num'>7</span></h2><span class='pill'>PMC5763540</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Orphanet Journal of Rare Diseases · <span class='num'>2018</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC5763540'>
+Glycosylation studies
+The LC-MS of TF was done as previously described [7].
+Molecular analysis of TMEM199
+Mutation
+analysis
+for
+TMEM199
+(NM_152464.2,
+ENST00000292114)
+was
+performed
+by
+direct
+gene
+sequencing of all six coding exons, including the exon-
+intron boundaries.
+Western blot analysis
+Patient and control skin fibroblasts were set up and
+grown as previously described [8]. HepG2 cells were
+purchased from ATCC (Manassas, VA) and maintained
+as suggested. 3 × PBS-washed cell layers were lysed in
+RIPA buffer (50 mM TrisHCl, pH 7.4, 150 mM NaCl,
+1% Triton X-100, 0.5% Sodium deoxycholate, 0.1% SDS,
+and 1 mM EDTA) containing protease inhibitor tablets
+(cOmpleteTMMini, Roche) and 8 μg of protein per lane
+each were run on stain-free BioRad gels and blotted to
+PVDF membranes. These were blocked using 5% BSA in
+TBST and incubated with the primary anti-TMEM199
+antibody (Abnova PAB21999, Abnova, Taiwan; 0,5 μg/mL)
+over night, followed by incubation with a goat anti-rabbit
+HRP-conjugated antibody (ab6721, Abcam) and the ECL
+Plus Western Blotting Detection Reagent (GE Healthcare
+Life sciences). The blots were developed using the imaging
+system
+SuperSignal
+West
+Dura
+(Thermo
+Scientific)
+Loading control are bands detected on the membrane
+using ChemiDoc Touch Imaging System BioRad.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC5763540' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC5763540|total_protein_stain' data-pmcid='PMC5763540' data-item='total_protein_stain'><div class='qname'><span>Total protein stain</span><span class='ans'></span></div><div class='qdef'>Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.</div><div class='qhow'><b>What to mark.</b> Mark the stain name only.<span class='eg'>In <i>confirmed by Ponceau S staining</i> mark <b>Ponceau S</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5763540|ecl_reagent' data-pmcid='PMC5763540' data-item='ecl_reagent'><div class='qname'><span>ECL reagent, named</span><span class='ans'></span></div><div class='qdef'>A named ECL or substrate product. The word ECL on its own, with no product name, does not count.</div><div class='qhow'><b>What to mark.</b> Mark the product name. Leave out the manufacturer unless the name alone would not identify it.<span class='eg'>In <i>SuperSignal West Pico (Thermo)</i> mark <b>SuperSignal West Pico</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5763540|imager_instrument' data-pmcid='PMC5763540' data-item='imager_instrument'><div class='qname'><span>Imager instrument</span><span class='ans'></span></div><div class='qdef'>The imaging hardware, including X-ray film where film was used.</div><div class='qhow'><b>What to mark.</b> Mark the instrument name only. Leave out the manufacturer.<span class='eg'>In <i>imaged on a ChemiDoc MP (Bio-Rad)</i> mark <b>ChemiDoc MP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>4</span> of <span class='num'>7</span></h2><span class='pill'>PMC7661018</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'> · <span class='num'>year unknown</span> <span class='pill'>no Methods heading found, full text shown</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC7661018'>Corrigendum: Identification of Novel
+Laminin- and Fibronectin-Binding
+Proteins by Far-Western Blot:
+Capturing the Adhesins of
+Streptococcus suis Type 2
+Quan Li, Hanze Liu, Dechao Du, Yanfei Yu, Caifeng Ma, Fangfang Jiao, Huochun Yao,
+Chengping Lu and Wei Zhang*
+Key Lab of Animal Bacteriology, Ministry of Agriculture, College of Veterinary Medicine, China OIE Reference Lab for Swine
+Streptococcosis, Nanjing Agricultural University, Nanjing, China
+Keywords: Streptococcus suis serotype 2, interactions, surface proteins, LN- binding proteins, FN-binding proteins
+A Corrigendum on
+Identification of Novel Laminin- and Fibronectin-Binding Proteins by Far-Western Blot:
+Capturing the Adhesins of Streptococcus suis Type 2
+By Li, Q., Liu, H. Z., Du, D. C., Yu, Y. F., Ma, C. F., Jiao, F. F., et al. (2015). Front Cell Infect
+Microbiol. 5:82. doi: 10.3389/fcimb.2015.00082
+In the original article, there was a mistake in the legend for Figures 1 and 2 as published. There are
+some creases and non-specific stains appear in the original Figures 1F, H and 2C. In order to
+improve the presentation quality of the figures, we modified the creases and non-specific stains
+outside of the results. These modifications do not affect the results of the article. This clarification
+needs to be added to the figure legends of these figures. The correct legends appears below.
+In the original article, there was a mistake in Figure 4 as published. Each sample hole was
+photographed twice or more for the same or different field of view. Due to the similarity in the
+fluorescence intensity of LDH protein and IMPDH protein, we made a mistake while selecting the
+pictures among a lot of pictures. Another LDH picture from the same hole with different views was
+incorrectly named IMPDH. The corrected Figure 4 appears below.
+The authors apologize for these errors and state that this does not change the scientific
+conclusions of the article in any way. The original article has been updated.
+Copyright © 2020 Li, Liu, Du, Yu, Ma, Jiao, Yao, Lu and Zhang. This is an open-access article distributed under the terms of the
+Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the
+original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance
+with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+Frontiers in Cellular and Infection Microbiology | www.frontiersin.org
+October 2020 | Volume 10 | Article 593413
+1
+Edited and reviewed by:
+Thomas Rudel,
+Julius Maximilian University of
+Würzburg, Germany
+*Correspondence:
+Wei Zhang
+vszw@njau.edu.cn
+Specialty section:
+This article was submitted to
+Bacteria and Host,
+a section of the journal
+Frontiers in Cellular
+and Infection Microbiology
+Received: 10 August 2020
+Accepted: 12 October 2020
+Published: 29 October 2020
+Citation:
+Li Q, Liu H, Du D, Yu Y, Ma C, Jiao F,
+Yao H, Lu C and Zhang W (2020)
+Corrigendum: Identification of Novel
+Laminin- and Fibronectin-Binding
+Proteins by Far-Western Blot:
+Capturing the Adhesins of
+Streptococcus suis Type 2.
+Front. Cell. Infect. Microbiol. 10:593413.
+doi: 10.3389/fcimb.2020.593413
+CORRECTION
+published: 29 October 2020
+doi: 10.3389/fcimb.2020.593413
+ A
+B
+D
+E
+F
+G
+H
+C
+FIGURE 1 | 2-DE gels and Far-Western blot identification of LN- and FN-binding proteins of SS2 CW and EC. The CW and EC proteins were separated in the first
+dimension by IEF in the pI range of 4-7 and by 12% SDS-PAGE in the second dimension, and then the 2-DE gels transferred to PVDF and incubated with LN or LN.
+Arrows indicate potential LN- or FN-binding proteins recognized with goat anti-rabbit IgG antibody. (A) 2-DE gel of SS2 CW proteins. (B) Far-Western blot of CW
+proteins incubated with LN (LN-CW). (C) 2-DE gel of SS2 EC proteins. (D) Far-Western blot of EC proteins incubated with LN (LN-EC). (E) 2-DE gel of SS2 CW
+proteins. (F) Far-Western blot of CW proteins incubated with FN (FN-CW). (G) 2-DE gel of SS2 EC proteins. (H) Far-Western blot of EC proteins incubated with FN
+(FN-EC). In order to improve the presentation quality of (F, H), we modified the creases and non-specific stains outside of the results. These modifications do not
+affect the results of the article.
+Li et al.
+Corrigendum: Identification of Streptococcus suis Adhesins
+Frontiers in Cellular and Infection Microbiology | www.frontiersin.org
+October 2020 | Volume 10 | Article 593413
+2
+ A
+B
+D
+C
+FIGURE 2 | Determine the binding of the recombinant proteins to LN and FN by Far-Western blot. Coomassie G-250-stained gel (A), Western blot analysis (B), and
+Far-Western blot analysis (C, D) of the SS2 recombinant proteins. Recombinant proteins were separated by 12% SDS-PAGE, then transferred to PVDF membrane
+and incubated with human LN or LN. Bound LN or FN was detected with goat anti-rabbit IgG antibody. The Western blot (B) was probed with his tag monoclonal
+antibody (Boster). In order to improve the presentation quality of (C), we modified the creases outside of the results. These modifications do not affect the results of
+the article.
+FIGURE 4 | Adherence of recombinant proteins to Hep-2 cells confirmed by an indirect immunofluorescence assay.
+Li et al.
+Corrigendum: Identification of Streptococcus suis Adhesins
+Frontiers in Cellular and Infection Microbiology | www.frontiersin.org
+October 2020 | Volume 10 | Article 593413
+3
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC7661018' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC7661018|total_protein_stain' data-pmcid='PMC7661018' data-item='total_protein_stain'><div class='qname'><span>Total protein stain</span><span class='ans'></span></div><div class='qdef'>Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.</div><div class='qhow'><b>What to mark.</b> Mark the stain name only.<span class='eg'>In <i>confirmed by Ponceau S staining</i> mark <b>Ponceau S</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC7661018|gel_percentage' data-pmcid='PMC7661018' data-item='gel_percentage'><div class='qname'><span>Gel percentage</span><span class='ans'></span></div><div class='qdef'>The acrylamide percentage of the separating gel.</div><div class='qhow'><b>What to mark.</b> Mark the percentage. For a gradient, mark the whole range.<span class='eg'>In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>5</span> of <span class='num'>7</span></h2><span class='pill'>PMC4935455</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>International Journal of Molecular Medicine · <span class='num'>2016</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC4935455'>
+Primary cell culture. HTFs were obtained from excised 
+Tenon&#x27;s capsule specimens during glaucoma surgery. Written 
+informed consent was obtained prior to operative excision and 
+this study was approved by the Research Ethics Committee 
+of Xi&#x27;an Jiaotong University, Xi&#x27;an, China. Tenon&#x27;s capsule 
+tissues (1x5x3 mm) were resected during surgery and placed in 
+a 60-mm culture dish containing Dulbecco&#x27;s modified Eagle&#x27;s 
+medium (DMEM) supplemented with 15% fetal bovine serum, 
+100 U/ml penicillin and streptomycin (HyClone, Logan, UT, 
+USA). Tissues were cut into small sections (1 mm3) and were 
+then incubated in 25 cm2 culture bottles at 37 ̊C in a 5% CO2 
+environment. The cells were allowed to migrate from the explant 
+tissue and observed under an inverted phase contrast micro­
+scope (COIC IBE1000; Chongqing COIC Industrial Co., Ltd, 
+Chongqing, China). The medium was changed every 
+2-3 days and the cells were allowed to reach 80% confluence. 
+Subsequently, the cells were disaggregated with 0.25% trypsin 
+and 0.02% EDTA at 37 ̊C for 3 min and were passaged every 
+3-5 days. Cells that maintained their proliferative potential and 
+acquired a fibroblast-like elongated morphology between the 
+third and fifth passage were used in this study (data not shown). 
+To examine the purity of HTF cultures, immunofluorescence 
+was staining was performed with vimentin and keratin. The 
+stained cells were observed under an immunofluorescence 
+microscope (Leica DMI3000B; Leica Microsystems GmbH, 
+Wetzlar, Germany).
+Construction of ILK-siRNA lentiviral vectors. The lentivirus 
+expressing siRNA targeting ILK (GeneChem, Shanghai, 
+China) was constructed to inhibit ILK gene expression in order 
+to examine the effects of ILK on the proliferation and migration 
+of HTFs. Green fluorescent protein (GFP) was used as a 
+reporter gene transferred into the HTFs and the siRNA (5&#x27;-GCC 
+GTAGTGTAATGATTGA-3&#x27;) sequence for ILK was designed 
+using the manufacturer&#x27;s RNAi designer program, and the 
+negative control construct (control siRNA) was created using a 
+scrambled sequence (5&#x27;-TTCTCCGAACGTGTCACGT-3&#x27;). 
+DNA oligos were chemically synthesized (GeneChem), annealed 
+and inserted into the expression vector by double digestion 
+with AgeI and EcoRI (New England Biolabs, Ipswich, MA, 
+USA), and ligated with T4 DNA ligase (Takara Biotech­
+nology Co., Ltd., Dalian, China) in accordance with the 
+manufacturer&#x27;s instructions. The ligation was transformed into 
+competent E. coli cells and then confirmed by restriction 
+enzyme analysis and DNA sequencing. These quences were 
+then cloned into pGCSIL-GFP to generate lentiviral vectors. 
+The expression vectors and package vectors were then 
+transfected into 293T cells (ATCC, Manassas, VA, USA) using 
+Lipofectamine 2000 (Invitrogen, Carlsbad, CA, USA). 
+Following 48 h of culture, the supernatants containing the 
+lentiviruses, such as ILK-siRNA-LV and NC-GFP-LV (negative 
+control) were harvested. Purification was then performed using 
+ultracentrifugation and the lentiviral titer was determined.
+Lentivirus-mediated RNAi silencing of ILK. The cells 
+(5x104 cells/well) were seeded in 6-well cell culture plates the 
+day before transfection. The lentivirus (1x108 TU/ml, 50 μl) was 
+mixed with the cells (1x105 cells/well) in serum-free medium, 
+and the medium was replaced by fresh cell medium containing 
+15% FBS at 24 h post-transfection. The positive cells were 
+selected by puromycin (2.5 μg/ml; Sigma-Aldrich, St. Louis, 
+MO, USA), and then further cultured for 5 days. The cells were 
+divided into 3 groups as follows: i) the normal control group (no 
+LV transfection); ii) the negative control LV-transfected 
+group; and iii) the group transfected with ILK-siRNA-LV. 
+The cells were observed under a fluorescence microscope 
+(Leica DMI3000B; Leica Microsystems GmbH).
+Reverse transcription-quantitative polymerase chain reaction 
+(RT-qPCR). Total RNA was extracted from the cells using an 
+RNA extraction kit (Fastagen Biotech., Shanghai, China) and 
+reverse transcribed into complementary DNA (cDNA) using 
+the PrimeScript 1st Strand cDNA Synthesis kit (Takara) 
+following the manufacturer&#x27;s instructions. The quality of the 
+RNA samples was controlled by measuring the absorbance at 
+A260/280; absorptions between 1.8 and 2.1 indicate good 
+quality. qPCR was used to evaluate the knockdown efficiency 
+of ILK, using SYBR Premix Ex TaqTM II (Tli RNaseH Plus) 
+following the manufacturer&#x27;s instructions (Takara Biotech­
+nology Co., Ltd.). The primers used for PCR were as follows: 
+ILK forward, 5&#x27;-CCCAACACAAACACTTCTCTCCTG-3&#x27; 
+and reverse, 5&#x27;-AAGCCTGAGGACTGTGGAGTGAT-3&#x27;; and 
+GAPDH forward, 5&#x27;-GCACCGTCAAGGCTGAGAAC-3&#x27; and 
+reverse, 5&#x27;-ATGGTGGTGAAGACGCCAGT-3&#x27;. The program 
+was initially run for 30 sec at 95 ̊C, followed by 40 cycles of 
+5 sec at 95 ̊C, 20 sec at 60 ̊C and 20 sec at 72 ̊C. The qPCR 
+analysis used a Bio-Rad IQ5 multicolor detection system 
+ INTERNATIONAL JOURNAL OF MOLECULAR MEDICINE 38: 407-416, 2016
+409
+(Bio-Rad Laboratories, Inc., Hercules, CA, USA). A comparative 
+cycle threshold method was used to determine the relative 
+quantification of RNA expression. Gene expression levels were 
+normalized to the GAPDH endogenous control and fold changes 
+were calculated using the ΔΔCt method. All PCR reactions 
+were performed at least in triplicate.
+MTT assay. The HTFs in the 3 groups were seeded in 96-well 
+cell culture plates. The cells were then cultured for 48 h in the 
+presence or absence of TGF-β2 (3 ng/ml). MTT (20 μl) (5 mg/
+ml in PBS) was added to each well, and the cells were then 
+incubated at 37 ̊C for 4 h. MTT solution was discarded by 
+gently inverting the plates, and the wells were filled with 200 μl 
+DMSO. After the plates were shaken vigorously for 20 min, 
+the absorbance of each well was read using a plate reader 
+(EpochTM; Bio-Tek Instruments Inc., Winooski, VT, USA) at 
+490 nm. Each data point was obtained as an average of five 
+values from five wells.
+Wound healing assay. The HTFs were seeded in 6-well cell 
+culture plates at a concentration of 5x105 cells/well and allowed 
+to grow to 80% confluence. The cells were starved overnight 
+and wounds were gently made in the center of the cell mono­
+layer using a sterile 200 μl pipette tip. To remove the cell debris, 
+the wells were washed twice with PBS, and then incubated with 
+or without TGF-β2 (3 ng/ml). Images of marked regions along 
+the wound area were obtained using an inverted phase contrast 
+microscope (Leica DMI3000B; Leica Microsystems GmbH) 
+immediately after creating the wound. The width of the scratch 
+was determined by images taken every 24 h, employing Adobe 
+Photoshop software.
+Cell cycle analysis. The HTFs in the 3 groups were seeded in 
+25 cm2 culture bottles at a density of 1x106 cells/bottle. The 
+cells were starved overnight and were cultured in the presence 
+or absence of TGF-β2 (3 ng/ml). Following incubation at 37 ̊C 
+for 48 h, the cells were collected and the cell suspension was 
+added into 75% ice-cold ethanol and fixed overnight. The cells 
+were then washed twice with PBS and re-suspended in 400 μl 
+of solution containing PI (100 μg/ml) and RNase (0.1 mg/ml) 
+and then incubated in the dark for 20 to 40 min. Finally, the cell 
+cycle distribution was detected by flow cytometry, and the cells 
+were analyzed using a FACSCalibur and FACSort CellQuest 
+software (BD Biosciences, Franklin Lakes, NJ, USA).
+Immunofluorescence staining. The cells (1x105 cells/well) were 
+seeded on an 8x8 mm cover slip in 24-well plates, starved 
+overnight and then treated with 3 ng/ml TGF-β2. Following 
+48 h of treatment, the cells were fixed with 4% paraformalde­
+hyde for 20 min and washed 3 times with PBS. The cells were 
+permeabilized in PBS with 0.3% Triton X-100 for 5 min. The 
+cells were then blocked with 5% normal goat serum for 1 h. 
+Primary rabbit anti-human α-SMA antibody (1:500, ab5694) 
+and rabbit anti-human E-cadherin antibody (1:1,000, ab53226) 
+(both from Abcam, Cambridge, MA, USA) were incubated with 
+the cells overnight at 4 ̊C. After being rinsed extensively, the 
+cells were exposed to the fluorescent secondary antibody (goat 
+anti-rabbit Cy3, 1:10,000, CW0114S; goat anti-rabbit FITC, 
+1:10,000, CW0159S; both from CWBIO, Beijing, China) in the 
+dark for 30 min. The coverslips were rinsed again with PBS 
+3 times and mounted with DAPI for 5 min, as a nuclear coun­
+terstain. Finally, the cells were observed under a fluorescence 
+microscope (DP71; Olympus, Tokyo, Japan).
+Western blot analysis. Proteins were separated using 
+SDS-PAGE and transferred onto a PVDF membrane. The 
+membranes were blocked in TBST containing 5% skim milk 
+at room temperature for 3 h. Following this, the membrane 
+was exposed to the primary antibodies (rabbit anti-human 
+anti-cyclin D1 antibody, 1:1,000; ab134175), (anti-E-cadherin 
+antibody, 1:1000), (anti-integrin-linked ILK antibody, 1:1000; 
+ab52480), and (anti-α-SMA antibody, 1:500) (all from Abcam) 
+in a sealed bag overnight at 4 ̊C and then washed 3 times for 
+15 min each in TBST. The membranes were then incubated 
+with secondary antibody (goat polyclonal secondary antibody 
+to rabbit lgG-HRP, ab6721), diluted at 1:10,0000 in TBST 
+for 2 h at room temperature. The membranes were washed 
+3 times in TBST for 20 min each time. A Genshare ECL 
+substrate solution (Genshare, Shaanxi, China) was placed on 
+the membranes for 2 min. Subsequently, the membranes were 
+placed in a LAS-3000 FujiFilm intelligent dark box. The 
+illuminated bands were detected and the image captured using 
+Image reader LAS-3000 software. Western blot analysis was 
+performed at least on 3 separate occasions.
+Statistical analysis. All the data are presented as the 
+means ± standard deviation (SD). Statistical analyses were 
+conducted using SPSS version 18.0 for Windows (SPSS, Inc., 
+Chicago, IL, USA). The statistical comparisons were performed 
+using a Student&#x27;s t-test or ANOVA followed by planned 
+comparisons of multiple conditions. A value of P&lt;0.05 was 
+considered to indicate a statistically significant difference.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC4935455' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC4935455|primary_ab_host' data-pmcid='PMC4935455' data-item='primary_ab_host'><div class='qname'><span>Primary antibody host or type</span><span class='ans'></span></div><div class='qdef'>The host species or the clonality of a primary antibody.</div><div class='qhow'><b>What to mark.</b> Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times.<span class='eg'>In <i>rabbit polyclonal anti-p53</i> mark <b>rabbit polyclonal</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>6</span> of <span class='num'>7</span></h2><span class='pill'>PMC6308305</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Frontiers in Cellular Neuroscience · <span class='num'>2018</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC6308305'>
+Animals
+Irak3
+KO
+mice
+on
+C57BL/6
+background
+were
+obtained
+from Jackson Laboratories (Bar Harbor, ME, United States,
+RRID:IMSR_JAX:007016) and WT littermates were generated
+through heterozygous mating. Mice were housed in a SPF
+environment with a 12 h light/dark cycle and a temperature
+of (22 ± 1◦C) and were offered free access to food and water.
+Irak3 deficient mice developed severe osteoporosis (Li et al.,
+2005), increased inflammatory responses to bacterial infection
+(Kobayashi et al., 2002), promoted adverse remodeling and
+worse systolic dysfunction in myocardial infarction (Chen et al.,
+2012), and enhanced the development of type 1 diabetes in
+NOD mice (Tan et al., 2014). DNA of WT and KO mice
+was extracted from mouse tails with a genomic DNA kit
+(CoWin Biotech, Beijing, China). To confirm the genotype
+of mice, extracted DNA was amplified by DNA polymerase
+(Takara, Kusatsu, Japan) and then separated by agarose gel.
+Male WT and KO mice (age 7-10 weeks; weight 22-26 g) were
+used for the experiments. Randomization was performed by
+a third person unrelated to the study using a randomization
+table. Animal experimental protocols were approved by the
+Animal Care and Use Committee of the Nanfang Hospital,
+Southern Medical University (NFYY-2017-42) and followed the
+National Guidelines for Animal Experimentation. All efforts
+were made to minimize the number of animals used and their
+suffering.
+Frontiers in Cellular Neuroscience | www.frontiersin.org
+2
+December 2018 | Volume 12 | Article 504
+ Lyu et al.
+IRAK-M Mediates Ischemic Neurovascular Injuries
+Transient Focal Brain Ischemia
+Reperfusion Model
+Mouse tMCAO was produced by filament occlusion of the right
+MCA to induce transient focal brain ischemia-reperfusion. In
+the pre-experiment, we found that 1 h of tMCAO caused a very
+high mortality in Irak3 KO mice. Therefore, we chose 45 min
+tMCAO to conduct following experiments. In brief, mice were
+anesthetized with isoflurane (induction with 4%; maintenance
+with 1.5%) in oxygen-enriched air by face mask, and murine
+temperature was maintained at 37 ± 0.5◦C throughout the
+experiment with heating pad. MCAO was performed by inserting
+a 7-0 nylon monofilament into the internal carotid artery via
+an external carotid artery stump and then by positioning the
+filament tip for occlusion at a distance of 8-9 mm beyond
+the internal carotid/pterygopalatine artery bifurcation. MCA
+was occluded for 45 min followed by reperfusion. Regional
+CBF (rCBF) was measured by the laser Doppler blood flow
+assessment (Moor Instruments, Wilmington, DE, United States)
+and presented as percentage of basal level (Figure 1A). The
+blunt needle probe of the laser Doppler blood flow assessment
+was positioned on skull surface in the MCA territory (1 mm
+posterior to the Bregma, and 5 mm lateral to the midline on
+the right parietal skull). Regional CBF was detected at four time
+points: before and after tMCAO; before and after reperfusion.
+Mice that did not show a &gt;75% rCBF reduction or a &lt;60% rCBF
+reperfusion over baseline levels or died after ischemia induction
+were excluded.
+Drug Administration
+In order to study whether HIF-1α is associated with the
+expression of IRAK-M, WT mice were injected with 2-
+methoxyestradiol
+(2ME2)
+to
+suppress
+the
+expression
+of
+HIF-1α.
+Animals
+were
+randomly
+divided
+into
+different
+groups. The inhibitor of HIF-1α, 2-methoxyestradiol (2ME2,
+MedChemExpress, NJ, United States), was dissolved in dimethyl
+sulfoxide (DMSO) and further diluted in saline. 2ME2 solution
+was administered (5 mg/kg, i.p.) at 10 min before tMCAO. The
+WT mice in vehicle groups were intraperitoneally injected with
+same volume of DMSO diluted in saline.
+Neurological Tests
+At 24 h after reperfusion, the global neurological and motor
+function of the animals were assessed using a modified Bederson
+Score (Table 1) and the grip test (string test) (Denorme et al.,
+2016) by a researcher blinded to group allocation. For the grip
+test, a length of string (50 cm) was pulled tight between two
+vertical supports and elevated 40 cm from a flat surface. The
+mouse was placed midway on the string and rated as shown in
+Table 1.
+Evaluation of Infarct Size and
+Hemispheric Brain Swelling
+After 45 min of MCAO and 24 h of reperfusion, brain tissues at
+1.0-8.0 mm posterior to the frontal pole were sliced coronally at
+a thickness of 1 mm and stained with 1% TTC (Sigma-Aldrich,
+St Louis, MO, United States). Infarct volume was then measured
+with using ImageJ software (NIH, Bethesda, MD, United States)
+and presented as percentage of the total brain volume by an
+experimenter blinded to group allocation (Wang et al., 2016).
+Hemispheric brain swelling was quantified according to the brain
+sections with the equation: hemispheric brain swelling = (volume
+of ipsilateral hemisphere/volume of contralateral hemisphere -
+1) × 100%.
+Evaluation of BBB Permeability and
+Water Content
+To evaluate the integrity of the BBB, EB leakage and IgG
+immunohistochemistry were performed at 24 h after reperfusion.
+EB was injected to mice via femoral vein (2% in normal saline at
+4 ml/kg). At 24 h after reperfusion, animals were anesthetized and
+perfused with PBS. Then, cerebral hemispheres were incubated
+in 10 ml of methanamide (Macklin, Shanghai, China) at 60◦C
+for 24 h and centrifuged. The supernatant was taken for
+spectrophotometric quantification of extravasated EB dye at by
+spectrophotometer (BMG Labtech, Offenburg, Germany).
+For water content assay brain tissues were weighed on an
+electronic analytical balance to get the wet weight, and were dried
+in an oven at 60◦C for 7 days to obtain the dry weight. Brain tissue
+water content was measured by the weighing the brain at wet
+and dry state and was calculated as (wet weight - dry weight)/wet
+weight × 100%.
+Western Blot Analysis
+Brain tissues from the same region (2.0-4.0mm posterior
+to the frontal pole) were obtained with coronal cut, were
+divided into ipsilateral and contralateral hemispheres, and
+were homogenized in RIPA lysis buffer (Leagene, Beijing,
+China)
+containing
+protease
+and
+phosphatase
+inhibitors.
+After denatured in loading buffer, proteins were separated
+by SDS-PAGE (8-10% acrylamide) and then transferred to
+polyvinylidene
+difluoride
+membranes
+(Millipore,
+Billerica,
+MA, United States). After blocked by 5% non-fat milk, the
+membranes were incubated overnight at 4◦C with primary
+antibodies including anti-COX-2 (1:1000; CST, Beverly, MA,
+United States, RRID:AB_2571729), anti-TNF-α (1:500; Santa
+Cruz;
+CA,
+United
+States,
+RRID:AB_1567355),
+anti-IL-10
+(1:500; Santa Cruz, RRID:AB_10859554), anti-NLRP-3 (1:1000;
+NOVUS, CO, Cat# NBP2-12446), anti-iNOS (1:100; Santa Cruz,
+RRID:AB_627810), anti-p65 (1:1000; Proteintech, Chicago,
+IL, United States, RRID:AB_2178878), anti-β-actin (1:1000;
+Proteintech, Chicago, IL, United States, RRID:AB_2289225),
+and anti-TBP (1:500; Proteintech, RRID:AB_10951514) followed
+by incubation with anti-rabbit or anti-mouse horseradish
+peroxidase-conjugated
+secondary
+antibodies
+(1:5000;
+Santa
+Cruz). Bands were detected by chemiluminescence technology
+with using enhanced chemiluminescence advance Western
+blotting
+detection
+reagents
+(FDbio,
+Hangzhou,
+China),
+quantified and normalized to β-actin using ImageJ by an
+experimenter blinded to group allocation. The pictures of protein
+bands were opened by ImageJ and maximized to an appropriate
+zoom level. A frame was drawn around each band to make the
+band in the center of frame. The densities of protein blots were
+Frontiers in Cellular Neuroscience | www.frontiersin.org
+3
+December 2018 | Volume 12 | Article 504
+ Lyu et al.
+IRAK-M Mediates Ischemic Neurovascular Injuries
+FIGURE 1 | Interleukin-1 receptor-associated kinase (IRAK)-M was significantly increased after cerebral ischemia reperfusion. (A) Cerebral blood flow (CBF) of each
+mouse subjected to tMCAO detected by laser-Doppler and showed as percentage of basal level. (B) Relative mRNA levels of IRAK-M were measured by real-time
+RT-PCR at different time points after reperfusion in the infarcted cerebral hemisphere. Marked upregulation was noted after 1 and 8 h of reperfusion. (C,D) Effect of
+2ME2 on the mRNA expression of HIF-1α (C) and IRAK-M (D) in the ipsilateral hemisphere at 1 h after reperfusion. Data are presented as mean ± SD, n = 6 per
+group. ∗P &lt; 0.05, ∗∗P &lt; 0.01 vs. sham group.
+measured by program in ImageJ. The final relative quantification
+values are the ratios of net target bands to net loading controls.
+Histological Examination
+Mice were perfused with saline and 4% paraformaldehyde at
+24 h after reperfusion. Brains were post-fixed and subsequently
+immersed in 15% sucrose and 30% sucrose. Based on TTC stained
+and EB images, we selected the region at 4.0-5.0 mm posterior to
+the frontal pole. Coronal brain sections were obtained by slicing
+with Cryostat Microtome (Leica CM1800, Heidelberg, Germany).
+To detect the BBB permeability, immunohistochemistry was
+conducted with antibodies against mouse IgG (CoWin Biotech,
+Beijing, China) in accordance with the protocol suggested by the
+supplier (Lin et al., 2017). One picture of immunohistochemistry
+was opened by ImageJ. Region of interest (ROI) was selected by
+H-DAB in select model mode. Then the IgG relative intensity
+was measured. The antibody against Iba1 was used to detect
+microglia. Cryosections were permeabilized with Triton X-100,
+and were blocked with donkey serum. Sections were incubated
+with primary antibody against Iba1 (1:100; Abcam, Cambridge,
+United Kingdom, RRID:AB_1141557) overnight at 4◦C and
+then with donkey anti-rabbit secondary antibody-conjugated
+to Alexa488 (1:500; Abcam) for 1 h at 37◦C. Four serial
+sections of each brain sample were observed, three similar
+fields were selected in the brain region surrounded by three
+black boxes (Figure 8C) under an Olympus Fluorview laser
+scanning confocal microscope (Olympus, Tokyo, Japan). The
+number of Iba1-positive cells was counted by using ImageJ by an
+independent investigator who did not know the animal grouping
+(Li et al., 2018).
+Quantitative Real-Time PCR
+Brain tissues of the same region (2.0-4.0mm posterior to the
+frontal pole) were obtained with coronal cut and were divided
+into ipsilateral and contralateral hemispheres. Total RNA of
+ipsilateral and contralateral hemispheres was isolated by using
+Trizol (Takara), and 1 μg of total RNA was reverse-transcribed
+to cDNA using PrimeScriptTM RT Master Mix Kit (Takara).
+RT-qPCR was performed with Roche LightCycler480 System
+(Roche, Basel, Switzerland) by using SYBR Green master mixes
+(Takara). Quantification was performed by the delta cycle time
+method, with mouse β-actin used for normalization. The mouse-
+specific primers (Sangon Biotech, Shanghai, China) are listed in
+Table 2.
+Frontiers in Cellular Neuroscience | www.frontiersin.org
+4
+December 2018 | Volume 12 | Article 504
+ Lyu et al.
+IRAK-M Mediates Ischemic Neurovascular Injuries
+TABLE 1 | Neurological function score.
+Score
+A modified Bederson
+score
+Score
+The grip test
+0
+No deficit.
+0
+Falls off.
+1
+Forelimb flexion.
+1
+Hangs onto string by one or
+both forepaws.
+2
+As for 1, plus decreased
+resistance to lateral push.
+2
+As for 1, and attempts to climb
+onto string.
+3
+Unidirectional circling.
+3
+Hangs onto string by one or
+both forepaws plus one or both
+hind paws.
+4
+Longitudinal spinning or
+seizure activity.
+4
+Hangs onto string by fore and
+hind paws plus tail wrapped
+around string.
+5
+No movement.
+5
+Escape (to the supports).
+TABLE 2 | Primers used for real-time PCR.
+Genes
+Primer sequences
+β-Actin
+SENS: CGTTGACATCCGTAAAGACC
+IRAK-M
+REVS: AACAGTCCGCCTAGAAGCAC
+SENS: CAGGTGTCCTTCTCCACTGTTCTTG
+REVS: GTGACCTCAGACTGGCTGCA
+MMP-2
+SENS: TGGCACCACCGAGGACTATGAC
+REVS: ACACCACACCTTGCCATCGTTG
+MMP-9
+SENS: GGAGCACGGCAACGGAGAAG
+REVS: CCTGGTCATAGTTGGCTGTGGTG
+IL-1β
+SENS: TCGCAGCAGCACATCAACAAGAG
+REVS: TGCTCATGTCCTCATCCTGGAAGG
+IL-6
+SENS: ACTTCCATCCAGTTGCCTTCTTGG
+REVS: TTAAGCCTCCGACTTGTGAAGTGG
+TNF-α
+SENS: GCGACGTGGAACTGGCAGAAG
+REVS: GCCACAAGCAGGAATGAGAAGAGG
+IL-10
+SENS: CTGCTATGCTGCCTGCTCTTACTG
+REVS: ATGTGGCTCTGGCCGACTGG
+COX-2
+SENS: CTGGTGCCTGGTCTGATGATGTATG
+REVS: GGATGCTCCTGCTTGAGTATGTCG
+iNOS
+SENS: ATCTTGGAGCGAGTTGTGGATTGTC
+REVS:TCGTAATGTCCAGGAAGTAGGTGAGG
+Statistical Analysis
+Statistical
+analyses
+were
+conducted
+by
+using
+SPSS
+20.0
+(IBM, Armonk, NY, United States) and GraphPad Prism
+5.0
+(GraphPad,
+La
+Jolla,
+CA,
+United
+States).
+During
+experiments
+and
+analysis,
+the
+investigators
+were
+blinded
+to genotype and experimental group. Data points outside
+the 95% confidence interval were excluded from the data
+analysis. Comparison between two groups was performed
+by using a two-tailed t-test. Differences within multiple
+groups
+were
+examined
+by
+two-way
+ANOVA
+followed
+by the Bonferroni post hoc correction. The incidence of
+hemorrhagic transformation in two groups was compared
+by
+using
+a
+Chi-square
+test.
+Data
+were
+expressed
+as
+mean
+±
+SD.
+P
+&lt;
+0.05
+was
+considered
+as
+statistically
+significant.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC6308305' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC6308305|primary_ab_rrid' data-pmcid='PMC6308305' data-item='primary_ab_rrid'><div class='qname'><span>RRID or antibody identifier</span><span class='ans'></span></div><div class='qdef'>An RRID for an antibody, such as RRID:AB_2160010, or a bare AB_ accession number. A catalogue number on its own is not an RRID.</div><div class='qhow'><b>What to mark.</b> Mark every distinct identifier, one at a time. If they sit in a table or a run-on list, marking the whole block once is fine and faster.<span class='eg'>In <i>(anti-GAPDH, RRID:AB_2160010)</i> mark <b>RRID:AB_2160010</b>. A paper listing eight antibodies has eight of these; mark them all, or select the block.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>7</span> of <span class='num'>7</span></h2><span class='pill'>PMC9523336</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Journal of Veterinary Science · <span class='num'>2022</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC9523336'>
+Preparation of animals
+All procedures used in this experiment were approved by the Institutional Animal Care and 
+Use Committee of Northeast Agricultural University (SRM-11). In total, 24 adult male beagles 
+(8-12 kg) were divided randomly into three groups: control group (C), hydrogen sulfide 
++ cisplatin group (H+cis), and cisplatin group (cis) (n = 8 per group, six were used for the 
+experiments, and the remaining two were on standby for any unexpected condition). The 
+laboratory staff cleaned the kennel regularly to ensure a healthy environment; the kennel 
+temperature was controlled at 18°C-26°C. All dogs had access to standard food and water 
+ad libitum during the study. Dogs in the cis group were injected with 5 mg/kg body weight 
+cisplatin [21], and dogs in the C group were injected with an equal volume of saline. In the 
+H+cis group, dogs were injected with 50 mM NaHS solution (1 mg/kg/h) 30 min before 
+cisplatin injection (5 mg/kg). Dogs were anesthetized 72 h after the cisplatin injection. 
+Blood and a small part of the left kidney tissues were quickly collected. Blood samples were 
+collected for blood urea nitrogen (Bun) and serum creatinine (Scr) measurement. A portion 
+of the collected kidney tissue was quickly removed and fixed in 10% phosphate-buffered 
+formalin for hematoxylin and eosin (H&amp;E) staining; the remaining tissue was quickly 
+removed and frozen in liquid nitrogen and then stored at -80°C.
+Serum analysis
+The Bun and Scr levels of the tissues were evaluated using a UniCel DxC800 Synchron 
+chemistry system (Beckman, USA). The renal injury model was considered to be established 
+when the Bun and Scr levels of the cis group increased by twice as much as those of the C group.
+Histopathological examination
+The canine left kidney tissues were rapidly fixed in 10% formaldehyde for at least 24 h and 
+then embedded in paraffin for microscopic examination. From the prepared paraffin blocks, 
+5-μm-thick sections were obtained and stained with H&amp;E for light microscopic observation.
+Detection of antioxidant levels
+The kidney tissues were homogenized in physiological saline (1:10 w/v) with a glass Teflon 
+homogenizer (Heidolph SO1 10R2RO). The homogenate was centrifuged at 700 × g for 
+30 min at 4°C to obtain the supernatant to measure the activities of superoxide (SOD) and 
+catalase (CAT) as well as malondialdehyde (MDA) levels by using detection kits (Nanjing 
+Jiancheng Bioengineering Institute, China) according to the manufacturer’s protocols.
+Detection of ATPase
+The activities of Na+-K+-ATPase, Ca2+-Mg2+-ATPase, and Ca2+-ATPase were determined 
+by using 10% tissue homogenates with appropriate assay kits (Nanjing Jiancheng 
+Bioengineering Institute) according to the manufacturer’s protocol. Inorganic phosphorus 
+produced during the conversion of adenosine triphosphate to adenosine diphosphate was 
+quantified using the molybdenum blue spectrophotometric method at 660 nm and expressed 
+as U/mg.prot. When one type of ATPase was tested, the inhibitors of the other types of 
+ATPase were added to depress the hydrolysis of phosphate radicals.
+https://doi.org/10.4142/jvs.22064
+H2S improves AKI in dogs
+ 4/14
+https://vetsci.org
+Quantitative reverse-transcription polymerase chain reaction (qPCR) 
+analysis
+Total RNA from canine kidney tissues was extracted using TRIzol reagent according to the 
+manufacturer’s protocol. The concentration and purity of the total RNA were determined 
+spectrophotometrically at 260/280 nm (Gene Quant 1300/100; General Electric Company, 
+USA). qPCR was performed on a Light Cycler 480 System (Roche, Switzerland) after reverse 
+transcription by using the fast qPCR kit (RR047A; Takara, Japan). All of the primers (Table 1) 
+were designed using Premier Software (PREMIER Biosoft International, USA) for qPCR. The 
+relative messenger RNA (mRNA) level was calculated according to the method of 2-ΔΔCt, and 
+gene-specific efficiencies were normalized to the mean mRNA expressions of glyceraldehyde 
+3-phosphate dehydrogenase (GAPDH).
+Immunohistochemistry staining
+The kidney sections were treated with 0.01 M sodium citrate buffer (pH 6.0) by using a 
+microwave-based antigen retrieval technique for 20 min at 95°C, followed by 3% H2O2 for 10 
+min to block endogenous peroxidase activity. Subsequently, they were incubated with RIPK1 
+(1:500; Bioss, China) and RIPK3 (1:500; Bioss) antibodies for 24 h at 4°C and secondary 
+antibodies for 30 min at 37°C. After staining the slides with 3,3&#x27;-diaminobenzidine, they were 
+observed under a microscope.
+Western blot analysis
+The protein samples were separated using 8%, 10%, and 12% sodium dodecyl sulfate-
+polyacrylamide gel electrophoresis and were transferred to polyvinylidene difluoride 
+membranes (Cat# ISEQ. 00010, LOT# R6PA4145H; Merck Millipore, USA). The membranes 
+were blocked with 5% skim milk for 3 h at 37°C and were incubated for 14 h at 4°C with 
+the following diluted primary antibodies: pyruvate kinase (PK; 1:1,000; Wanlei, China), 
+uncoupling protein 1 (UCP1; 1:1,500; Wanlei), succinate dehydrogenase (SDH; 1:500; Bioss), 
+pyruvate dehydrogenase complex (PDHX; 1:500; Affinity, USA), lactate dehydrogenase (LDH; 
+1:1,000; Wanlei), poly ADP-ribose polymerase 1 (PARP1; 1:500; Proteintech, China), Cas8 
+(1:1,000; CST, USA), nuclear factor kappa B (NF-κB; 1:500; Wanlei), interleukin-1β (IL-1β; 
+1:1,000; Wanlei), and TNF-α (1:500; Wanlei). After washing thrice for 15 min each with 
+https://doi.org/10.4142/jvs.22064
+H2S improves AKI in dogs
+Table 1. mRNAs primer sequences
+Gene
+Forward 5’ to 3’
+Reverse 5’ to 3’
+PK
+GACCGGCGGGCTACCTGAG
+GCTGCTGCTGCTGGAAGAAGG
+UCP1
+AGAGGCAGGTGGGCTTCGC
+GCTGCTCCTCCCGTCATTACAC
+SDH
+GGCGAGTCTCTGGAGGCTGAG
+GGCTGGTCCTGGAGAAATGCTG
+PDHX
+CCTGGAGGCTGGGCTGTGAC
+GCCGCTGCGTGCTGTGAAG
+LDH
+CGCTGCTGGCTACAACCTCAC
+GCTGCCTGGACACTGGGAAAC
+RIPK1
+AGTGCCGGAGACCAACCTACTG
+GGCTGAACTCATTCCACCAACCTC
+RIPK3
+TGGTGTCTGGAGTGGAGAGCTATG
+CTGCTGTGCGGTCTGAACTGTC
+PARP1
+GGCTCTGATGACAGCAGCAAGG
+TTCCTGATGGTCTCGGCTTCCTC
+Cas8
+TGGCTCTGATGGGCAGGAAGC
+GGGCTTGCCTGCAAGGGAAG
+NF-κB
+CCTCTCGCTGCCCCTCTCATC
+AGGTCTCCACGCCGCTGTC
+TAK1
+GCCATCATCCGCAACCTCATCC
+AGCAGTCCACAGCCCTCATCC
+TAB2
+GGAAGCAGGACTCTAACGCACAG
+GCCTTGAGGAACTTGAGCTGGTG
+TAB3
+GTTGTGGCTGCTACTCCGAACTAC
+ATGGTTGTTGAGGTGGCTGTGAAG
+IL-1β
+TGTGAAGTGCTGCTGCCAAGAC
+ACAGAGCTGGTGGGAGACTTGC
+TNF-α
+GGCGTGGAGCTGACAGACAAC
+GACGGCGAAGCGGCTGATG
+GAPDH
+CAAGGCTGTGGGCAAGGTCATC
+TTCTCCAGGCGGCAGGTCAG
+mRNA, messenger RNA; PK, pyruvate kinase; UCP, uncoupling protein; SDH, succinate dehydrogenase; PDHX, pyruvate dehydrogenase complex; LDH, lactate 
+dehydrogenase; RIPK, receptor interacting protein kinase; PARP, poly ADP-ribose polymerase; Cas8, caspase-8; NF-κB, nuclear factor kappa B; TAK, transforming 
+growth factor-β activated kinase; IL-1β, interleukin-1β; TNF-α, tumor necrosis factor-α; GAPDH, glyceraldehyde 3-phosphate dehydrogenase.
+ 5/14
+https://vetsci.org
+phosphate-buffered saline with Tween 20, the membranes were incubated for 2 h at 37°C 
+with peroxidase-conjugated secondary antibodies against rabbit IgG (Cat# sc-2357, RRID: 
+AB_628497; Santa Cruz Biotechnology, Argentina). After washing three times by PBST for 15 
+min each again, the bound antibodies were visualized through chemiluminescence by using 
+the ECL-plus reagent (GE Healthcare, UK). The GAPDH content was analyzed as the loading 
+control by using a rabbit polyclonal antibody.
+Statistical analysis
+Statistical analyses of all data were performed using GraphPad Prism (version 8.0; GraphPad 
+Software Inc., USA). Significant values (p &lt; 0.05) were obtained through a one-way analysis of 
+variance. All data displayed normal distribution and passed the test for equal variance. The data 
+are expressed as the mean ±SD, and the differences were considered to be significant if p &lt; 0.05.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC9523336' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC9523336|primary_ab_rrid' data-pmcid='PMC9523336' data-item='primary_ab_rrid'><div class='qname'><span>RRID or antibody identifier</span><span class='ans'></span></div><div class='qdef'>An RRID for an antibody, such as RRID:AB_2160010, or a bare AB_ accession number. A catalogue number on its own is not an RRID.</div><div class='qhow'><b>What to mark.</b> Mark every distinct identifier, one at a time. If they sit in a table or a run-on list, marking the whole block once is fine and faster.<span class='eg'>In <i>(anti-GAPDH, RRID:AB_2160010)</i> mark <b>RRID:AB_2160010</b>. A paper listing eight antibodies has eight of these; mark them all, or select the block.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div></div><div class='scrim' id='scrim' onclick='guide(false)'></div><aside class='guide' id='guide'><button type='button' class='quiet close' onclick='guide(false)'>Close</button><h2>Guide</h2><h3>You do not type anything</h3><p>Select the words in the Methods text, then press <b>Use highlighted text</b>. The exact words you selected are what gets recorded.</p><p>Typing is what this design removes. Given a sentence like the one below, one person types RIPA, another types the whole parenthesis, a third types the clause. All three read the paper correctly and disagree in the data. Selecting removes that entirely.</p><blockquote>The cell total protein was isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor (CWBIO, Shanghai, China) was added into the RIPA at a ratio of 1:100.</blockquote><p style='margin-top:10px'>For lysis buffer there, mark just <b>RIPA</b>, the first time it appears.</p><h3>How much to select</h3><p><b>The shortest phrase that states the detail.</b> Not the whole sentence when three words will do, and not the vendor, city or catalogue number unless the question asks for them.</p><p>Every question shows a worked example under <b>What to mark</b>. Follow it rather than your instinct.</p><h3>When a paper gives several</h3><p>Many papers list a table of antibodies with eight RRIDs, eight catalogue numbers and several vendors. <b>Mark them all.</b> Press <b>Use highlighted text</b> once per value and they stack up in a numbered list. Press <b>Done, next</b> when the list is complete.</p><p>If they sit in a contiguous table or a run-on list, selecting the whole block in one go is fine and much faster. You are marking where the evidence is, not counting.</p><p>The same value repeated does not need marking twice. A paper that uses 1:1000 for six antibodies has one dilution, not six.</p><p><b>If you stop before you have them all, tick 'There are more of these than I marked'.</b> That box matters more than it looks: without it, someone who stopped at five of eight cannot be told apart from someone who found everything, and the three they skipped would count against the extractor as mistakes it did not make.</p><h3>What counts</h3><p><b>Judge only what is written.</b> Not what the authors almost certainly did, and not what is standard practice in the field.</p><p><b>Only the Methods section is shown, and that is deliberate.</b> If a detail appears solely in a figure legend or a supplementary file, it is not in the text you are given, so the answer is <b>Not stated</b>.</p><p><b>Unclear</b> is a real answer. It is set aside rather than counted either way, so use it when you are genuinely stuck rather than guessing.</p><h3>The shaded sentences</h3><p>Opening a question shades the sentences most likely to hold the answer, and <b>Prev</b> and <b>Next</b> step between them.</p><p>They are a search aid and nothing more. A crude keyword rule picks them, it knows nothing about the answer, it sometimes shades irrelevant sentences and sometimes misses the right one. Read around them. When nothing is shaded, read the section normally.</p><h3>Getting through a batch</h3><p>The Methods text stays pinned on the left while questions scroll on the right. Answers collapse to one line and the next question opens automatically. Click any collapsed line to change it.</p><p>Your work is saved in this browser as you go, so closing the tab loses nothing. <b>Submit</b> is at the top of the page and turns on once every question is answered and your initials are filled in.</p><h3>Every question, in one place</h3><table><tr><td>Gel percentage</td><td>The acrylamide percentage of the separating gel.<br><b>Mark:</b> Mark the percentage. For a gradient, mark the whole range. In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</td></tr><tr><td>Quantification software, named</td><td>A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.<br><b>Mark:</b> Mark the package name only. Leave out the version and the supplier. In <i>quantified in ImageJ (v1.53, NIH)</i> mark <b>ImageJ</b>.</td></tr><tr><td>Replicate count</td><td>A number of replicates. You are not being asked whether they are biological or technical.<br><b>Mark:</b> Mark the number together with the words that make it a replicate count. In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</td></tr><tr><td>Antibody catalogue number</td><td>A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.<br><b>Mark:</b> Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block. In <i>(Abcam, ab1234)</i> mark <b>ab1234</b>.</td></tr><tr><td>Protein quantification method</td><td>How total protein was measured before loading.<br><b>Mark:</b> Mark the assay name only. In <i>quantified by BCA assay (Pierce)</i> mark <b>BCA</b>.</td></tr><tr><td>Blocking agent concentration</td><td>A percentage attached to the blocking step. A blocking agent with no percentage does not count.<br><b>Mark:</b> Mark the percentage only. In <i>blocked in 5% non-fat dry milk</i> mark <b>5%</b>.</td></tr><tr><td>Secondary antibody conjugate</td><td>What the secondary antibody is conjugated to.<br><b>Mark:</b> Mark each distinct conjugate once. In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</td></tr><tr><td>Lysis buffer</td><td>The lysis or extraction buffer, either named or given as a recipe.<br><b>Mark:</b> Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors. In <i>isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor was added into the RIPA</i> mark just <b>RIPA</b>, the first time it appears.</td></tr><tr><td>Antibody dilution</td><td>Any antibody working dilution. Primary and secondary both count, and you are not being asked which is which.<br><b>Mark:</b> Mark each distinct dilution once. If the same dilution is used repeatedly, one mark is enough. In <i>incubated at 1:1000 overnight</i> mark <b>1:1000</b>.</td></tr><tr><td>Reducing or denaturing conditions</td><td>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.<br><b>Mark:</b> Mark the phrase or the reagent that states it. In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</td></tr><tr><td>Blocking agent</td><td>What the membrane was blocked in.<br><b>Mark:</b> Mark the agent only. Leave the percentage out, it is a separate question. In <i>blocked in 5% non-fat dry milk</i> mark <b>non-fat dry milk</b>.</td></tr><tr><td>Detection chemistry</td><td>How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.<br><b>Mark:</b> Mark the words naming the detection method. In <i>visualised by enhanced chemiluminescence</i> mark <b>enhanced chemiluminescence</b>.</td></tr><tr><td>Membrane type</td><td>PVDF or nitrocellulose, or another named membrane chemistry.<br><b>Mark:</b> Mark the membrane name only. In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</td></tr><tr><td>Loading control, named</td><td>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.<br><b>Mark:</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two. In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</td></tr><tr><td>Protein loaded per lane</td><td>A mass of protein loaded per lane. A volume on its own does not count.<br><b>Mark:</b> Mark the mass and its unit. In <i>30 ug of protein was loaded per lane</i> mark <b>30 ug</b>.</td></tr><tr><td>Primary antibody vendor</td><td>The company that supplied a primary antibody.<br><b>Mark:</b> Mark every distinct company name. Leave out the city and country. A table can be marked as one block. In <i>(Cell Signaling Technology, Danvers, MA)</i> mark <b>Cell Signaling Technology</b>.</td></tr><tr><td>Primary antibody host or type</td><td>The host species or the clonality of a primary antibody.<br><b>Mark:</b> Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times. In <i>rabbit polyclonal anti-p53</i> mark <b>rabbit polyclonal</b>.</td></tr><tr><td>Total protein stain</td><td>Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.<br><b>Mark:</b> Mark the stain name only. In <i>confirmed by Ponceau S staining</i> mark <b>Ponceau S</b>.</td></tr><tr><td>ECL reagent, named</td><td>A named ECL or substrate product. The word ECL on its own, with no product name, does not count.<br><b>Mark:</b> Mark the product name. Leave out the manufacturer unless the name alone would not identify it. In <i>SuperSignal West Pico (Thermo)</i> mark <b>SuperSignal West Pico</b>.</td></tr><tr><td>Imager instrument</td><td>The imaging hardware, including X-ray film where film was used.<br><b>Mark:</b> Mark the instrument name only. Leave out the manufacturer. In <i>imaged on a ChemiDoc MP (Bio-Rad)</i> mark <b>ChemiDoc MP</b>.</td></tr><tr><td>RRID or antibody identifier</td><td>An RRID for an antibody, such as RRID:AB_2160010, or a bare AB_ accession number. A catalogue number on its own is not an RRID.<br><b>Mark:</b> Mark every distinct identifier, one at a time. If they sit in a table or a run-on list, marking the whole block once is fine and faster. In <i>(anti-GAPDH, RRID:AB_2160010)</i> mark <b>RRID:AB_2160010</b>. A paper listing eight antibodies has eight of these; mark them all, or select the block.</td></tr></table><h3>Ask about a rule</h3><p>This answers questions about <b>what a rule means</b>, nothing else. It is never given the paper, it cannot see what you are reading, and it will refuse if you paste text and ask what the answer is. Deciding what a paper says is the whole job being measured here, so it has to stay yours.</p><p>Questions are logged with your initials, so ask freely and openly.</p><select id='ask_item' style='width:100%;margin-bottom:8px;padding:8px 12px;border-radius:var(--r-sm);border:1px solid var(--hairline-input);font-family:inherit;font-size:15px;font-weight:300;background:var(--canvas);color:var(--ink)'><option value='gel_percentage'>Gel percentage</option><option value='quantification_software'>Quantification software, named</option><option value='replicate_n'>Replicate count</option><option value='ab_catalog_any'>Antibody catalogue number</option><option value='protein_quant_method'>Protein quantification method</option><option value='blocking_percent'>Blocking agent concentration</option><option value='secondary_ab_conjugate'>Secondary antibody conjugate</option><option value='lysis_buffer'>Lysis buffer</option><option value='ab_dilution_any'>Antibody dilution</option><option value='reducing_denaturing'>Reducing or denaturing conditions</option><option value='blocking_agent'>Blocking agent</option><option value='detection_chemistry'>Detection chemistry</option><option value='membrane_type'>Membrane type</option><option value='loading_control_identity'>Loading control, named</option><option value='protein_per_lane_ug'>Protein loaded per lane</option><option value='primary_ab_vendor'>Primary antibody vendor</option><option value='primary_ab_host'>Primary antibody host or type</option><option value='total_protein_stain'>Total protein stain</option><option value='ecl_reagent'>ECL reagent, named</option><option value='imager_instrument'>Imager instrument</option><option value='primary_ab_rrid'>RRID or antibody identifier</option></select><input type='text' id='ask_q' placeholder='for example: does a lot number count as a catalogue number?' autocomplete='off'><div style='margin-top:8px'><button type='button' class='sec' onclick='ask()'>Ask</button></div><blockquote id='ask_out' style='margin-top:10px'>The rules above are the reference. This is only for when one of them is unclear.</blockquote></aside><div class='hint' id='hint'></div><script>
+const BATCH = {"batch": "batch_08", "papers": [{"pmcid": "PMC8384215", "items": ["gel_percentage", "quantification_software", "replicate_n", "ab_catalog_any", "protein_quant_method", "blocking_percent", "secondary_ab_conjugate", "lysis_buffer", "ab_dilution_any", "reducing_denaturing", "blocking_agent", "detection_chemistry", "membrane_type", "loading_control_identity", "protein_per_lane_ug", "primary_ab_vendor"]}, {"pmcid": "PMC7546413", "items": ["gel_percentage", "primary_ab_host", "secondary_ab_conjugate", "reducing_denaturing", "blocking_agent", "membrane_type"]}, {"pmcid": "PMC5763540", "items": ["total_protein_stain", "ecl_reagent", "imager_instrument"]}, {"pmcid": "PMC7661018", "items": ["total_protein_stain", "gel_percentage"]}, {"pmcid": "PMC4935455", "items": ["primary_ab_host"]}, {"pmcid": "PMC6308305", "items": ["primary_ab_rrid"]}, {"pmcid": "PMC9523336", "items": ["primary_ab_rrid"]}]};
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwoTYSFc73PzL9mXwm77vwmTtvDEef65ackGHNtOhhxiAQMRGf8RhQtjjeKCoIaC0dE/exec";
+const CUES = {"primary_ab_rrid": ["rrid|research resource|\\bab_\\d|identifier", "ab_\\d{4,}|rrid"], "ab_catalog_any": ["antibod|cat(alog(ue)?)?\\s*\\.?\\s*(no|num|#)|product\\s*(no|#)|from\\s+\\w+\\s*\\(", "#\\s*\\d|\\b[a-z]{2,4}-?\\d{3,6}\\b|clone"], "primary_ab_vendor": ["antibod|purchased|obtained|supplied|from\\s+\\w+\\s*\\(", "abcam|cell signal|santa cruz|sigma|thermo|invitrogen|millipore|proteintech|r&d|bd bio|novus|genetex"], "primary_ab_host": ["antibod|anti-", "rabbit|mouse|goat|rat\\b|donkey|monoclonal|polyclonal"], "ab_dilution_any": ["antibod|incubat|dilut|probe", "1\\s*[:/]\\s*\\d"], "secondary_ab_conjugate": ["secondary|conjugat", "hrp|horseradish|alkaline phosphat|irdye|alexa|biotin"], "detection_chemistry": ["detect|visuali[sz]|develop|expos", "chemilumin|\\becl\\b|fluoresc|colorimetric|autoradiograph|film"], "ecl_reagent": ["\\becl\\b|chemilumin|substrate|detect", "supersignal|clarity|luminata|immobilon|femto|pico|dura|amersham|pierce"], "blocking_agent": ["block", "milk|\\bbsa\\b|casein|serum|albumin"], "blocking_percent": ["block", "\\d+\\s*%"], "membrane_type": ["membrane|transfer|blott", "pvdf|nitrocellulose|immobilon"], "membrane_pore_um": ["membrane|pvdf|nitrocellulose|pore", "0?\\.\\d+\\s*[u\u00b5\u03bc]?m|micron|\\d\\.\\d+"], "gel_percentage": ["gel|sds-?page|acrylamide|electrophore|separat|resolv", "\\d+\\s*%|gradient|\\d+\\s*-\\s*\\d+"], "transfer_method": ["transfer|blott", "semi-?dry|wet|tank|iblot|trans-?blot|electro|\\bmini\\b"], "reducing_denaturing": ["boil|heat|denatur|reduc|sample buffer|loading buffer|laemmli", "\\bdtt\\b|mercaptoethanol|[\u03b2b]-?me\\b|95\\s*\u00b0|100\\s*\u00b0|5\\s*min"], "protein_per_lane_ug": ["load|per lane|separat|resolv|subjected", "\\d+\\s*[u\u00b5\u03bc]g|microgram"], "protein_quant_method": ["protein|concentration|quantif|determin", "\\bbca\\b|bradford|lowry|nanodrop|\\bdc\\b|coomassie"], "lysis_buffer": ["lys(is|ed|e )|extract|homogeni|solubili|harvest|isolat|scrap|resuspend|prepar|collect", "ripa|np-?40|triton|laemmli|\\btris\\b|\\bsds\\b|buffer"], "total_protein_stain": ["stain|normali[sz]|total protein", "ponceau|stain-?free|revert|coomassie|amido"], "loading_control_identity": ["loading control|normali[sz]|internal control|reprob|antibod|probe|blot", "gapdh|actin|tubulin|vinculin|hsp\\s?90|lamin|histone|vdac|calnexin"], "quantification_software": ["quantif|densitom|analy[sz]|band intensit|measur", "imagej|fiji|image ?lab|image ?studio|quantity one|imagepro|alphaview|empiria|software"], "acquisition_software": ["captur|acqui|imag(ed|ing)|software", "image ?lab|image ?studio|cs analyzer|software|version"], "imager_instrument": ["imag(ed|ing|er)|captur|develop|expos|scan", "chemidoc|odyssey|amersham|\\blas-?\\d|x-?ray|film|fusion|azure|ibright"], "replicate_n": ["experiment|replicat|independent|repeated|\\bn\\s*=|triplicate|duplicate", "\\bn\\s*=\\s*\\d|three|four|five|six|triplicate|duplicate|\\d+\\s*times"]};
+const DEFS = {"reducing_denaturing": ["Reducing or denaturing conditions", "An explicit statement of reducing or denaturing conditions, whether by name or by reagent.", "Mark the phrase or the reagent that states it."], "detection_chemistry": ["Detection chemistry", "How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.", "Mark the words naming the detection method."], "secondary_ab_conjugate": ["Secondary antibody conjugate", "What the secondary antibody is conjugated to.", "Mark each distinct conjugate once."], "primary_ab_vendor": ["Primary antibody vendor", "The company that supplied a primary antibody.", "Mark every distinct company name. Leave out the city and country. A table can be marked as one block."], "gel_percentage": ["Gel percentage", "The acrylamide percentage of the separating gel.", "Mark the percentage. For a gradient, mark the whole range."], "primary_ab_host": ["Primary antibody host or type", "The host species or the clonality of a primary antibody.", "Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times."], "lysis_buffer": ["Lysis buffer", "The lysis or extraction buffer, either named or given as a recipe.", "Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors."], "quantification_software": ["Quantification software, named", "A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.", "Mark the package name only. Leave out the version and the supplier."], "total_protein_stain": ["Total protein stain", "Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.", "Mark the stain name only."], "loading_control_identity": ["Loading control, named", "A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.", "Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two."], "primary_ab_rrid": ["RRID or antibody identifier", "An RRID for an antibody, such as RRID:AB_2160010, or a bare AB_ accession number. A catalogue number on its own is not an RRID.", "Mark every distinct identifier, one at a time. If they sit in a table or a run-on list, marking the whole block once is fine and faster."], "replicate_n": ["Replicate count", "A number of replicates. You are not being asked whether they are biological or technical.", "Mark the number together with the words that make it a replicate count."], "membrane_type": ["Membrane type", "PVDF or nitrocellulose, or another named membrane chemistry.", "Mark the membrane name only."], "imager_instrument": ["Imager instrument", "The imaging hardware, including X-ray film where film was used.", "Mark the instrument name only. Leave out the manufacturer."], "ecl_reagent": ["ECL reagent, named", "A named ECL or substrate product. The word ECL on its own, with no product name, does not count.", "Mark the product name. Leave out the manufacturer unless the name alone would not identify it."], "blocking_agent": ["Blocking agent", "What the membrane was blocked in.", "Mark the agent only. Leave the percentage out, it is a separate question."], "protein_quant_method": ["Protein quantification method", "How total protein was measured before loading.", "Mark the assay name only."], "ab_dilution_any": ["Antibody dilution", "Any antibody working dilution. Primary and secondary both count, and you are not being asked which is which.", "Mark each distinct dilution once. If the same dilution is used repeatedly, one mark is enough."], "ab_catalog_any": ["Antibody catalogue number", "A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.", "Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block."], "protein_per_lane_ug": ["Protein loaded per lane", "A mass of protein loaded per lane. A volume on its own does not count.", "Mark the mass and its unit."], "blocking_percent": ["Blocking agent concentration", "A percentage attached to the blocking step. A blocking agent with no percentage does not count.", "Mark the percentage only."]};
+const KEY = 'trackF_A6_' + BATCH.batch;
+const T0 = Date.now();
+
+function total(){ return BATCH.papers.reduce((a,p)=>a+p.items.length,0); }
+function esc(s){ return s.replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+/* ---- state ----------------------------------------------------------------
+   ANS[judgement_id] = {answer, spans:[{text,start,end}], more:bool, done:bool}
+
+   Several items are set-valued in the papers themselves. An antibody table gives
+   eight RRIDs, eight catalogue numbers and several vendors, and stage 2 emits all
+   of them pipe-joined. A single span could never validate that, so a question
+   accepts as many spans as the paper needs.
+
+   `more` records "there are more of these than I marked". Without it, a reviewer
+   who stopped after five of eight is indistinguishable from a reviewer who found
+   everything, and the three unmarked values would score as extractor errors. */
+const ANS = {};
+
+function answered(){
+  return Object.values(ANS).filter(v=>v.done).length;
+}
+function refresh(){
+  const a = answered(), t = total();
+  document.getElementById('count').textContent = a + ' of ' + t + ' answered';
+  document.getElementById('bar').style.width = (100*a/t) + '%';
+  document.getElementById('send').disabled =
+    (a < t) || !document.getElementById('rev').value.trim();
+  try{
+    localStorage.setItem(KEY, JSON.stringify(
+      {rev: document.getElementById('rev').value, a: ANS}));
+  }catch(e){}
+}
+function restore(){
+  let s; try{ s = JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+  if (!s) return 0;
+  document.getElementById('rev').value = s.rev || '';
+  let n = 0;
+  Object.entries(s.a||{}).forEach(([q,v])=>{
+    const el = document.querySelector('[data-q="'+CSS.escape(q)+'"]');
+    if (!el) return;
+    ANS[q] = v; paint(el); n++;
+  });
+  return n;
+}
+
+/* ---- sentence segmentation and cue ranking --------------------------------
+   Sentence level, not line level. PDF text wraps at arbitrary columns, so a
+   "line" is a fragment and marking one marks half a clause. */
+function sentences(text){
+  const out = [];
+  let start = 0;
+  const re = /([.!?])(\s|$)/g;
+  let m;
+  while ((m = re.exec(text)) !== null){
+    const end = m.index + 1;
+    if (end - start > 12) { out.push([start, end]); start = re.lastIndex; }
+  }
+  if (text.length - start > 12) out.push([start, text.length]);
+  return out;
+}
+/* A marked span longer than this is not a search aid, it is a wall. Ordinary
+   Methods sentences run 100 to 250 characters. */
+const MAXSEG = 320;
+/* Tuned on the STAR Protocols key-resources table. 70/90 let adjacent windows merge
+   into 300-character blobs; 30/40 was too tight to read a row in context. At 45/55
+   that table marks two separate RRID rows instead of one merged run, and drops from
+   100% of the block marked to about 9%. */
+const WIN_BEFORE = 45, WIN_AFTER = 55;
+
+function snapL(s, i){ const j = s.lastIndexOf(' ', i); return j > i - 25 && j >= 0 ? j + 1 : i; }
+function snapR(s, i){ const j = s.indexOf(' ', i);     return j >= 0 && j < i + 25 ? j : i; }
+
+/* Windows around each value hit inside an over-long block.
+   STAR Protocols and Cell Press papers carry a KEY RESOURCES TABLE that survives PDF
+   extraction as one 2,500-character run with almost no sentence punctuation. Marking
+   the containing "sentence" marked the entire reagent list for a question about one
+   RRID. Requiring a value hit and marking a window around it turns that into two tight
+   marks on the two RRIDs actually present. */
+function windows(text, s, e, valSrc, out){
+  const seg = text.slice(s, e);
+  let re;
+  try{ re = new RegExp(valSrc, 'gi'); }catch(err){ return; }
+  let m, n = 0;
+  while ((m = re.exec(seg)) !== null && n < 6){
+    const a = snapL(seg, Math.max(0, m.index - WIN_BEFORE));
+    const b = snapR(seg, Math.min(seg.length, m.index + m[0].length + WIN_AFTER));
+    out.push({s: s + a, e: s + b, score: 2});
+    n++;
+    if (m.index === re.lastIndex) re.lastIndex++;
+  }
+}
+
+function merge(spans){
+  if (!spans.length) return [];
+  spans.sort((a,b)=> a.s - b.s);
+  const out = [spans[0]];
+  for (let i = 1; i < spans.length; i++){
+    const last = out[out.length-1], cur = spans[i];
+    if (cur.s <= last.e){
+      last.e = Math.max(last.e, cur.e);
+      last.score = Math.max(last.score, cur.score);
+    } else out.push(cur);
+  }
+  return out;
+}
+
+function rank(text, item){
+  const c = CUES[item];
+  if (!c) return [];
+  let ctx;
+  try{ ctx = new RegExp(c[0],'i'); }catch(e){ return []; }
+  const hasVal = seg => { try{ return new RegExp(c[1],'i').test(seg); }catch(e){ return false; } };
+  const segs = sentences(text);
+  let scored = [];
+
+  for (const [s,e] of segs){
+    const seg = text.slice(s,e);
+    if (!ctx.test(seg)) continue;              // context is required, not optional
+    if (e - s <= MAXSEG){ scored.push({s, e, score: 1 + (hasVal(seg) ? 1 : 0)}); continue; }
+    windows(text, s, e, c[1], scored);         // long block: narrow to the value hits
+  }
+
+  // Requiring context is what makes the marking precise, but when a paper phrases
+  // something no context cue anticipated, shading nothing is worse than shading
+  // loosely. Drop to value cues alone rather than leave a blank pane.
+  if (!scored.length){
+    for (const [s,e] of segs){
+      const seg = text.slice(s,e);
+      if (!hasVal(seg)) continue;
+      if (e - s <= MAXSEG) scored.push({s, e, score: 1});
+      else windows(text, s, e, c[1], scored);
+    }
+  }
+
+  scored = merge(scored);
+  scored.sort((a,b)=> b.score - a.score || (a.e - a.s) - (b.e - b.s) || a.s - b.s);
+  const top = scored.slice(0, 8);
+  top.sort((a,b)=> a.s - b.s);
+  return top;
+}
+
+let curBox = null, curMarks = [], curIdx = -1;
+function highlight(pmcid, item){
+  const box = document.getElementById('m_' + pmcid);
+  if (!box) return;
+  curBox = box;
+  const raw = box.dataset.raw;
+  const spans = rank(raw, item);
+  let out = '', at = 0;
+  for (const sp of spans){
+    out += esc(raw.slice(at, sp.s)) + '<mark>' + esc(raw.slice(sp.s, sp.e)) + '</mark>';
+    at = sp.e;
+  }
+  out += esc(raw.slice(at));
+  box.innerHTML = out;
+  curMarks = [...box.querySelectorAll('mark')];
+  curIdx = -1;
+  const lab = document.getElementById('hits_' + pmcid);
+  if (lab) lab.textContent = curMarks.length
+    ? curMarks.length + ' likely passage' + (curMarks.length>1?'s':'')
+    : 'nothing obvious, read the section';
+  if (curMarks.length) jump(1);
+}
+function jump(d){
+  if (!curMarks.length) return;
+  if (curIdx >= 0) curMarks[curIdx].classList.remove('cur');
+  curIdx = (curIdx + d + curMarks.length) % curMarks.length;
+  curMarks[curIdx].classList.add('cur');
+  curMarks[curIdx].scrollIntoView({block:'center', behavior:'smooth'});
+}
+
+/* ---- selection capture -----------------------------------------------------
+   Offsets are computed against the raw text, not the marked-up DOM, so a stored
+   span is comparable to stage 2's own match offsets regardless of highlighting. */
+function textOffset(container, node, off){
+  const w = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+  let n, acc = 0;
+  while ((n = w.nextNode())){
+    if (n === node) return acc + off;
+    acc += n.nodeValue.length;
+  }
+  return -1;
+}
+function getSel(box){
+  const s = window.getSelection();
+  if (!s || s.rangeCount === 0 || s.isCollapsed) return null;
+  const r = s.getRangeAt(0);
+  if (!box.contains(r.commonAncestorContainer)) return null;
+  const a = textOffset(box, r.startContainer, r.startOffset);
+  const b = textOffset(box, r.endContainer, r.endOffset);
+  if (a < 0 || b < 0 || b <= a) return null;
+  return {start:a, end:b, text:s.toString()};
+}
+
+/* ---- answering ------------------------------------------------------------ */
+function activeEl(){ return document.querySelector('.q.active'); }
+function activate(el){
+  if (!el) return;
+  document.querySelectorAll('.q.active').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  highlight(el.dataset.pmcid, el.dataset.item);
+}
+function tidy(s){ return s.replace(/\s+/g,' ').trim(); }
+
+function paint(el){
+  const q = el.dataset.q, v = ANS[q];
+  const tag = el.querySelector('.ans');
+  const grab = el.querySelector('.grab');
+  const list = el.querySelector('.spans');
+  const moreBox = el.querySelector('.morewrap');
+  const doneBtn = el.querySelector('[data-act="done"]');
+
+  if (!v){
+    el.classList.remove('done'); tag.textContent = '';
+    grab.classList.remove('on'); list.innerHTML = '';
+    moreBox.classList.remove('on'); doneBtn.style.display = 'none';
+    return;
+  }
+  if (v.answer === 'marked'){
+    grab.classList.add('on');
+    moreBox.classList.toggle('on', !el.classList.contains('done'));
+    doneBtn.style.display = el.classList.contains('done') ? 'none' : '';
+    list.innerHTML = v.spans.map((s,i)=>
+      '<li><span>' + esc(tidy(s.text)) + '</span>'
+      + '<button type="button" class="quiet x" data-act="drop" data-i="' + i + '">'
+      + 'Remove</button></li>').join('');
+    el.querySelector('.morebox').checked = !!v.more;
+    const n = v.spans.length;
+    tag.textContent = n === 1 ? '\u201C' + tidy(v.spans[0].text).slice(0,52) + '\u201D'
+                              : n + ' marked' + (v.more ? ', more not marked' : '');
+  } else {
+    grab.classList.remove('on'); list.innerHTML = '';
+    moreBox.classList.remove('on'); doneBtn.style.display = 'none';
+    tag.textContent = v.answer === 'not_stated' ? 'Not stated' : 'Unclear';
+  }
+  el.classList.toggle('done', !!v.done);
+}
+function mark(el){
+  const box = document.getElementById('m_' + el.dataset.pmcid);
+  const sel = getSel(box);
+  if (!sel){ flash('Select the words in the Methods text first, then press this.'); return; }
+  const q = el.dataset.q;
+  const v = ANS[q] && ANS[q].answer === 'marked'
+    ? ANS[q] : (ANS[q] = {answer:'marked', spans:[], more:false, done:false});
+  v.answer = 'marked'; v.done = false;
+  const key = tidy(sel.text).toLowerCase();
+  if (!v.spans.some(s=>tidy(s.text).toLowerCase() === key)){
+    v.spans.push({text:sel.text, start:sel.start, end:sel.end});
+  } else {
+    flash('You already marked that one.');
+  }
+  window.getSelection().removeAllRanges();
+  paint(el); refresh();
+}
+function dropSpan(el, i){
+  const v = ANS[el.dataset.q];
+  if (!v) return;
+  v.spans.splice(i, 1);
+  if (!v.spans.length) delete ANS[el.dataset.q];
+  paint(el); refresh();
+}
+function finish(el){
+  const v = ANS[el.dataset.q];
+  if (!v || !v.spans.length) return;
+  v.more = el.querySelector('.morebox').checked;
+  v.done = true;
+  paint(el); refresh(); nextOpen(el);
+}
+function plain(el, a){
+  ANS[el.dataset.q] = {answer:a, spans:[], more:false, done:true};
+  paint(el); refresh(); nextOpen(el);
+}
+function reopen(el){
+  const v = ANS[el.dataset.q];
+  if (v && v.answer === 'marked') v.done = false; else delete ANS[el.dataset.q];
+  paint(el); activate(el); refresh();
+  el.scrollIntoView({block:'center', behavior:'smooth'});
+}
+function nextOpen(from){
+  const all = [...document.querySelectorAll('[data-q]')];
+  for (let k = all.indexOf(from)+1; k < all.length; k++){
+    if (!ANS[all[k].dataset.q]){
+      activate(all[k]);
+      all[k].scrollIntoView({block:'center', behavior:'smooth'});
+      return;
+    }
+  }
+}
+function guide(on, item){
+  document.getElementById('guide').classList.toggle('on', on);
+  document.getElementById('scrim').classList.toggle('on', on);
+  if (on){
+    const el = activeEl();
+    const sel = document.getElementById('ask_item');
+    if (sel) sel.value = item || (el ? el.dataset.item : sel.value);
+  }
+}
+
+/* ---- rules assistant -------------------------------------------------------
+   Definitions only. The paper text is never sent, and a question carrying a long
+   verbatim run from the Methods pane is refused here rather than upstream, because
+   the cheapest place to keep the gold standard clean is before the request leaves
+   the browser. */
+function pastedFromPaper(q){
+  const boxes = [...document.querySelectorAll('.methods')];
+  const s = q.replace(/\s+/g,' ').trim();
+  if (s.length < 60) return false;
+  for (const b of boxes){
+    const hay = (b.dataset.raw || '').replace(/\s+/g,' ');
+    for (let i = 0; i + 60 <= s.length; i += 10){
+      if (hay.indexOf(s.slice(i, i+60)) >= 0) return true;
+    }
+  }
+  return false;
+}
+async function ask(){
+  const out = document.getElementById('ask_out');
+  const q = document.getElementById('ask_q').value.trim();
+  const item = document.getElementById('ask_item').value;
+  if (!q){ out.textContent = 'Type a question about the rule first.'; return; }
+  if (pastedFromPaper(q)){
+    out.textContent = 'That looks like text from the paper. This assistant only '
+      + 'explains the rules, and deciding what a paper says is the job the study is '
+      + 'measuring. Ask what the rule means instead.';
+    return;
+  }
+  if (!ENDPOINT){ out.textContent = 'No endpoint configured, so the assistant is off. '
+      + 'The rules above are the reference.'; return; }
+  const d = DEFS[item] || ['','',''];
+  // Send the whole rule set, not just the selected item. It is about 1,500 tokens
+  // and it is what lets the assistant answer the questions reviewers actually ask,
+  // which are comparative: how is acquisition software different from
+  // quantification software, does a lot number count as a catalogue number.
+  const all = Object.entries(DEFS)
+    .map(([k,v])=> v[0] + ' :: ' + v[1] + ' :: mark: ' + v[2]).join('\n');
+  out.textContent = 'Thinking...';
+  try{
+    const r = await fetch(ENDPOINT, {method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({action:'assist', batch:BATCH.batch,
+        reviewer: document.getElementById('rev').value.trim(),
+        item, item_label:d[0], definition:d[1], rule:d[2],
+        all_rules: all, question:q})});
+    const t = (await r.text()).trim();
+    if (t.indexOf('ASSIST_OK') === 0) out.textContent = t.slice(9).trim();
+    else if (t.indexOf('ASSIST_OFF') === 0) out.textContent =
+      'The assistant is switched off for this study. The rules above are the reference.';
+    else out.textContent = 'The assistant is unavailable. The rules above are the reference.';
+  }catch(e){
+    out.textContent = 'The assistant is unavailable. The rules above are the reference.';
+  }
+}
+let flashT = null;
+function flash(msg){
+  const h = document.getElementById('hint');
+  h.textContent = msg; h.classList.add('on');
+  clearTimeout(flashT);
+  flashT = setTimeout(()=>h.classList.remove('on'), 2600);
+}
+
+/* ---- submit --------------------------------------------------------------- */
+/* One row per span, so a question answered with eight RRIDs is eight rows sharing a
+   judgement_id. n_spans is carried on every row so the scorer can tell a truncated
+   submission from a complete one without regrouping first. */
+function collect(){
+  const rows = [];
+  document.querySelectorAll('[data-q]').forEach(el=>{
+    const v = ANS[el.dataset.q];
+    const base = {judgement_id: el.dataset.q, pmcid: el.dataset.pmcid,
+                  item: el.dataset.item};
+    if (!v || v.answer !== 'marked'){
+      rows.push(Object.assign({}, base, {answer: v ? v.answer : '', span_index: 0,
+        span_text: '', span_start: -1, span_end: -1, span_len: 0,
+        n_spans: 0, more_unmarked: ''}));
+      return;
+    }
+    v.spans.forEach((s,i)=>{
+      rows.push(Object.assign({}, base, {answer:'marked', span_index: i,
+        span_text: s.text, span_start: s.start, span_end: s.end,
+        span_len: (s.text||'').length, n_spans: v.spans.length,
+        more_unmarked: v.more ? 1 : 0}));
+    });
+  });
+  return {batch: BATCH.batch, reviewer: document.getElementById('rev').value.trim(),
+          submitted_at: new Date().toISOString(),
+          minutes: Math.round((Date.now()-T0)/60000), rows};
+}
+function download(){
+  const p = collect();
+  const head = 'batch,reviewer,submitted_at,judgement_id,pmcid,item,answer,span_index,'
+             + 'span_text,span_start,span_end,span_len,n_spans,more_unmarked\n';
+  const q = s => '"' + String(s==null?'':s).replace(/"/g,'""') + '"';
+  const body = p.rows.map(r=>[p.batch,p.reviewer,p.submitted_at,r.judgement_id,r.pmcid,
+      r.item,r.answer,r.span_index,r.span_text,r.span_start,r.span_end,r.span_len,
+      r.n_spans,r.more_unmarked]
+      .map(q).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([head+body], {type:'text/csv'}));
+  a.download = 'A6_' + p.batch + '_' + (p.reviewer||'anon').replace(/\W+/g,'_') + '.csv';
+  a.click();
+}
+async function send(){
+  const st = document.getElementById('status');
+  if (!ENDPOINT){ st.innerHTML = '<b>No endpoint set.</b> Use Download CSV.'; return; }
+  st.textContent = 'Sending...';
+  try{
+    const r = await fetch(ENDPOINT, {method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(collect())});
+    const t = await r.text();
+    if (t.indexOf('OK') >= 0){
+      st.innerHTML = '<b>Submitted.</b> Thank you, you can close this tab.';
+      document.getElementById('send').disabled = true;
+      try{ localStorage.removeItem(KEY); }catch(e){}
+    } else {
+      st.innerHTML = '<b>Rejected.</b> ' + esc(t.slice(0,140)) + ' Use Download CSV.';
+    }
+  }catch(e){
+    st.innerHTML = '<b>Send failed.</b> Use Download CSV and email the file.';
+  }
+}
+
+/* ---- wiring --------------------------------------------------------------- */
+document.addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-act]');
+  if (btn){
+    const el = btn.closest('[data-q]');
+    const a = btn.dataset.act;
+    if (a === 'mark') mark(el);
+    else if (a === 'done') finish(el);
+    else if (a === 'drop') dropSpan(el, parseInt(btn.dataset.i, 10));
+    else if (a === 'reopen') reopen(el);
+    else plain(el, a);
+    return;
+  }
+  const head = e.target.closest('.q.done .qname');
+  if (head){ reopen(head.closest('[data-q]')); return; }
+  const q = e.target.closest('[data-q]');
+  if (q && !q.classList.contains('done')) activate(q);
+});
+document.addEventListener('input', e=>{ if (e.target.id === 'rev') refresh(); });
+document.addEventListener('keydown', e=>{ if (e.key === 'Escape') guide(false); });
+document.addEventListener('mouseup', ()=>{
+  const el = activeEl();
+  if (!el) return;
+  const box = document.getElementById('m_' + el.dataset.pmcid);
+  if (box && getSel(box)) flash('Press "Use highlighted text" on the open question.');
+});
+window.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.methods').forEach(b=>{ b.dataset.raw = b.textContent; });
+  const n = restore();
+  const first = [...document.querySelectorAll('[data-q]')].find(el=>!ANS[el.dataset.q]);
+  activate(first || document.querySelector('[data-q]'));
+  refresh();
+  if (n) document.getElementById('status').innerHTML =
+    '<b>Restored ' + n + ' saved answer' + (n>1?'s':'') + '</b> from this browser.';
+});
+window.addEventListener('beforeunload', e=>{
+  if (answered() > 0 && !document.getElementById('send').disabled){
+    e.preventDefault(); e.returnValue = '';
+  }
+});
+</script></body></html>

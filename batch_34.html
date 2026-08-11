@@ -1,0 +1,2464 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Track F methods review, batch_34</title><style>
+:root{
+--primary:#533afd; --primary-deep:#4434d4; --primary-press:#2e2b8c;
+--primary-soft:#665efd; --primary-subdued:#b9b9f9; --brand-dark-900:#1c1e54;
+--canvas:#ffffff; --canvas-soft:#f6f9fc; --canvas-cream:#f5e9d4;
+--hairline:#e3e8ee; --hairline-input:#a8c3de;
+--ink:#0d253d; --ink-secondary:#273951; --ink-mute:#64748d; --on-primary:#ffffff;
+--r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-pill:9999px;
+--sh1:rgba(0,55,112,.08) 0 1px 3px;
+--sh2:rgba(0,55,112,.08) 0 8px 24px, rgba(0,55,112,.04) 0 2px 6px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);
+font-family:Inter,"SF Pro Display",system-ui,-apple-system,"Segoe UI",sans-serif;
+font-weight:300;font-size:15px;line-height:1.4;
+font-feature-settings:"ss01";-webkit-font-smoothing:antialiased}
+.mesh{position:absolute;inset:0 0 auto;height:280px;z-index:0;pointer-events:none;
+background:
+ radial-gradient(60% 120% at 8% 40%, #f5e9d4 0%, rgba(245,233,212,0) 60%),
+ radial-gradient(50% 120% at 30% 30%, #ffd9b0 0%, rgba(255,217,176,0) 62%),
+ radial-gradient(55% 130% at 55% 45%, #cdc4fb 0%, rgba(205,196,251,0) 62%),
+ radial-gradient(50% 120% at 76% 30%, #533afd 0%, rgba(83,58,253,0) 60%),
+ radial-gradient(55% 120% at 96% 55%, #ea2261 0%, rgba(234,34,97,0) 62%);
+opacity:.30;filter:blur(18px)}
+.wrap{max-width:1200px;margin:0 auto;padding:40px 24px 104px;position:relative;z-index:1}
+h1{font-size:32px;font-weight:300;letter-spacing:-.64px;line-height:1.1;margin:0 0 6px}
+h2{font-size:10px;font-weight:400;letter-spacing:.1px;text-transform:uppercase;
+color:var(--ink-mute);margin:0}
+.sub{color:var(--ink-secondary);font-size:15px;margin:0 0 24px;max-width:62ch}
+.card{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);
+padding:24px;margin-bottom:14px;box-shadow:var(--sh1)}
+.card.cream{background:var(--canvas-cream);border-color:transparent;box-shadow:none}
+.card h3{font-size:18px;font-weight:300;letter-spacing:0;margin:0 0 10px}
+.note{color:var(--ink-secondary);font-size:15px}
+.note b{font-weight:400}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.num{font-feature-settings:"tnum","ss01";letter-spacing:-.42px}
+.pill{display:inline-block;background:var(--primary-subdued);color:var(--primary-deep);
+font-size:10px;font-weight:400;letter-spacing:.1px;text-transform:uppercase;
+padding:4px 8px;border-radius:var(--r-pill)}
+.paper-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+flex-wrap:wrap;margin-bottom:4px}
+.split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;
+align-items:start}
+/* clears the sticky action bar, which is about 60px tall */
+.col-text{position:sticky;top:80px}
+@media (max-width:1023px){.split{grid-template-columns:1fr}.col-text{position:static}}
+.methods{background:var(--canvas-soft);border:1px solid var(--hairline);
+border-radius:var(--r-md);padding:18px 20px;min-height:320px;
+overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.7;
+color:var(--ink-secondary);margin:10px 0 0;user-select:text;cursor:text;
+height:calc(100vh - 296px)}
+@media (max-width:1023px){.methods{height:46vh}}
+.methods mark{background:var(--canvas-cream);color:inherit;border-radius:var(--r-xs);
+padding:1px 0}
+.methods mark.cur{background:var(--primary-subdued)}
+.methods ::selection{background:var(--primary-soft);color:#fff}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;
+font-size:13px;color:var(--ink-mute);letter-spacing:-.39px}
+.tools .aid{margin-left:auto;font-size:11px;font-weight:300}
+button{font-family:inherit;font-size:14px;font-weight:400;line-height:1;
+padding:8px 16px;border-radius:var(--r-pill);border:1px solid var(--primary);
+background:var(--primary);color:var(--on-primary);cursor:pointer}
+button:hover{background:var(--primary-deep);border-color:var(--primary-deep)}
+button:active{background:var(--primary-press);border-color:var(--primary-press)}
+button.sec{background:var(--canvas);color:var(--primary);border-color:var(--primary)}
+button.sec:hover{background:var(--canvas-soft)}
+button.quiet{background:transparent;color:var(--ink-mute);border-color:var(--hairline)}
+button.quiet:hover{background:var(--canvas-soft);color:var(--ink)}
+button:disabled{opacity:.4;cursor:not-allowed}
+input[type=text]{width:100%;background:var(--canvas);color:var(--ink);
+font-family:inherit;font-size:15px;font-weight:300;padding:8px 12px;
+border-radius:var(--r-sm);border:1px solid var(--hairline-input)}
+input[type=text]:focus{outline:none;border-color:var(--primary)}
+.q{border:1px solid var(--hairline);border-radius:var(--r-lg);padding:18px 20px;
+margin-bottom:10px;background:var(--canvas)}
+.q.active{border-color:var(--primary);box-shadow:var(--sh1)}
+.q.done{padding:12px 16px;background:var(--canvas-soft);box-shadow:none}
+.q.done .qdef,.q.done .qhow,.q.done .acts,.q.done .grab{display:none}
+.q.done .qname{cursor:pointer;margin:0}
+.qname{display:flex;justify-content:space-between;gap:12px;align-items:baseline;
+font-size:18px;font-weight:300;letter-spacing:0;margin-bottom:6px}
+.q.done .qname{font-size:15px;color:var(--ink-secondary)}
+.qname .ans{font-size:13px;color:var(--ink-mute);letter-spacing:-.39px;
+white-space:nowrap;max-width:52%;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.qdef{color:var(--ink-secondary);font-size:15px;margin-bottom:10px}
+.qhow{background:var(--canvas-soft);border-radius:var(--r-md);padding:10px 12px;
+font-size:13px;color:var(--ink-secondary);letter-spacing:-.39px;margin-bottom:12px}
+.qhow b{font-weight:400;color:var(--ink)}
+.qhow .eg{display:block;margin-top:5px;color:var(--ink-mute)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.grab{margin-top:11px;display:none}
+.grab.on{display:block}
+.grab .cap{font-size:10px;text-transform:uppercase;letter-spacing:.1px;
+color:var(--ink-mute);margin-bottom:5px}
+.grab blockquote{margin:0;background:var(--canvas-cream);border-radius:var(--r-md);
+padding:10px 12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+font-size:13px;color:var(--ink);line-height:1.6}
+/* one row per marked span; an antibody table can produce eight */
+.spans{list-style:decimal;margin:0;padding:0 0 0 22px}
+.spans li{background:var(--canvas-cream);border-radius:var(--r-md);
+padding:7px 10px;margin-bottom:5px;display:flex;gap:10px;align-items:baseline;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+color:var(--ink);line-height:1.55}
+.spans li span{flex:1;overflow-wrap:anywhere}
+.spans li .x{padding:2px 9px;font-size:11px;flex:none;font-family:inherit}
+.morewrap{display:none;align-items:center;gap:8px;margin-top:8px;
+font-size:13px;color:var(--ink-secondary);letter-spacing:-.39px;cursor:pointer}
+.morewrap.on{display:flex}
+.morewrap input{accent-color:var(--primary);width:16px;height:16px;cursor:pointer}
+.q.done .spans li .x{display:none}
+/* Action bar pinned to the TOP. Submit lives here rather than at the foot of a
+   30-minute page, so it is reachable without scrolling once a batch is finished. */
+.bar{position:sticky;top:0;z-index:6;background:var(--canvas);
+border-bottom:1px solid var(--hairline);box-shadow:var(--sh1);
+margin:0 -24px 20px;padding:12px 24px;
+display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.bar .grow{flex:1 1 220px;min-width:140px}
+.prog{height:4px;border-radius:var(--r-pill);background:var(--hairline);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--primary);width:0;transition:width .2s}
+.count{font-size:14px;color:var(--ink-secondary);font-feature-settings:"tnum";
+letter-spacing:-.42px;white-space:nowrap}
+.status{font-size:13px;color:var(--ink-mute);letter-spacing:-.39px;flex-basis:100%}
+.status b{color:var(--ink);font-weight:400}
+.hint{position:fixed;z-index:12;background:var(--brand-dark-900);color:#fff;
+font-size:13px;padding:8px 14px;border-radius:var(--r-pill);box-shadow:var(--sh2);
+left:50%;transform:translateX(-50%);bottom:28px;
+pointer-events:none;opacity:0;transition:opacity .15s}
+.hint.on{opacity:1}
+
+/* Guide. The rules are needed on question 40 as much as on question 1, so they
+   live behind a button that is always in reach rather than scrolled past once. */
+.scrim{position:fixed;inset:0;z-index:10;background:rgba(13,37,61,.34);
+display:none}
+.scrim.on{display:block}
+.guide{position:fixed;top:0;right:0;bottom:0;z-index:11;width:min(560px,100%);
+background:var(--canvas);box-shadow:var(--sh2);overflow:auto;
+padding:28px 28px 64px;transform:translateX(100%);transition:transform .18s ease-out}
+.guide.on{transform:none}
+.guide h2{margin-bottom:14px}
+.guide h3{font-size:20px;font-weight:300;letter-spacing:-.2px;margin:26px 0 8px}
+.guide h3:first-of-type{margin-top:10px}
+.guide p{color:var(--ink-secondary);margin:0 0 10px}
+.guide .close{position:absolute;top:20px;right:24px}
+.guide table{border-collapse:collapse;width:100%;margin-top:6px}
+.guide td{border-bottom:1px solid var(--hairline);padding:8px 10px 8px 0;
+vertical-align:top;font-size:13px;color:var(--ink-secondary)}
+.guide td:first-child{color:var(--ink);white-space:nowrap;padding-right:16px}
+.guide blockquote{margin:8px 0 0;padding:10px 12px;background:var(--canvas-cream);
+border-radius:var(--r-md);font-size:13px;color:var(--ink)}
+</style></head><body><div class='mesh'></div><div class='wrap'><div class='bar'><span class='count' id='count'>0 answered</span><span class='grow'><span class='prog'><i id='bar'></i></span></span><button type='button' class='quiet' onclick='guide(true)'>Guide</button><button class='sec' onclick='download()'>Download CSV</button><button id='send' onclick='send()' disabled>Submit</button><span class='status' id='status'></span></div><h1>Western blot methods review</h1><p class='sub'><span class='num'>6</span> papers, <span class='num'>29</span> questions, about <span class='num'>30</span> minutes. For each paper you read one Methods section, then say whether that text states each of a short list of details. You never type a value: you select the words in the text. Press <b>Guide</b> at any point for the rules.</p><div class='card'><h2>Your name or initials</h2><p class='note' style='margin:6px 0 10px'>Only used to tell reviewers apart when two people code the same batch.</p><input type='text' id='rev' placeholder='for example BH' autocomplete='off'></div><div class='card cream'><h3>The three answers</h3><div class='note'><b>Select the words in the Methods text, then press Use highlighted text.</b> The exact words you selected are what gets recorded. If the paper gives several, mark each one and they stack up in a list; press <b>Done, next</b> when the list is complete.<br><b>Not stated.</b> The Methods text does not give this detail.<br><b>Unclear.</b> You cannot tell either way. These are set aside rather than counted, so it is a safe answer when you are stuck.<br><br>Every question carries its own <b>What to mark</b> rule with a worked example. Follow it rather than your instinct: consistency between reviewers matters more here than any single choice. Full rules under <b>Guide</b>.</div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>1</span> of <span class='num'>6</span></h2><span class='pill'>PMC4885800</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Oncogene · <span class='num'>2015</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC4885800'>
+Identification of interaction interfaces for mapping and structural characterization of 
+mutations
+Structures of RhoA protein and its complexes were retrieved from the PDB. Per-residue 
+contact strengths of RhoA with each of the available co-crystallized binding partners were 
+measured as described in (41, 42) for residue side-chains only and averaged over multiple 
+structures of homologous complexes. Based on this analysis, residues were classified as a 
+part of GAP interface, GEF interface, or nucleotide binding pocket. Conformational 
+switches I and II were found to be extensively involved in binding of both GAPs and GEFs. 
+The analysis for Gα13 was conducted similarly; however, because there are no structures of 
+trimeric α/β/γ complexes for Gα13 and because the N-terminal helix is absent from all 
+available structures, this part of the protein was modeled and Gβ/γ interface was mapped by 
+homology with bovine Gαt (transducin, PDB 1got), rat Gαi1 (PDB 1gp2), and mouse Gαq 
+(PDB 3ah8).
+DNA constructs and site directed mutagenesis
+MSCV puro IRES GFP (PIG) and pBABE puro retroviral vectors were obtained from 
+Addgene (43, 44). The SyR-Gi plasmid (also known as Gi-DREADD) was originally 
+provided by Dr. Bryan Roth and was subcloned into the pBABE retroviral vector. Gα13 and 
+N-terminally tagged AU5-RhoA were cloned into our in house pCEFL vector and mutations 
+as indicated were prepared by site directed mutagenesis using the QuikChange Lightning Kit 
+(Agilent, Santa Clara, CA). Gα13-i5 chimeras were prepared by PCR substitution of the last 
+5 amino acids of Gα13 with the Gαi1 sequence including a C-I mutation to make the 
+O’Hayre et al.
+Page 8
+Oncogene. Author manuscript; available in PMC 2016 August 10.
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Author Manuscript
+ plasmid pertussis toxin insensitive (the last 5 amino acids were as follows: DIGLF). 
+Sequences were confirmed by DNA sequence analysis (NIDCR shared resource facility). A 
+plasmid for alkaline phosphatase-fused transforming growth factor-α (AP-TGFα) (45) was 
+kindly provided by Prof. Shigeki Higashiyama, Ehime University, Japan. A human 
+dopamine D2 receptor (D2R, long isoform) was inserted into the pCAGGS expression 
+plasmid as previously described (27).
+Genomic DNA isolation and sequencing
+Raji cells were obtained from ATCC (ATCC CCL-86). Genomic DNA was isolated from 
+5×106 Raji cells using the QiaAmp DNA isolation kit (Qiagen) and PCR was performed on 
+the genomic DNA in the region surrounding the 184 amino acid position using AccuPrime 
+Pfx Supermix (Life Technologies, Grand Island, NY). PCR primer details are included in 
+supplemental information.
+Retrovirus production and infection
+Retrovirus from MSCV PIG empty vector and expressing Gα13 WT was produced by 
+transfection of HEK293t/17 cells in a poly-lysine coated 6-well plate with 1 ug of MSCV 
+plasmid DNA, 0.67 μg of gag/pol and 0.33 μg of VSV-G using Turbofect transfection 
+reagent (Life Technologies). Virus for pBABE SyR-Gi was similarly prepared by 
+transfecting 1 μg of pBABE SyR-Gi, 0.67 μg of gag/pol and 0.33 μg of VSV-G. Viral 
+supernatants were collected at 48 h and 72 h post-transfection and filtered with 0.45 μm 
+PVDF-filters onto target cells. For HEK293 cells transduced with pBABE SyR-Gi, 6 μg/ml 
+of polybrene was added with the viral supernatants; cells were then selected with 1 μg/ml 
+puromycin (Life Technologies) to generate a stable line. For transduction of Raji cells with 
+MSCV virus, Raji cells were seeded onto retronectin-coated plates (Takara, Madison, WI) 
+and centrifuged with viral supernatants at 2000 rpm for 2 hr and then incubated overnight at 
+37°C/5% CO2. MSCV-transduced Raji cells were allowed to recover before FACS sorting 
+for GFP expression using a BD FACSAria III Cell Sorter (NIDCR Shared Resource 
+Facility). Raji cells were cultured in RPMI media (Sigma, St. Louis, MO) supplemented 
+with 10% FBS.
+SRF-RE luciferase assay
+A serum response factor response element (SRF-RE) luciferase assay was performed by 
+seeding HEK293 cells in a poly-lysine coated 24-well plate and culturing in DMEM 
+supplemented with 10% FBS for 24 h. Cells were then co-transfected with 100 ng Gα13 
+plasmid DNA or control, 50 ng pSRF-RE-firefly luciferase reporter DNA, and 20 ng pRL-
+renilla luciferase using lipofectamine 2000 (Life Technologies) transfection reagent. For 
+stimulated SRF response, HEK293 cells stably transduced with SyR-Gi were similarly 
+transfected. The day after transfection, cells were serum starved overnight in the presence of 
+50 ng/ml pertussis toxin (List Biological Laboratories, Campbell, CA) and then stimulated 
+for 6 h with CNO prior to harvesting the cells. For all SRF-luciferase assays, cells were 
+lysed and luciferase activity was determined using Dual-Glo Luciferase Assay Kit 
+(Promega, Madison, WI). Chemiluminescence was measured using a BioTek Synergy Neo 
+plate reader and the SRF-RE activation was calculated as the ratio of firefly to renilla 
+O’Hayre et al.
+Page 9
+Oncogene. Author manuscript; available in PMC 2016 August 10.
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Author Manuscript
+ luciferase levels. The assays were performed three times in duplicates and results are 
+presented as the mean +/- standard deviation.
+Rho-GTP pull down assay and western blot
+Antibodies to RhoA (catalog # 2117), pAkt (Ser473) (catalog #4060), Akt (catalog #9272), 
+and α-tubulin (catalog #3873) were obtained from Cell Signaling Technology. Gα13 
+antibody was obtained from Santa Cruz (catalog # sc-26788). Cells for western blot lysates 
+were lysed on ice in RIPA buffer (Sigma) containing protease and phosphatase inhibitors 
+(Thermo Scientific, Pittsburgh PA) and clarified by centrifugation at 13,000 rpm for 10 min 
+at 4°C. The relative Gα13 protein expression levels were quantified by densitometry using 
+ImageJ and normalized to α-tubulin; data represents an average of three independent 
+western blots (mean +/- standard deviation). GST-tagged Rhotekin RBD beads were 
+purchased from Millipore for pull down assays to detect active RhoA. HEK293 cells were 
+seeded in 6 cm plates and transfected with lipofectamine 2000 for 48 h with 4 μg of plasmid 
+DNAs. Cells were serum starved overnight and harvested for pull downs with 350 μl of 
+recommended lysis buffer. Lysates were clarified and 50 μl of lysate was saved for input and 
+the remaining lysate was rotated in tubes with the GST-tagged Rhotekin RBD beads. A three 
+minute thrombin (Sigma) stimulation (1 U/mL) was used as a positive control. Lysates were 
+resolved on SDS-PAGE gels, transferred onto PVDF membranes (Millipore, Billerica, MA), 
+probed with appropriate antibodies and developed with ECL and film (GE healthcare, 
+Piscataway, NJ) or scanned on an Odyssey imager.
+Tumor xenograft model and Tissue Analysis
+Ten-week old female NOD-scid IL2Rgammanull (NOD.Cg-Prkdcscid Il2rgtm1Wjl/SzJ) mice 
+were obtained from the Jackson Laboratory and randomly assigned for injection with tumor 
+cells. Raji cells transduced with MSCV PIG control or MSCV PIG Gα13 WT were 
+resuspended in phosphate buffered saline (PBS) and 5×106 cells in a 200 μl volume were 
+injected into the right and left flanks of five mice for each group (ten tumors in total for each 
+group. One injection was excluded from the Raji control group due to an injection error). 
+Tumors were monitored two to three times a week and mice were sacrificed all together 
+once the largest tumors reached approximately 1 cm3 volume. Tumor measurements were 
+performed by a blinded individual and the measurements were recorded by an un-blinded 
+person. An initial pilot study was performed with 4 tumors in each group, which was used to 
+determine the appropriate sample size. This study was then expanded and repeated two more 
+times; data trends were the same in all three experiments. Necropsies were performed and 
+tumors were weighed, measured and imaged and tumor sections were cut and fixed in z-fix 
+and embedded in paraffin for histology and immunohistochemistry (IHC) analysis as 
+previously described (46) and elaborated in supplemental information. Individual data points 
+are shown in the scatter dot plots to indicate variance in the data and indicates the mean +/- 
+standard error of the mean. These animal studies were carried out according to National 
+Institutes of Health (NIH) approved protocols (ASP # 13-695) in compliance with the NIH 
+Guide for the Care and Use of Laboratory Mice.
+O’Hayre et al.
+Page 10
+Oncogene. Author manuscript; available in PMC 2016 August 10.
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Author Manuscript
+ TGFα shedding assay
+TGFα shedding assay was performed as described previously (27) and as detailed in 
+supplemental information. Briefly, HEK293A cells were seeded in 12-well plates and 
+transfected using lipofectamine 2000 (Life Technologies) with a combination of the 
+following plasmids: AP-TGFα-encoding plasmid, a GPCR-encoding plasmid and a Gα-
+encoding plasmid. After 24 h, cells were harvested with a trypsin-EDTA solution, washed 
+with D-PBS, suspended in Hank’s balanced salt solution containing 5 mM HEPES (pH 7.4), 
+and seeded in a 96-well plate and incubated for 30 min. The seeded cells were treated with 
+various concentrations of a GPCR ligand (10 μl per well) and incubated for 1 h. Conditioned 
+media (CM, 80 μl/well) was transferred into a blank 96-well plate. Alkaline phosphatase 
+(AP) solution was added to both the CM plate and the cell plate (80 μl/well). Absorbance at 
+405 nm of the two plates was measured before and after 1 h incubation at room temperature, 
+using a SpectraMax 340PC384 microplate reader (Molecular Devices, Sunnyvale, CA). 
+TGFα shedding data are shown as the mean +/- standard deviation.
+Spontaneous activity of Gα13 was measured by a previously described method with a slight 
+modification (47). Briefly, HEK293A cells were seeded in 96-well plates in Opti-MEM (80 
+μl/well), transfected with lipofectamine 2000 reagent (0.1 μl/well), the AP-TGFα-encoding 
+plasmids (20 ng/well), Gα13-encoding plasmid (5 to 20 ng/well) and the pCEFL vector 
+plasmid, which was used to adjust total volume of transfected plasmid. After adding the 
+transfection solution, the cells were incubated for 24 h and then AP-TGFα release was 
+measured as described above.
+Actin stress fiber formation and confocal imaging
+Madin-Darby Canine Kidney (MDCK) cells were seeded onto poly-lysine coated glass cover 
+slips (Fisher) in a 6-well plate and transfected with 1 ug LifeActin GFP and 1 ug of pCEFL 
+RhoA plasmid or vector control using lipofectamine 2000. Cells for immunofluorescence 
+(IF) imaging were washed with PBS and fixed with 2% formaldehyde - PBS solution for 12 
+min at room temperature. Fixed cells were washed twice with PBS and then mounted onto 
+glass slides (Thermo Scientific/Fisher) with Fluorosave (Millipore/Calbiochem) mounting 
+solution. Confocal images were collected on a Zeiss LSM-700 laser scanning microscope 
+with a 40× oil immersion lens using 488 nm excitation for the LifeActin GFP.
+Methocellulose clonogenic assay
+MethocultTM (H4434) was purchased from Stem Cell Technologies and a clonogenic assay 
+was performed by seeding 2000 Raji cells in 1 mL of MethocultTM in triplicate in a 6 well 
+plate. Colonies were allowed to grow for 14 days and then number of colonies per well and 
+morphology of the colonies were analyzed. Results are shown as the mean +/- standard 
+deviation. Statistics were calculated using GraphPad Prism 6 using a paired t-test.
+Supplementary Material
+Refer to Web version on PubMed Central for supplementary material.
+O’Hayre et al.
+Page 11
+Oncogene. Author manuscript; available in PMC 2016 August 10.
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Author Manuscript
+ </div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC4885800' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC4885800|membrane_pore_um' data-pmcid='PMC4885800' data-item='membrane_pore_um'><div class='qname'><span>Membrane pore size</span><span class='ans'></span></div><div class='qdef'>A membrane pore size in micrometres.</div><div class='qhow'><b>What to mark.</b> Mark the number and its unit.<span class='eg'>In <i>a 0.45 um PVDF membrane</i> mark <b>0.45 um</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|imager_instrument' data-pmcid='PMC4885800' data-item='imager_instrument'><div class='qname'><span>Imager instrument</span><span class='ans'></span></div><div class='qdef'>The imaging hardware, including X-ray film where film was used.</div><div class='qhow'><b>What to mark.</b> Mark the instrument name only. Leave out the manufacturer.<span class='eg'>In <i>imaged on a ChemiDoc MP (Bio-Rad)</i> mark <b>ChemiDoc MP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|quantification_software' data-pmcid='PMC4885800' data-item='quantification_software'><div class='qname'><span>Quantification software, named</span><span class='ans'></span></div><div class='qdef'>A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark the package name only. Leave out the version and the supplier.<span class='eg'>In <i>quantified in ImageJ (v1.53, NIH)</i> mark <b>ImageJ</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|ab_catalog_any' data-pmcid='PMC4885800' data-item='ab_catalog_any'><div class='qname'><span>Antibody catalogue number</span><span class='ans'></span></div><div class='qdef'>A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block.<span class='eg'>In <i>(Abcam, ab1234)</i> mark <b>ab1234</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|secondary_ab_conjugate' data-pmcid='PMC4885800' data-item='secondary_ab_conjugate'><div class='qname'><span>Secondary antibody conjugate</span><span class='ans'></span></div><div class='qdef'>What the secondary antibody is conjugated to.</div><div class='qhow'><b>What to mark.</b> Mark each distinct conjugate once.<span class='eg'>In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|lysis_buffer' data-pmcid='PMC4885800' data-item='lysis_buffer'><div class='qname'><span>Lysis buffer</span><span class='ans'></span></div><div class='qdef'>The lysis or extraction buffer, either named or given as a recipe.</div><div class='qhow'><b>What to mark.</b> Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors.<span class='eg'>In <i>isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor was added into the RIPA</i> mark just <b>RIPA</b>, the first time it appears.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|reducing_denaturing' data-pmcid='PMC4885800' data-item='reducing_denaturing'><div class='qname'><span>Reducing or denaturing conditions</span><span class='ans'></span></div><div class='qdef'>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.</div><div class='qhow'><b>What to mark.</b> Mark the phrase or the reagent that states it.<span class='eg'>In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|detection_chemistry' data-pmcid='PMC4885800' data-item='detection_chemistry'><div class='qname'><span>Detection chemistry</span><span class='ans'></span></div><div class='qdef'>How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.</div><div class='qhow'><b>What to mark.</b> Mark the words naming the detection method.<span class='eg'>In <i>visualised by enhanced chemiluminescence</i> mark <b>enhanced chemiluminescence</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|membrane_type' data-pmcid='PMC4885800' data-item='membrane_type'><div class='qname'><span>Membrane type</span><span class='ans'></span></div><div class='qdef'>PVDF or nitrocellulose, or another named membrane chemistry.</div><div class='qhow'><b>What to mark.</b> Mark the membrane name only.<span class='eg'>In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|loading_control_identity' data-pmcid='PMC4885800' data-item='loading_control_identity'><div class='qname'><span>Loading control, named</span><span class='ans'></span></div><div class='qdef'>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two.<span class='eg'>In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|protein_per_lane_ug' data-pmcid='PMC4885800' data-item='protein_per_lane_ug'><div class='qname'><span>Protein loaded per lane</span><span class='ans'></span></div><div class='qdef'>A mass of protein loaded per lane. A volume on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark the mass and its unit.<span class='eg'>In <i>30 ug of protein was loaded per lane</i> mark <b>30 ug</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC4885800|primary_ab_vendor' data-pmcid='PMC4885800' data-item='primary_ab_vendor'><div class='qname'><span>Primary antibody vendor</span><span class='ans'></span></div><div class='qdef'>The company that supplied a primary antibody.</div><div class='qhow'><b>What to mark.</b> Mark every distinct company name. Leave out the city and country. A table can be marked as one block.<span class='eg'>In <i>(Cell Signaling Technology, Danvers, MA)</i> mark <b>Cell Signaling Technology</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>2</span> of <span class='num'>6</span></h2><span class='pill'>PMC9742946</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Toxicology Reports · <span class='num'>2022</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC9742946'> 
+2.1. Chemicals 
+Glyphosate® (N-phosphomethy glycine isopropyl ammonium 48 % 
+(W/V) SL) was purchased from Thai Agriculture (Thailand) in com­
+mercial form. The glyphosate used in this study was used as a solution 
+because of its convenience. Other reagents for enzymatic activity and 
+AChE extraction from Nile tilapia were purchased from GE Healthcare 
+(Thailand). 
+The 
+reagents 
+used 
+for 
+sodium 
+dodecyl 
+sulfate- 
+polyacrylamide gel electrophoresis (SDS-PAGE), dot blot, and Western 
+blot (Bio-Rad (Thailand)); polyclonal antibody specific to AChE (PAb- 
+electric eel AChE, Raybiotech©) and Goat Anti-Rabbit Horseradish 
+Peroxidase conjugate (GAR-HRP, # ab 6741, Abcam Co. Ltd.); and all 
+other chemicals used were of analytical grade. 
+2.2. Animal husbandry 
+Adult Nile tilapia (Oreochromis niloticus) (116.88 ± 21.69 g, 22.39 ±
+1.40 cm, mean±SD) were used as the test organism and were obtained 
+from the Department of Fisheries, Faculty of Agriculture and Technol­
+ogy, Rajamangala University of Technology Isan, Surin Campus, Surin, 
+Thailand. They were raised in two flowing water tanks (500 L) at 12 ±
+1.4 ◦C, dissolved oxygen concentration at 7.45 ± 0.15 mg L-1, and pH 
+7.5 ± 0.3 for at least 2 weeks for acclimation to laboratory conditions. 
+Before the experiment, the weight and length of the fish (n = 10) were 
+measured for 3 replicates. All procedures were conducted in accordance 
+with the Faculty of Agriculture and Technology Animal Handling 
+Standards and were approved by the Committee for Biological Experi­
+mentation on Animals from the Department of Fisheries Science, Raja­
+mangala University of Technology Isan Surin Campus. The animal use 
+licence number is Ul-03405-2559. 
+2.3. Bioassays 
+Acute toxicity bioassays were conducted at 24, 48, 72, and 96 h to 
+determine the LC10, LC50, and LC90 values for the commercial formu­
+lation of glyphosate following the Organization for Economic Co- 
+operation and Development (OECD) guidelines for testing of chemicals 
+[7]. Three replicates of 10 fish specimens were exposed to four selected 
+glyphosate-based herbicide concentrations, i.e., 10, 20, 30, and 40 μL 
+L-1. Mock treatment without the test chemical was administered to the 
+control group. The experiment was conducted in a concrete pond (80 
+cm × 80 cm × 60 cm) containing 150 L of water. Behaviour and other 
+external changes in the fish were observed daily. The mortality of the 
+fish after glyphosate exposure was recorded from 24 to 96 h and ana­
+lysed using MATLAB (MATLAB 2010, © 1984-2009 The MathWorks, 
+Inc.). The LC50 values were determined with Probit analysis every 24 h. 
+2.4. Fish behaviour and morphology 
+A sublethal concentration of glyphosate was used to examine 
+behavioural responses according to OECD [6] guidelines in correlation 
+with the AChE expression in brain tissue. 
+2.5. Extraction of AChE and protein determination 
+The fish were anaesthetised with eugenol/ethanol 50 % (v/v) solu­
+tion, the caudal peduncle was cut, and the blood was collected from the 
+caudal vein. Blood samples were pooled for the AChE expression anal­
+ysis. Also, gill, liver, and muscle were excised, preserved in ice-cold 0.02 
+M phosphate buffer at pH 7.4 (containing 0.1 % Triton X-100, 0.05 M 
+NaCl), and then homogenised in an ice bath using an Ultra-Turrax 
+homogeniser. Tissue homogenate (0.4 g mL-1) was used for protein 
+extraction. Protein concentration levels in plasma, muscle, liver, and 
+gills were determined using the Bradford technique [8]. At a 1:100 
+dilution, the protein concentration was measured following the protocol 
+described by Thanomsit et al. [9]. 
+2.6. Sensitivity, specificity, and cross-reactivity of AChE analysed by dot 
+blot and Western blot techniques 
+The primary antibody, PAb-rabbit anti-fish AChE (PAb-electric eel 
+AChE, Raybiotech©), at a dilution of 1:200 was used for sensitivity and 
+cross-reactivity testing of AChE in Nile tilapia. Protein samples from the 
+brains of Nile tilapia were diluted with Phosphate-buffered Saline (PBS) 
+to final concentrations of 10, 5, 2.5, 1.25, 0.65, 0.31, 0.15, 0.08, 0.04, 
+and 0.02 μg μL-1. The method described by Thanomsit et al. [9] was 
+followed to spot and dry 1 μL of each sample. 
+The specificity and cross-reactivity of AChE were investigated using 
+the PAb-electric eel AChE. Proteins of interest extracted from Nile tilapia 
+were separated using 10 % SDS-PAGE, then blotted with Trans-Blot® SD 
+Semi-Dry Transfer Cell (Bio-Rad) according to Prasatkaew et al. [10]. 
+2.7. Enzyme activity 
+Enzyme activities were tested in triplicate using the colorimetric 
+method. Liver, muscle, and gill tissues were prepared and homogenised 
+in Tris-HCl buffer (0.02 M, pH 7.4) containing 0.1 % Triton X-100 and 
+0.05 M NaCl using a Potter-Elvejhem glass/Teflon homogeniser. All 
+tissue homogenates were centrifuged for 65 min at 3,500 g at 5 ◦C, and 
+the enzyme activity of AChE from the supernatant was measured as 
+described by Tham et al. [11]. In contrast, the plasma was centrifuged 
+for 5 min at 3,500 g at 5 ◦C. AChE activity was measured using a 
+colorimetric microplate reader. The specific activity was determined as 
+μmol hydrolysed per min mg-1 of protein or U mg-1 of protein and was 
+calculated based on an extinction coefficient of 13.6 mM/cm [12]. 
+2.8. Immunohistochemistry of Nile tilapia 
+For immunolocalization of AChE expression, 6 μm of gill tissue sec­
+tions were deparaffinized and probed with 1:200 PAb-electric eel AChE 
+at 37 ◦C for 3 h. After washing the excess PAb-electric eel AChE out with 
+PBS, the secondary antibody (goat anti-rabbit IgG, conjugated with 
+peroxidase; 1:1000 dilution) was applied, and the chromogenic sub­
+strate solution (0.03 % 3,3′-diaminobenzidine tetrahydrochloride, 0.06 
+% H2O2, and 0.05 % CoCl2 in 0.15 M PBS, pH 7.4) was added. Next, the 
+gill tissue was stained with H&amp;E, paraffinized, and mounted with 
+Permount. 
+2.9. Statistical analysis 
+All parameters were analysed using descriptive statistics (mean and 
+standard deviation). Differences in enzyme activity in response to 
+exposure time and tissue type were investigated by analysis of variance 
+(ANOVA) and Tukey’s pairwise comparison using Minitab® 17 software 
+(entitlement i.d.: 2ec6-9b37-1508-0264-2c55-c33). Differences were 
+considered statistically significant at p &lt; 0.05. 
+2.10. Detection of AChE expression in field conditions using immunoassay 
+To study AChE expression in Nile tilapia under field conditions, fish 
+were collected from the Huai-Saneang Reservoir, Surin Province (Lati­
+tude: 14.8024507 and Longitude: 103.5294035) over two seasons: rainy 
+(wet) and summer (dry). The sampling stations in these fields cultivate 
+P. Nanthanawat et al. 
+ Toxicology Reports 9 (2022) 1548-1556
+1550
+crops twice yearly (usually alternating between rice and other crop 
+species). In each season, five fish were collected (n = 5) and kept cool 
+during transport to the laboratory. The gills were dissected and 
+collected. Protein was extracted, and its concentration was measured 
+before use in Western blot, dot blot, and immunohistochemistry as per 
+the laboratory study. 
+3. Results 
+3.1. Toxicity testing and morphological studies 
+After Nile tilapia exposure to dissolved glyphosate at different con­
+centrations of 0, 10, 20, 30, and 40 μL L-1, the morphological changes 
+and cumulative mortality were examined at 24, 48, 72, and 96 h. 
+Morphological changes included the loss of some scales, dark-coloured 
+scales, torn tails and fins, and increased skin mucus. When the opercu­
+lum was opened, bleeding was observed in the gills. At 72 and 96 h, we 
+found that the fish began to move to the upper surface of the pond more 
+than the control fish or those from earlier time points did. Gill area 
+impairment was found, which was more abnormal than before, and it 
+had started to tear. The gill teeth were also disordered (data not shown). 
+Cumulative mortality increased with exposure time and glyphosate 
+concentration, as shown in Fig. 1. 
+Minitab software was used to evaluate the LC50 values using probit 
+analysis. Each sample group contained 10 Nile tilapia, and each treat­
+ment was performed in triplicate. The LC50 values at 24, 48, 72, and 96 h 
+were 66.5614 (61.4033-73.2088), 56.7568 (53.1164-61.2718), 
+48.6190 (46.0765-51.6533), and 40.0988 (38.5289-41.8802) μL L-1, 
+respectively. 
+To study the AChE expression after exposure to sub-lethal concen­
+trations of glyphosate, a glyphosate concentration of 2 μL L-1 was 
+selected for the toxicity test. The effects of glyphosate on Nile tilapia 
+were evaluated at 0, 3, 6, 12, and 24 h after exposure to sub-lethal 
+concentrations. They were separated into five phases: swimming, loss 
+of equilibrium, respiratory function, pigmentation, and other clinical 
+signs, which were referenced from the OECD [7]. Acute changes in 
+swimming behaviour were observed after 3 h of exposure. We observed 
+tumbling and hyperexcitability and an increased tendency to surface, 
+surrounding swimming at 6-12 h. Fish were later lethargic and ceased 
+swimming at 12-24 h. 
+Abnormal movement in fish with an off-balance after glyphosate 
+exposure was observed compared with that of the control. At 3 h after 
+exposure, the fish began tumbling, with partial balance loss. Fish 
+behaviour changes increased with increasing exposure time and reached 
+a steady state at 12 h exposure time. In addition, rapid respiration, 
+including hyperventilation, was observed, with skin hyperpigmentation 
+Fig. 1. Morphological changes and cumulative mortality percentage of Nile tilapia exposed to glyphosate. The red circles indicate changes in the external char­
+acteristics of the glyphosate-exposed Nile tilapia compared to that of the control group. 
+Table 1 
+Effects of sublethal concentration exposure (0-24 h) of glyphosate on Nile 
+tilapia. 
+Sublethal 
+concentration 
+effects 
+Type of classified 
+Observation time (h) (n = 3) 
+0 
+3 
+6 
+12 
+24 
+Swimming 
+- Tumbling 
+- 
+++
+- 
+- 
+- 
+- Hyperexcitability 
+- 
+++
++++
++
+- 
+- Surfacing 
+- 
+- 
++
+++
+- 
+- Sounding 
+- 
+- 
+++
+++
+- 
+- Bractic swimming 
+- 
+- 
++
+++
+- 
+- Apathy, Lethargy, 
+weakness 
+- 
+- 
+- 
++
+++
+- Immobility, Ceased 
+swimming 
+- 
+- 
+- 
+- 
++
+Loss of equilibrium 
+- Tumbling 
+- 
+++
+- 
+- 
+- 
+- Partial loss of 
+balance 
+- 
+- 
+++
+++
++++
+Respiratory 
+function 
+- Rapid respiration 
+- 
+- 
+- 
+++
+- 
+- Hyperventilation 
+- 
+- 
+- 
++
+++
+Pigmentation 
+Discolouration 
+- 
+- 
+- 
++
++
+Other clinical signs 
+Mucus secretion 
+- 
+- 
+- 
++
+++
+Remark: 0 Not observed, + low expression, ++ medium expression, +++ high 
+expression 
+P. Nanthanawat et al. 
+ Toxicology Reports 9 (2022) 1548-1556
+1551
+and increased mucous secretion (Table 1). 
+3.2. Cross-reactivity of PAb-electric eel AChE 
+A cross-reactivity test was performed to verify that commercial PAb- 
+electric eel AChE (Bio-Rad; # 0200-0042) was appropriately used. In 
+this study, the cross-reactivity test was performed by dot blot (Fig. 2-A) 
+and Western blot (Fig. 2-B and 2-C) in Nile tilapia, according to Tha­
+nomsit et al. [9]. AChE was collected from the brains of the fish. The 
+purified protein was confirmed to be AChE using column chromatog­
+raphy. Purified AChE was detected in the hybrid catfish brain with 
+cross-reaction of PAb-electric eel AChE indicated by an AChE band at a 
+molecular weight of 71 kDa (protein content of 8 μg μL-1). However, 
+the drawback of the AChE purification process is that it is complicated 
+and time-consuming. Thus, crude protein extracted from the brains of 
+Nile tilapia was investigated. The protein patterns from the brain tissue 
+showed different protein types. Proteins were separated by SDS-PAGE, 
+blotted, and stained with PAb-electric eel AChE. It was found that 
+PAb-electric eel AChE was specifically bound to AChE in Nile tilapia, 
+and the immunoreactive protein bound was at 71 kDa of molecular 
+weight. The results suggest that a higher amount of protein was required 
+(10 μg μL-1), and this crude protein was subsequently used to detect 
+AChE expression in the fish brain (Fig. 2-C). 
+3.3. Enzyme assays 
+After crude protein extraction from each organ was determined, 
+enzyme activity was measured to assess AChE expression. We found that 
+AChE activity was affected by organ type and glyphosate exposure time 
+(p &lt; 0.05). Enzyme activities in each studied organ were significantly 
+different (p &lt; 0.05), with the highest enzyme activity found in plasma at 
+94.27 ± 1.20 μmol min-1 mg-1 protein. 
+For 
+muscle, 
+the 
+highest 
+enzyme 
+activity 
+was 
+90.15 
+± 0.32 μmol min-1 mg-1 protein at 72 h, significantly different from all 
+other exposure times (p &lt; 0.05). There was no significant difference in 
+the enzyme activity in the gills among the different exposure times. 
+However, activity increased slightly with longer exposure times. 
+Enzyme activity was 87.50 ± 0.87-91.15 ± 1.46 μmol min-1 mg-1 
+protein. 
+In the liver, enzyme activity was dramatically affected by exposure 
+time. The lowest activity found was 19.73 ± 6.20 μmol min-1 mg-1, 
+significantly different from other exposure times (p &lt; 0.05). However, 
+the enzyme activities at 24 and 48 h after exposure were not signifi­
+cantly different, at 92.19 ± 2.88 and 84.52 ± 5.91 μmol min-1⋅mg-1 
+protein, respectively (Fig. 3). 
+3.4. Development of antibody technique to evaluate AChE expression 
+After the enzyme activities in plasma, muscle, liver, and gill were 
+studied, the cross-reactivity of PAb-electric eel AChE in plasma, muscle, 
+liver, and gill of Nile tilapia exposed to glyphosate at sub-lethal con­
+centrations was studied by Western blot to determine AChE specificity. 
+A positive cross-reaction was presented as a brown immunoreactive 
+protein band with a molecular weight of 71 kDa. Dot blot using PAb- 
+electric eel AChE at a dilution of 1:200 and incubation for 12 h with 
+crude protein extracted from plasma, gill, muscle, and liver could detect 
+AChE expression over a range of antigen concentration levels: 10, 5, 2.5, 
+1.25 0.65, 0.31, 0.15, 0.08, 0.04, and. 
+0.02 μg μL-1. Detection limits were 0.04 μg μL-1 in plasma, gill, and 
+muscle and that in liver was 0.16 μg μL-1 (Fig. 4-A). 
+Proteins extracted from the plasma, muscle, liver, and gill of Nile 
+tilapia after glyphosate exposure for 24, 48, 72, and 96 h were investi­
+gated and compared with that in the control using SDS-PAGE. Proteins 
+extracted from the plasma, gill, muscle, and liver were 3.5, 10, 12, and 
+10 μg μL-1, respectively. After the protein was stained with Coomassie 
+brilliant blue, several protein bands were visible at various sizes, and 
+AChE bands were present at a molecular weight of 71 kDa. 
+AChE expression decreased with increasing glyphosate exposure 
+time (Fig. 4-1B to 4-1E). At 1:200 a dilution in Western blot and dot blot 
+analysis, AChE clearly showed immunoreactive bands at a molecular 
+weight of 71 kDa (Figs. 4-2B to 2E) that were consistent across the 
+plasma, gill, muscle, and liver. Therefore, plasma, gill, muscle, and liver 
+are viable alternative tissues for monitoring AChE expression by im­
+munoassays under field conditions. We suggest that gills, having the 
+benefits of easy extraction and sample preparation and no fat interfer­
+ence, are ideal for identifying protein patterns because they have a sharp 
+and visible protein band by SDS-PAGE (Figs. 4-1D). 
+Immunohistochemistry was used to evaluate the gills of Nile tilapia 
+exposed to glyphosate compared with that of the control group. At 
+sublethal concentrations, AChE expression was observed in the gill tis­
+sue at all exposure times. In addition, the gill tissue was swollen with 
+increased secretion, causing the accumulation of blood cells. This 
+Fig. 2. Dot blot, 10 % SDS-PAGE, and Western blot analyses using commercial 
+PAb-electric eel AChE (1:200) on Nile tilapia to evaluate the cross-reactivity. 
+Dilution of PAb-electric eel AChE was 1:200, with 0.01-10 μg μL-1 of antigen 
+for dot blot and 8 μg μL-1 of antigen for Western blot. Dot blot shows the 
+detection limit of AChE expression in the brain (A). Western blot shows only 
+one band of purified AChE from the brain of Nile tilapia at the molecular weight 
+of 71 kDa, used as a positive control (B). SDS-PAGE of crude protein from the 
+fish brain was transferred to a nitrocellulose membrane (C). 
+Fig. 3. Specificity of AChE enzyme activities in the plasma, muscle, gill, and 
+liver of Nile tilapia. Results (mean±SD) are presented in absorbance units per 
+μmol min-1 mg-1 protein. * indicates statistical difference at p &lt; 0.05 
+compared within the same organ by analysis of variance (ANOVA) and Tukey’s 
+pairwise comparison with Minitab® 17 software. 
+P. Nanthanawat et al. 
+ Toxicology Reports 9 (2022) 1548-1556
+1552
+evidence indicated that the gill lamella and gill filaments were damaged 
+(Fig. 5). 
+3.5. Field study 
+Since AChE expression could be identified with dot blot, Western 
+blot, and immunohistochemistry in the laboratory, the detection of 
+AChE using antibody techniques under field conditions was investi­
+gated. We decided to use the gill as the tissue sample for field condition 
+analysis because of its ease of extraction and as it is the primary contact 
+tissue for aqueous contaminants. AChE expression and morphological 
+changes were analysed to monitor glyphosate contamination in the field 
+study. The study area was the Huai-Saneng Reservoir, Meuang District, 
+Surin Province, which is an agricultural area cultivated every season 
+throughout the year. Thus, AChE expression was examined in both wet 
+and dry seasons. AChE expression between the two seasons is shown in 
+Table 2 and Fig. 6. The degree of difference for physiological changes, i. 
+e., gill tissues and AChE expression, was higher in the dry season than in 
+the wet season, as assessed by dot blot, western blot, and 
+immunohistochemistry. 
+4. Discussion 
+4.1. Bioassay and toxicity testing 
+Currently, many methods are available for evaluating glyphosate 
+contamination. In this study, we examined the toxicity levels of glyph­
+osate on Nile tilapia in the laboratory to identify various effects, 
+including toxicity levels that cause mortality and behavioural and 
+morphological alterations. The expression of AChE in various tissues, 
+especially the gills, was assessed using antibody techniques under lab­
+oratory and field conditions. 
+Ani et al. [12] suggested that glyphosate is an herbicide with low 
+toxicity formulated from iso-propylamine. Glyphosate can affect 
+Fig. 4. Evaluation of AChE in the plasma, muscle, gill, and liver of Nile tilapia exposed to glyphosate for 96 h compared to that in the control group. Cross-reactivity 
+of PAb-electric eel AchE in dot blot (A), 10 % SDS-PAGE stained with Coomassie Brilliant Blue R-250 (1B-4B), and the other parts of the gel were transferred to 
+nitrocellulose membrane for Western blot analysis. The molecular weight of AChE was 71 kDa (1-4C). MW; molecular weight protein marker. 
+P. Nanthanawat et al. 
+ Toxicology Reports 9 (2022) 1548-1556
+1553
+juvenile fish by causing mortality, behavioural alterations, loss of 
+equilibrium, air gulping, hyperactivity, decreased opercula movement, 
+erratic swimming, and jerky movements. All symptoms can lower the 
+survival rate of the exposed organisms. In this study, the cumulative 
+mortality rate of Nile tilapia increased with the exposure time. The LC50 
+mortality data differed from the results found in the study by Ani et al. 
+[13], who examined the acute toxicity of glyphosate on juveniles of 
+Clarias gariepinus. The acute toxicity bioassay was conducted to deter­
+mine LC50 values at 96 h following the probit analysis method. In 
+comparison, the safe level of the test pesticide was estimated by multi­
+plying the LC50 values at 96 h with different application factors. The 
+LC50 values (with 95 % confidence limits) at 24, 48, 72, and 96 h, 
+estimated by Probit analysis, were 34.72 (31.02-37.20), 31.90 
+(28.12-33.89), 27.40 (24.98-29.30), and 24.60 (21.95-26.54) mg L-1, 
+respectively. There were significant differences (p &lt; 0.05) in LC50 
+values obtained at different exposure times [13]. 
+Moreover, the toxicity results for Nile tilapia after exposure to 
+glyphosate were different from those of three sturgeon species (Huso 
+huso, Acipenser stellatus, and A. persicus) under laboratory conditions. 
+The results showed that increasing glyphosate exposure time, up to 
+168 h, led to a lower LC50 concentration of glyphosate for H. huso, 
+A. stellatus, and A. persicus at 26.4, 23.2, and 27.5 mg L-1, respectively 
+[14]. At 96 h post-exposure to at least 50 mg L-1 glyphosate, mortality 
+is observed in all the treatments. Clinical signs of the affected fish 
+included increased mucous secretion, dark skin, and gasp dead [15]. 
+Different glyphosate forms are used, including power and solution 
+forms, which could affect the onset of action and clinical signs differ­
+ently. However, our study used a solution form because it is commer­
+cially available in Thailand. All the evidence above shows differences in 
+the toxicity of glyphosate for different fish species and different glyph­
+osate forms used; however, they show a fairly consistent set of fish re­
+sponses and a trend of increased lethality with exposure time, which is 
+consistent with our findings. 
+4.2. Behaviour and morphology 
+Behavioural alterations in fish exposed to toxic herbicides have been 
+reported, 
+including 
+loss 
+of 
+schooling 
+behaviour, 
+surfacing, 
+Fig. 5. AChE immunolocalization using immunohistochemistry in the gill of Nile tilapia exposed to glyphosate for 24, 48, 72, and 96 h at a sub-lethal concen­
+tration (2 μL L-1). 
+Table 2 
+Morphological changes and AChE expression of gill in Nile tilapia from the Huai-Saneng Reservoir. 
+Season 
+Replicate 
+Morphology 
+AChE expression by Western blot 
+analysis 
+AChE by dot blot analysis (μg 
+μL-1) 
+Localisation of AChE by immuno- 
+histochemistry 
+Dry 
+season 
+1 
+Wound 
+71 kDa 
+0.63 
+++
+2 
+Discoloured and mucous secreting 
+- 
+- 
+++
+3 
+Wound, Discoloured and mucous 
+secreting 
+- 
+- 
++++
+4 
+Discoloured 
+71 kDa 
+0.125 
+++
+5 
+Wound, Discoloured and mucous 
+secreting 
+- 
+- 
+++
+Wet 
+season 
+1 
+Wound, Discoloured and mucous 
+secreting 
+71 kDa 
+0.04 μg μL-1 
+++
+2 
+Wound 
+71 kDa 
+0.04 μg μL-1 
++++
+3 
+Discoloured 
+71 kDa 
+0.04 μg μL-1 
+++
+4 
+Wound 
+71 kDa 
+0.04 μg μL-1 
+++
+5 
+Wound, discoloured and mucous 
+secreting 
+71 kDa 
+0.04 μg μL-1 
++++
+P. Nanthanawat et al. 
+ Toxicology Reports 9 (2022) 1548-1556
+1554
+hyperactivity, erratic swimming, seizures, loss of buoyancy, high cough, 
+mucus secretion in the gill, flaring of the gill arches, head shaking, and 
+restlessness before death [16]. Therefore, evidence of changes in fish 
+behaviour was examined to evaluate toxic substance exposure from 
+contamination in aquatic environments. Yang et al. [17] reported that 
+the last key parameter for assessing the effect of environmental stress is 
+behaviour responsiveness in certain organisms. 
+Behavioural and morphological changes included dark and fallen 
+scales, tail and fin damage, mucus soaking, and gill bleeding. At 72 h 
+and 96 h, fish moved to the pond surface owing to gill impairment, 
+consistent with the results of Thanomsit et al. [18], who reported the 
+effects of glyphosate on Asian sea bass (Lates calcarifer), which per­
+formed erratically swam, lacked balance, and had faded body and gill 
+colour. 
+In this study, the effects of exposure were measured according to the 
+following five categories: swimming, loss of equilibrium, respiratory 
+function, pigmentation, and other clinical signs. For acute toxicity, 
+changes in behaviour first presented as altered swimming after a 3 h 
+exposure time. At 6-12 h, tumbling and hyperexcitability with 
+surfacing, surrounding, and erratic swimming were observed. After 
+exposure for 12-24 h, the fish were lethargic, weak, and ceased swim­
+ming, in accordance with the findings of Ani [13]. A positive correlation 
+was found between fish mortality and both glyphosate concentration 
+and exposure time. 
+4.3. Enzyme activity and cross-reactivity of AChE in Laboratory 
+AChE is an important enzyme for controlling neuronal activity and is 
+sensitive to organophosphate inhibition. AChE from fish brains was less 
+sensitive to organophosphate inhibition than that from terrestrial ani­
+mals. Although this sensitivity is known to vary among species, it has not 
+been evaluated in fish [19]. Many forms of AChE molecules can anchor 
+to the membrane, ensuring the immobilisation necessary for the enzyme 
+activity found in synapses and the motor end-plate. AChE purification is 
+an essential step to prepare carefully; therefore, the non-specific binding 
+of esterase activity should affect false-positive result analysis [19]. 
+Modesto and Martinez [20] reported a significant decrease in AChE 
+enzyme activity at 96 h post-exposure to Round up® in the fish brain 
+(Prochilodus lineatus) and at 32 h post-exposure in fish muscle. There­
+fore, AChE activity was used to evaluate glyphosate exposure in this 
+Fig. 6. Immunolocalization of AChE expression in the gill of Nile tilapia from the Huai-Saneng Reservoir. The immunoreactivity in gill tissue sections shows a 
+brownish colour in each tissue section. 
+P. Nanthanawat et al. 
+ Toxicology Reports 9 (2022) 1548-1556
+1555
+study. The AChE activity in Nile tilapia significantly differed among the 
+tested organ types (p = 0.05). The highest AChE activity was found in 
+plasma at 94.27 ± 1.20 μmol min-1 mg-1 protein. 
+Shankar [21] highlighted the importance of antibody-based tech­
+niques for evaluating health management measures, including diag­
+nosis, 
+identification, 
+stereotyping, 
+antigen 
+characterisation, 
+epidemiology, and vaccines. A previous study developed a conventional 
+polyclonal antibody and antigen preparation process using rabbit 
+specimens for disease diagnosis, stereotyping, and other biological ap­
+plications. Therefore, to assess AChE expression, polyclonal antibodies 
+were directly used for dot blot, Western blot, and immunohistochem­
+istry in Nile tilapia gills, muscle, liver, and plasma. The detection limits 
+were shown in different tissues by the dot blot analysis. The value for 
+plasma, gill, and muscle was 0.04 μg μL-1, while it was 0.16 μg μL-1 for 
+the liver. Western blot analysis showed that hybridisation from a com­
+mercial polyclonal antibody with Nile tilapia AChE was specific. As 
+found from SDS-PAGE, the 71 kDa band of AChE was immunoreactive in 
+different tissues, such as plasma, gill, muscle, and liver, similar to the 
+results of AChE expression in Golden apple snail (Pomacea calaniculata) 
+[22]. 
+In this study, the gills were selected to investigate AChE expression. 
+Generally known as a multifunctional organ, fish gills are considered 
+interesting for study by many researchers. Despite a significant amount 
+of work done on the morphological examination of gills, this organ is 
+relatively 
+underused 
+in 
+health 
+evaluation 
+in 
+fish 
+[23]. 
+Glyphosate-exposed Nile tilapia gills were swollen with increased 
+secretion and accumulation of blood cells, with lesion severity 
+increasing with exposure time to glyphosate. During microscopic 
+localisation analysis, AChE expression was found in both the control and 
+treated groups in the gill lamellae and filaments. The physical and 
+chemical alterations of fish gills being sensitive to the prevalent sur­
+rounding conditions like temperature, pH, salinity, and heavy metals 
+allow the gill tissue to be used as a biological indicator for tracking 
+waterborne toxicants [24] relevant to our study in both laboratory and 
+field conditions. 
+4.4. AChE in the field 
+The study of pesticide contamination in water sources has recently 
+received increasing attention. The increased use of pesticides leads to 
+the contamination of aquatic environments and accumulation in aquatic 
+animals, which can pass up to humans as the highest consumer. Many 
+researchers are interested in studying these problems. For example, 
+Hansson [25] evaluated AChE activity in Perca fluviatilis collected from a 
+contaminated area in Stockholm, Sweden. Fish samples were taken from 
+10 stations with AChE activity being highest at non-contaminated sites 
+and lowest at the most contaminated sites. Anandhan et al. [26] re­
+ported that the highest activity was observed in the brain, followed by 
+the muscle, gill, liver, and kidney in two freshwater bony fishes in India: 
+Channa striatus and Oreochromis mossambicus. In this study, immuno­
+logical techniques studied AChE expression and localisation in the Nile 
+tilapia gills. We selected the Huai-Saneng Reservoir, Meuang District, 
+Surin Province, for the field study. Thanomsit et al. [8] identified that 
+the Huai-Saneng Reservoir is very important to residents and nearby 
+areas for both food security and the economy. Moreover, the fishery in 
+that reservoir can be harvested year-round because the area was very 
+fertile. Thus, AChE expression was examined in both wet and dry sea­
+sons. AChE expression was observed in both seasons, but the level of 
+AChE expression in the dry season was higher than that in the wet 
+season. The use of multiple techniques was effective in studying AChE 
+expression in fish gills. Therefore, this study provides a useful array of 
+antibody techniques for assessing pesticide exposure in Nile tilapia, 
+particularly glyphosate, and perhaps in other fish species and water 
+sources. 
+5. Conclusion 
+Glyphosate-based herbicides are highly toxic to Nile tilapia and 
+exhibit a strong dose-effect relationship. In this study, the toxic effects of 
+glyphosate were determined in terms of concentration and exposure 
+time. Our results revealed that concentration and exposure time caused 
+behavioural responses through AChE expression in Nile tilapia. A pro­
+cess to measure glyphosate exposure in live Nile tilapia was presented 
+for sublethal conditions. The correlation analysis showed that toxicity 
+levels, behavioural alterations, and AChE expression in the plasma 
+detected by the antibody technique, gill, liver, and muscle of Nile tilapia 
+were significantly correlated with glyphosate concentration and expo­
+sure time. Although all the studied tissues exhibited AChE expression, 
+we decided to study the gills instead of other tissues because fish were 
+not sacrificed, and gills could be used as a representative tissue for 
+glyphosate exposure. Finally, antibody techniques comprising dot blot, 
+western blot, and immunohistochemistry provided a useful method for 
+the evaluation of AChE expression under both laboratory and field study 
+conditions. 
+Declaration of Competing Interest 
+The authors declare that they have no known competing financial 
+interests or personal relationships that could have appeared to influence 
+the work reported in this paper. 
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC9742946' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC9742946|total_protein_stain' data-pmcid='PMC9742946' data-item='total_protein_stain'><div class='qname'><span>Total protein stain</span><span class='ans'></span></div><div class='qdef'>Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.</div><div class='qhow'><b>What to mark.</b> Mark the stain name only.<span class='eg'>In <i>confirmed by Ponceau S staining</i> mark <b>Ponceau S</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9742946|transfer_method' data-pmcid='PMC9742946' data-item='transfer_method'><div class='qname'><span>Transfer method</span><span class='ans'></span></div><div class='qdef'>How protein was moved onto the membrane: wet or tank, semi-dry, dry, or a named transfer system.</div><div class='qhow'><b>What to mark.</b> Mark the words naming the method.<span class='eg'>In <i>transferred using a semi-dry apparatus</i> mark <b>semi-dry</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9742946|membrane_pore_um' data-pmcid='PMC9742946' data-item='membrane_pore_um'><div class='qname'><span>Membrane pore size</span><span class='ans'></span></div><div class='qdef'>A membrane pore size in micrometres.</div><div class='qhow'><b>What to mark.</b> Mark the number and its unit.<span class='eg'>In <i>a 0.45 um PVDF membrane</i> mark <b>0.45 um</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9742946|gel_percentage' data-pmcid='PMC9742946' data-item='gel_percentage'><div class='qname'><span>Gel percentage</span><span class='ans'></span></div><div class='qdef'>The acrylamide percentage of the separating gel.</div><div class='qhow'><b>What to mark.</b> Mark the percentage. For a gradient, mark the whole range.<span class='eg'>In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9742946|primary_ab_host' data-pmcid='PMC9742946' data-item='primary_ab_host'><div class='qname'><span>Primary antibody host or type</span><span class='ans'></span></div><div class='qdef'>The host species or the clonality of a primary antibody.</div><div class='qhow'><b>What to mark.</b> Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times.<span class='eg'>In <i>rabbit polyclonal anti-p53</i> mark <b>rabbit polyclonal</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9742946|replicate_n' data-pmcid='PMC9742946' data-item='replicate_n'><div class='qname'><span>Replicate count</span><span class='ans'></span></div><div class='qdef'>A number of replicates. You are not being asked whether they are biological or technical.</div><div class='qhow'><b>What to mark.</b> Mark the number together with the words that make it a replicate count.<span class='eg'>In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9742946|ab_catalog_any' data-pmcid='PMC9742946' data-item='ab_catalog_any'><div class='qname'><span>Antibody catalogue number</span><span class='ans'></span></div><div class='qdef'>A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block.<span class='eg'>In <i>(Abcam, ab1234)</i> mark <b>ab1234</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9742946|protein_quant_method' data-pmcid='PMC9742946' data-item='protein_quant_method'><div class='qname'><span>Protein quantification method</span><span class='ans'></span></div><div class='qdef'>How total protein was measured before loading.</div><div class='qhow'><b>What to mark.</b> Mark the assay name only.<span class='eg'>In <i>quantified by BCA assay (Pierce)</i> mark <b>BCA</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9742946|lysis_buffer' data-pmcid='PMC9742946' data-item='lysis_buffer'><div class='qname'><span>Lysis buffer</span><span class='ans'></span></div><div class='qdef'>The lysis or extraction buffer, either named or given as a recipe.</div><div class='qhow'><b>What to mark.</b> Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors.<span class='eg'>In <i>isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor was added into the RIPA</i> mark just <b>RIPA</b>, the first time it appears.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9742946|ab_dilution_any' data-pmcid='PMC9742946' data-item='ab_dilution_any'><div class='qname'><span>Antibody dilution</span><span class='ans'></span></div><div class='qdef'>Any antibody working dilution. Primary and secondary both count, and you are not being asked which is which.</div><div class='qhow'><b>What to mark.</b> Mark each distinct dilution once. If the same dilution is used repeatedly, one mark is enough.<span class='eg'>In <i>incubated at 1:1000 overnight</i> mark <b>1:1000</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>3</span> of <span class='num'>6</span></h2><span class='pill'>PMC8434601</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Molecules · <span class='num'>2021</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC8434601'>
+4.1. Jellyfish Collection
+R. nomadica jellyfish specimens were captured from the eastern Egyptian Mediter-
+ranean of Port Said coast during the blooming summer months in 2019. Only tentacles
+were collected in tanks full of fresh seawater and transported immediately to a laboratory
+for further preparations.
+4.2. Nematocysts Venom Extraction and Preparation
+Nematocysts were isolated from the excised tentacles as described with slight mod-
+ification [57]. Briefly, dissected tentacles were submerged in cold seawater at the mass:
+volume ratio of 1:3 to allow autolysis of the tissues at 4 ◦C with gentle swirling for 30 min
+every two hours. This process was repeated for 3 days. The nematocysts suspension was
+filtered through a plankton net to remove tissue debris and centrifuged at 10,000 rpm
+ Molecules 2021, 26, 5185
+9 of 14
+for 30 min at 4 ◦C. Then, the resultant supernatant was collected, lyophilized, and stored
+at -20 ◦C.
+The crude venom was extracted from freeze-dried nematocysts with a minor modifica-
+tion. In which, 100 mg nematocyst powder was resuspended in 1 mL of phosphate-buffered
+saline (PBS, pH 7.4, 4 ◦C) and centrifuged at 15,000 rpm for 15 min at 4 ◦C [58]. The super-
+natant was separated and used as the extracted Rhopilema nomadica venom stock solution
+for the present study. The stock solution was aliquoted (to avoid freezing and rethawing)
+and stored at -20 ◦C. The protein concentration of the venom was estimated by the Brad-
+ford method, and the venom was used based on its protein concentration [59]. In terms of
+quality control, SDS-PAGE (Sodium dodecyl sulfate-polyacrylamide gel electrophoresis)
+(Bio-Rad Laboratories, Inc., Hercules, CA, USA) was used regularly to assess the banding
+pattern of venom proteins. Moreover, IC50 (concentration of the venom required for 50%
+inhibition of cell growth) against cell lines has been monitored to check the effectiveness
+and stability of the venom.
+4.3. SDS-Polyacrylamide Gel Electrophoresis
+R. nomadica crude venom proteins were separated based on their molecular weights by
+using SDS-PAGE. This technique was carried out using 12% polyacrylamide gel performed
+by TGX Stain-FreeTMFastCastTMAcrylamide Kit (Bio-Rad Laboratories, Inc., Hercules, CA,
+USA). Briefly, the sample was boiled at 95 ◦C for 5 min with the sample loading buffer
+(4% SDS, 10% 2-mercaptoethanol, 20% glycerol, 0.004% bromophenol blue and 0.125 M
+Tris HCl, PH 6.8). The protein sample was electrophoresed for 60 min at 150 V, using
+Tris-glycine running buffer. Protein bands were visualized using stain-free technology and
+Chemi Doc imager (Bio-Rad Laboratories, Inc., Hercules, CA, USA) [60].
+4.4. Cell Culture
+HepG2 (human hepatocellular carcinoma), MDA-MB-231 (human breast adenocarci-
+noma), HFB4 (human normal fibroblast), and WI-38 (human normal lung) cell lines used in
+the present study were purchased from Holding company for biological products and vac-
+cines (VACSERA, Giza, Egypt). Cells were maintained as monolayer in culture in complete
+medium (RPMI-1640 medium supplemented with 2 mM L-glutamine, 10% heat-inactivated
+FCS, 100 mg/mL streptomycin, and 100 U/mL penicillin) and were incubated at 37 ◦C
+with 5% CO2 in a humidified atmosphere.
+4.5. Cell Viability by MTT Assay
+To evaluate the potential cytotoxic effect of the R. nomadica venom on cell viability, an
+MTT (3-(4, 5-methylthiazol-2-yl)-2, 5-diphenyl-tetrazolium bromide) reduction assay was
+performed [61,62]. HepG2, MDA-MB-231, HFB4, and WI-38 cells (VACSERA, Giza, Egypt)
+were seeded in a 96-well plate at a concentration of 1.0 × 104 cells/well and incubated
+at 37 ◦C for 24 h to settle down. The cells were treated for another 48 h with different
+concentrations ranging from 0 to 5000 μg/mL of R. nomadica venom. 20 μL of MTT solution
+was added to each well and incubated for an additional 3 h at 37 ◦C. After the supernatant
+was removed, dimethyl sulfoxide (200 μL DMSO) was added to each well to resuspend the
+formazan crystals. Cell viability was determined by measuring optical density at 540 nm
+using Bio-Tek ELISA multi-well plate reader (Bio-Tek Instruments Inc., Burlington, VT,
+USA). The cytotoxic effect of the crude venom was determined by comparing the optical
+density of the treated cells and the untreated cells. Phosphate buffered saline (PBS) was
+used as a negative control. The IC50 value was calculated from the dose-response curve.
+4.6. Cell Cycle Analysis
+Flow cytometry assessed the percentage of cellular DNA content was assessed by flow
+cytometry [37]. HepG2 cells were seeded in a 6-well plate at a density of 1.0 × 104 cells/well
+and incubated at 37 ◦C for one day before the experiment. The cells were treated with IC50
+concentration of R. nomadica venom for 48 h, harvested, and fixed with 70% cold ethanol at
+ Molecules 2021, 26, 5185
+10 of 14
+-20 ◦C overnight. Fresh PBS washed the fixed cells, then stained with PI (50 μg/mL) in the
+presence of RNase A (10 μg/mL) and incubated for 30 min in the dark. The cellular DNA
+content was analyzed using a flow cytometer (FACSCalibur, Becton Dickinson, Franklin
+Lakes, NJ, USA).
+4.7. Annexin V-FITC/PI Double Staining Assay
+HepG2 cells were treated with IC50 concentration of R. nomadica venom for 48 h. Both
+adherent and suspended cells were collected, centrifuged (1000 rpm for 5 min), washed
+with PBS and resuspended with binding buffer (1×). After that, the cells were stained
+with 4 μL Annexin V-FITC and 2 μL propidium iodide (PI) (Annexin V-FITC Apoptosis
+Detection Kit) (Abcam, Cambridge, UK) and incubated for 15 min at 37 ◦C in the dark. The
+total apoptotic and necrotic cells were measured by BD FACSCalibur flow cytometer [46].
+4.8. Western Blot Analysis
+HepG2 cells were treated with IC50 concentration of R. nomadica venom for 48 h, and
+the cell lysate was prepared in cold lysis buffer [100 mM NaCl, 10 mM Tris, 25 mM EDTA,
+25 mM EGTA, 1% Triton X-100, 1% NP-40 (pH 7.4)], with 1:300 protease inhibitor cocktail
+(Sigma-Aldrich, St. Louis, MO, USA) and Phosphatase inhibitor cocktail Tablet (Roche
+Diagnostics GmbH, Mannheim, Germany). Total protein concentration was determined
+using the Bradford method before proceeding to the western blotting. Equal amounts
+(20 μg) of protein samples were loaded into 12% SDS-polyacrylamide gel and separated by
+Cleaver electrophoresis unit (Cleaver Scientific Ltd., Rugby, UK). They were transferred
+onto polyvinylidene fluoride (PVDF) membranes (Bio-Rad Laboratories, Inc., Hercules,
+CA, USA) for 30 min using a Semi-dry Electroblotter (BioRad) at 2.5 A and 25 V for 30 min.
+The membrane was blocked with 5% nonfat dry milk in TBS-T for two hours at 37 ◦C.
+The membrane was incubated overnight at 4 ◦C with primary antibodies against BAX
+(1:1000, Cell Signaling Technology, Inc., Danvers, MA, USA), Bcl-2 (1:1500, Cell Signaling
+Technology), cleaved caspase-3 (1:750, Cell Signaling Technology), p53 (1:1000, Abcam,
+Cambridge, UK), and β-actin (1:5000, Sigma-Aldrich, St. Louis, MO, USA). Then, the
+membrane was washed three times with TBS-T and followed by incubation with the
+corresponding horseradish peroxidase-linked secondary antibodies (1:1000, Dako Ltd.,
+High Wycombe, UK) for another hour at room temperature. β-actin was used as an internal
+reference protein. Finally, specific protein bands were visualized by a chemiluminescent
+detecting kit (Perkin Elmer, Waltham, MA, USA). The blot image was captured using a
+CCD camera-based imager (Chemi Doc imager, BioRad). The bands&#x27; intensities were then
+measured by densitometry using ImageLab software (Bio-Rad Laboratories, Inc., Hercules,
+CA, USA) [63,64].
+4.9. DNA Damage Evaluation
+The apoptotic effect induced in HepG2 cells was evaluated by two different techniques
+that included diphenylamine (DPA) assay and DNA laddering assay.
+4.9.1. DNA Fragmentation Percentage by Diphenylamine (DPA) Assay
+DPA assay is a colorimetrical quantitative method used for assessing the DNA frag-
+mentation caused by the treatment of HepG2 cells by R. nomadica venom with the concen-
+tration of 25, 50 μg/mL for 48 h upon utilizing diphenylamine (DPA) reagent, which binds
+to deoxyribose [65]. The optical density was measured at 600 nm in the S (fragmented
+DNA) and the P (intact DNA) fractions. The percentage of fragmented DNA was calculated
+using the formula:
+DNA fragmentation (%) = [S/(S + P)] × 100
+(1)
+ Molecules 2021, 26, 5185
+11 of 14
+4.9.2. DNA Laddering Assay
+Genomic DNA was extracted from HepG2 cells after the treatment with three differ-
+ent concentrations of R. nomadica venom (25, 50 μg/mL) for 48 h. Electrophoresis was
+performed in 8% agarose gel with ethidium bromide staining. Following this, the DNA in
+gel was visualized under UV and photographed by a digital camera (Canon U.S.A., Inc.,
+Lake Success, NY, USA) [66].
+4.10. Hemolysis Assay
+Hemolytic activity of R. nomadica venom was performed on erythrocytes of humans
+with some modifications [56]. A blood sample was taken from a healthy adult volunteer
+after informed consent was obtained. The blood sample was immediately combined with
+anti-clot material (EDTA) and centrifuged at 5000 rpm for 5 min. Briefly, the erythrocytes
+suspension in sterile phosphate buffer saline (PBS) was received serial concentrations of the
+crude venom. After one hour of incubation at room temperature, the cells were centrifuged,
+and the supernatant was used to measure the absorbance of the liberated hemoglobin at
+570 nm. The positive control (100% hemolysis) and the negative control (0% hemolysis)
+were Triton X-100 and sterile phosphate buffer saline (PBS), respectively. The following
+equation measured the hemolysis percentage for each sample:
+Hemolysis (%) = [(AS -A)/(AP.C -AN.C] × 100
+(2)
+where AS is the mean of absorbance of sample, AN.C is the mean of absorbance of negative
+control, and AP.C is the mean of absorbance of positive control.
+4.11. Statistical Analysis
+All experiments are achieved in triplicate. The values are shown as mean value ± SE
+and data were analyzed using paired Student’s t-test and one-way ANOVA followed by
+Tukey’s test. Statistical significance was assessed by p &lt; 0.05.
+5. Conclusions
+In conclusion, our findings highlighted the anti-proliferative effect of R. nomadica
+venom and clearly showed that the venom extract could induce apoptosis in vitro. There-
+fore, these data might provide a starting point for the research on using R. nomadica venom
+in the treatment of cancer and hepatocellular carcinoma in particular. However, future
+investigations may be conducted to investigate the anticancer activities of R. nomadica
+venom in vivo and to characterize and identify the bioactive peptides that exert anticancer
+activity. Further, future experiments will be planned to investigate cytoprotective prop-
+erties of R. nomadica venom on H2O2-treated cells in vitro and in vivo models. Moreover,
+protein and gene expressions of the antioxidative enzymes and oxidative biomarkers for
+cell membrane lipid peroxidation will be analyzed upon treatment with R. nomadica venom.
+Such experimental work may reveal in detail the redox activity of R. nomadica venom.
+Author Contributions: Conceptualization, M.M.T.; A.H.A.A. and N.E.; methodology, M.M.T.;
+A.H.A.A.; N.E.; E.F. and F.A.; software and validation, M.M.T.; A.H.A.A. and E.F.; formal anal-
+ysis investigation, resources, data curation, M.M.T.; A.H.A.A. and N.E.; writing-original draft
+preparation M.M.T. and N.E.; writing-review and editing, M.M.T. and F.A.; project administration,
+M.M.T. and A.H.A.A.; funding acquisition, F.A.; E.F. and N.E. All authors have read and agreed to
+the published version of the manuscript.
+Funding: Taif University Researchers Supporting Project number (TURSP-2020/222), Taif Univer-
+sity, Taif, Saudi Arabia.
+Institutional Review Board Statement: This study was performed according to the guidelines of
+the US National Institute of Health (NIH Publication No. 85.23, revised 1985) guides and has been
+reviewed and approved by the animal care and use according to Zoology Department, Faculty of
+Science, Port Said University (approved duration: 2020 to 2021).
+ Molecules 2021, 26, 5185
+12 of 14
+Informed Consent Statement: A blood sample was taken from a healthy adult volunteer after
+informed consent was obtained.
+Data Availability Statement: The data presented in this study are available on request from the
+corresponding author.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC8434601' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC8434601|acquisition_software' data-pmcid='PMC8434601' data-item='acquisition_software'><div class='qname'><span>Acquisition software</span><span class='ans'></span></div><div class='qdef'>Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.</div><div class='qhow'><b>What to mark.</b> Mark the software name only.<span class='eg'>In <i>images captured with Image Lab software</i> mark <b>Image Lab</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8434601|total_protein_stain' data-pmcid='PMC8434601' data-item='total_protein_stain'><div class='qname'><span>Total protein stain</span><span class='ans'></span></div><div class='qdef'>Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.</div><div class='qhow'><b>What to mark.</b> Mark the stain name only.<span class='eg'>In <i>confirmed by Ponceau S staining</i> mark <b>Ponceau S</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8434601|transfer_method' data-pmcid='PMC8434601' data-item='transfer_method'><div class='qname'><span>Transfer method</span><span class='ans'></span></div><div class='qdef'>How protein was moved onto the membrane: wet or tank, semi-dry, dry, or a named transfer system.</div><div class='qhow'><b>What to mark.</b> Mark the words naming the method.<span class='eg'>In <i>transferred using a semi-dry apparatus</i> mark <b>semi-dry</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>4</span> of <span class='num'>6</span></h2><span class='pill'>PMC8000389</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Vaccines · <span class='num'>2021</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC8000389'>
+2.1. Expression and Purification of VLP
+VLP were expressed in Sf21 insect cells using a baculovirus expression system as
+previously described [46,47]. DNA encoding two copies of the gp100 epitope (KVPRN-
+QDWLALLKVPRNQDWL) with an immunoproteasome cleavage sequence (ALL) was
+inserted at the N-terminus of the RHDV VP60 gene (Figure 1A) by PCR extension and
+used to generate a recombinant baculovirus by homologous recombination (gp100.2L
+VLP). Expression and purification of VLP were carried out as previously described [47].
+Briefly, suspension cultures of Sf21 insect cells were infected with recombinant baculovirus
+expressing the VP60 protein +/-the gp100 epitopes at a multiplicity of infection of 1 and
+incubated at 27 ◦C at 125 rpm for 3 days. The cells were lysed with 0.5% Triton X-100
+and the VLP purified using differential centrifugation, followed by a centrifugation on a
+1.2 and 1.4 g mL CsCl step gradient at 100,000 g for 18 h. The VLP band was harvested
+and dialyzed into 0.1 M phosphate buffer pH 7.4 containing 0.15 M NaCl (PBS). A control
+VLP without the gp100 epitope motif was also expressed (RHDV VLP). Expression and
+purification of VLP was confirmed by SDS-PAGE and the presence of the gp100 epitope
+was confirmed by mass spectrometry at the Otago Centre for Protein Research. Particle
+assembly was confirmed by TEM at the Otago Centre for Electron Microscopy.
+2.2. Electrospinning
+Polyvinylpyrrolidone (PVP K-90, Mw 360,000, Sigma-Aldrich, St. Louis, MO, USA)
+solutions were prepared in Milli-Q water with stirring overnight at room temperature. VLP
+(5 mg) which had been dialyzed against PBS was added to a 30% w/v PVP solution at a
+1:1 ratio and mixed by magnet stirring for 20 min. The solution was drawn into a 5-mL
+syringe (Becton Dickinson, Franklin, NJ, USA) with blunted needle (18 G) and attached
+to an infusion pump (Fusion Touch 100, Chemyx Inc., Stafford, TX, USA) to deliver the
+solution at a constant flow rate of 0.1 mL h-1. The live terminal of a high voltage power
+supply was attached to the needle and was set to generate an electrical potential of 24 kV.
+A grounded metal wheel collector was placed 15 cm from the needle tip and rotated at
+approximately 10 rpm. A strip of aluminum foil was placed around the circumference
+of the wheel, to which nanofiber was deposited. Nanofiber mats were stored at room
+temperature on the aluminum foil in a zip-locked bag containing silica gel. Nanofibers
+were stored for up to seven days prior to biological assays.
+ Vaccines 2021, 9, 213
+4 of 13
+(D)
+200nm
+(C)
+200nm
+150 -
+100 -
+70 -
+50 -
+40 -
+M
+kDa
+30 -
+(B)
+RHDV 
+gp100.2L
+VLP
+KVPRNQDWL
+KVPRNQDWL
+VP60
+VP60
+ALL
+GGS
+RHDV VLP
+gp100.2L VLP
+(A)
+Figure 1. Expression and purification of virus-like particle (VLP). (A) Gene constructs used for expression of unmodified
+rabbit hemorrhagic disease virus (RHDV) VLP and RHDV VLP containing two gp100 epitopes (gp100.2L VLP). The 60 kDa
+capsid protein of RHDV is represented as VP60. Two copies of the gp100 epitope KVPRNQDWL are shown in the gp100.2L
+construct, along with a processing linker (ALL) and a flexible linker (GGS) at the junction between the gp100 epitopes
+and the VP60 sequence. (B) Ten percent SDS-PAGE of purified RHDV VLP and gp100.2L VLP stained with Coomassie
+Brilliant Blue G-250. (C,D) Transmission electron microscopy confirming particle assembly for RHDV and gp100.2L VLP,
+respectively. Upon overexpression, 180 copies of the VP60 monomer self-assemble into icosahedral capsids of approximately
+40 nm in size.
+2.3. Electron Microscopy
+Carbon-coated TEM grids were plasma discharged and 10 μL of purified VLP (0.2 mg ml -1)
+was deposited onto the grid for 1 min at room temperature. The grid was stained with
+10 μL of 1% phosphotungstic acid (PTA) pH 6.8 and imaged using a Philips CM100 TEM
+electron microscope. Nanofiber mat samples (1 cm2) were fixed to SEM sample stubs
+before being coated with 5 nmol gold-palladium using an Emitech K575X Peltier-cooled
+high-resolution sputter coater fitted with a 250X carbon coater and examined by SEM using
+a variable-pressure scanning electron microscope (Carl Zeiss Inc., Oberkochen, Germany).
+2.4. Western Blot
+A 0.1 cm2 section of the nanofiber mat was dissolved and heated at 100 ◦C for 5 min
+in SDS-PAGE sample buffer before being loaded onto a 10% SDS-PAGE gel alongside
+VLP standards (0.0625-4 μg). The resolved proteins were transferred onto nitrocellulose
+membrane (Amersham protran, GE Life Sciences, Chicago, IL, USA) then blocked with
+0.1% w/v casein alanate in Dulbecco’s PBS (DPBS). The membrane was probed with
+anti-VP60 rabbit polyclonal antibody diluted 1:1000 in PBS + 0.1% w/v casein alanate
+and the membrane washed three times with PBS +0.1% v/v Tween-20. The primary
+antibody was detected using a 1:10,000 dilution of donkey anti-rabbit IgG antibody (SA5-
+10044, ThermoFisher Scientific, Waltham, MA, USA) in PBS + 0.1% casein alanate and the
+membrane washed prior to detection. Band intensity was imaged using a LI-COR Odyssey
+FC (800 nm) and analyzed on Image Studio. Fluorescence values for the standard curve
+were plotted to fit a linear regression model, which was used to quantify the nanofiber
+protein concentration.
+ Vaccines 2021, 9, 213
+5 of 13
+2.5. Animals and Ethics
+Female C57BL/6 mice were obtained from the Hercus Taieri Research Unit, University
+of Otago, Dunedin, New Zealand. Female pmel mice, expressing T-cell receptors specific
+to the MHC-I restricted gp10025-33 epitope, were obtained from the Young lab breeding
+stock, Department of Pathology, University of Otago, Dunedin New Zealand. Experiments
+were conducted in accordance with an ethical permit granted by the University of Otago
+Animal Ethics Committee (AEC D103/17). Animals were euthanized by carbon dioxide or
+cardiac puncture.
+2.6. T-Cell Proliferation and Interferon-γ Production Assay
+Bone marrow-derived dendritic cells (BMDCs) were extracted from femurs and tibiae
+of C57BL/6 mice as previously described [48], adjusted to a concentration of 5 × 104 cells
+ml-1 and pulsed with either PBS, PVP, blank nanofiber, 1 μg RHDV VLP or gp100.2L VLP,
+or gp10025-33 peptide (0.38 μg·mL-1, the molar equivalent of 1 μg of gp100.2L VLP). A
+section of nanofibers containing 1 μg of RHDV VLP or gp100.2L VLP was added directly
+onto the cells. T-cells from pmel mice were prepared according to Kramer et al. [41]
+and sorted for CD8 expression using anti-CD8 AutoMACS MicroBeads (Miltenyi Biotech,
+Bergisch Gladbach, Germany). CD8+ T cells (1 × 108 cells·mL-1) were diluted 1:1 with
+20 μM carboxyfluorescein succinimidyl ester (CFSE) (Invitrogen) and added to the pulsed
+BMDCs at a ratio of 10:1, and then incubated for 72 h at 37 ◦C, 10% CO2. Cells were treated
+with 50 μL of a 1:1000 dilution of LIVE/DEADTMFixable Near-IR Dead Cell Stain (Life
+TechnologiesTM, Eugene, OR, USA) followed by treatment with CD16/CD32 Fc blocking
+antibody, and then stained with CD3-PE-CF594 (clone 145-2C11) and CD8α-APC (clone
+53-6.7) (Life TechnologiesTM, Eugene, OR, USA). Fluorescence was measured using a Gallios
+flow cytometer (Beckman Coulter, Brea, CA, USA) with a three-laser (405, 488, and 633 nm),
+ten-color configuration and analyzed using Kaluza software (Beckman Coulter, Brea, CA,
+USA). Interferon-γ (IFN-γ) levels were measured by enzyme-linked immunosorbent assay
+(ELISA) as previously described [41].
+2.7. In Vivo Cytotoxicity
+Five groups of six mice were vaccinated with either PBS, 100 μg of gp100.2L VLP,
+100 μg of RHDV VLP from a dissolved nanofiber sample, 100 μg equivalent of gp100.2L
+VLP from a dissolved nanofiber sample, and the molar equivalent of free gp100 con-
+tained in 100 μg of VLP (100 μL at 19.6 μg·mL-1). Each vaccination contained 25 μg of
+CpG oligonucleotide as an adjuvant (CpG 1826, GeneWorks, SA, Australia) added to the
+treatment prior to vaccination. For nanofiber samples, this was post-dissolution in PBS.
+Treatments were administered subcutaneously to the left flank using a 29-G needle. Mice
+were boosted 21 days later with an additional dose of their respective treatment. Mice were
+injected intravenously with target (pulsed with gp100 peptide) and non-target splenocytes
+on day 28 derived from donor C57BL/6 mice. The red blood cells were removed from
+the splenocyte preparation by lysis with ammonium chloride followed by centrifugation.
+Remaining cells were divided into 2 groups; unpulsed (untreated) cells and pulsed cells,
+treated with 10 mM of synthetic gp10025-33 peptide (KVPRNQDWL) and incubated for
+2 h at 37 ◦C, 5% CO2. Each group was differentially stained, with the untreated group
+receiving 5 μM CFSE (CFSELO) and the treated group receiving 50 μM CFSE (CFSEHI).
+Cells from each group were mixed in a 1:1 ratio and 1 × 108 cells were injected into the
+tail vein of each mouse. Mice were sacrificed 40 h post injection and the splenocytes were
+harvested and stained with LIVE/DEADTMFixable Near-IR Dead Cell Stain. Fluorescence
+was measured on a Gallios flow cytometer and analyzed using Kaluza software.
+2.8. Serum Collection and ELISA
+Mice from the in vivo cytotoxicity assay were bled on day 30 by cardiac puncture,
+serum was collected and stored at -80 ◦C. Each well of a 96-well plate was coated with
+2 μg of VP60 followed by incubation at 4 ◦C overnight and then washed in PBS + 0.05%
+ Vaccines 2021, 9, 213
+6 of 13
+Tween-20 six times (wash buffer). The plate was blocked by adding 100 μL of 20 mg mL-1
+BSA in PBS (blocking buffer) per well and incubated for an hour at 37 ◦C and then washed
+six times. Serum was serially diluted ten-fold (10-1-10-6) in blocking buffer and 100 μl
+added to each well. Plates were incubated for 2 h at 37 ◦C and then washed six times in
+wash buffer. Anti-mouse IgG-HRP (Sigma-Aldrich, Cat. no. A9044) was diluted 1:60,000 in
+blocking buffer before addition of 100 μl to each well and incubated for 1 h at 37 ◦C. Wells
+were washed six times before addition of 100 μL 3,3′,5,5′-tetramethylbenzidine (TMB)
+substrate to each well. The reaction was stopped after 2 min by adding 100 μL of 1 M HCl
+solution. Plates were read at 450 nm using a Multiskan FC Microplate spectrophotometer
+(ThermoFisher Scientific).
+2.9. Statistical Analysis
+Statistical analysis was carried out using GraphPad Prism version 7.04 (GraphPad
+Software, La Jolla, CA, USA). Analyses of the in vivo data consisted of a Kruskal Wallis non-
+parametric test with a Dunn’s post-hoc test. Advice on statistical analysis was provided by
+Andrew Gray, Biostatistical Unit, Division of Health Sciences, University of Otago.
+3. Results
+3.1. VLP Expression and Purification
+VLP were expressed using the commercial baculovirus expression system, flashBAC
+Ultra (Oxford Expression Technologies, Oxford, UK). VLP were purified by differential
+centrifugation and a CsCl gradient before assessment by SDS-PAGE (Figure 1B). Protein
+identity was confirmed by Western blot and the presence of the correct gp100 sequence
+was confirmed by mass spectrometry analysis (data not shown). Overexpression of the
+VP60 capsid protein led to self-assembly into icosahedral particles of approximately 40 nm
+in size, which was confirmed by TEM (Figure 1C,D, respectively). Size and shape of the
+expressed VLP were consistent with previous work [46].
+3.2. Incorporation of VLP into Nanofibers
+Electrospinning of VLP in a 15% (w/v) PVP solution in PBS was performed successfully
+at 24 kV and a flow rate of 0.1 mL h-1. While PVP-water solutions can be electrospun
+at much higher flow rates, PBS was a necessary addition to the formulation in order to
+preserve the structural integrity of the VLP. SEM imaging (Figure 2A) of an electrospun
+nanofiber mat showed heterogenous nanofiber structures including tubular strands and
+flat ribbon-like sheets with diameters ranging from 100 nm to 5 μm. A comparison between
+the blank, unloaded nanofibers (Figure 2B,C) and the RHDV VLP-loaded nanofibers
+(Figure 2D,E) revealed particles on the surface of the VLP-loaded nanofiber, consistent with
+the presence of RHDV VLP. The observed particles were arranged singularly or clustered
+and the diameter of the particles was consistent with sputter-coated VLP. To confirm the
+identity of the observed structures, a VLP-loaded nanofiber mat was dissolved in PBS and
+then loaded onto a 1.2 and 1.4 g·cm-3 CsCl step gradient as utilized for VLP purification.
+Material recovered from the CsCl interface revealed that intact VLP particles were present,
+as visualized by TEM (Figure 2F,G). SDS-PAGE confirmed the protein to be 60 kDa in
+size, consistent with the size of VP60. To confirm that the isolated particles were of RHDV
+VP60 origin and simultaneously assess nanofiber loading uniformity, 0.1 cm2 samples were
+dissolved and analyzed by Western blotting (Figure 2H). Results confirm that the 60 kDa
+protein was VP60 and that loading was relatively consistent across the mat. These results
+indicate that VLP can be electrospun into a dry nanofibrous mat and that intact VLP can be
+recovered upon dissolution of the mat.
+3.3. T-Cell Proliferation and IFN-γ Production Assays
+An initial in vitro test was performed to confirm activity before analysis in vivo. The
+VLP-loaded nanofibers were tested for the ability to induce a cell-mediated immune
+response by measuring T-cell proliferation as well as IFN-γ production. BMDCs from
+ Vaccines 2021, 9, 213
+7 of 13
+C57BL/6 mice were pulsed with treatments, followed by a co-culture with T cells from
+pmel mice, which were genotyped to express a T-cell receptor specific to the gp10025-33 pep-
+tide. RHDV VLP-loaded nanofiber (negative control) and gp100.2L VLP-loaded nanofiber
+samples were placed directly into the cell culture. Other controls included VLP (no epitope)
+in PBS, gp100.2L VLP in PBS, and gp100 peptide as a positive control. T-cell proliferation
+data (Figure 3A) was standardized against the gp100 peptide response. The gp100.2L
+VLP-loaded nanofiber induced a very strong response at or near 100%, similar to other
+groups containing gp100. In contrast, RHDV VLP-loaded nanofiber without the gp100
+epitope induced limited proliferation. Similarly, gp100.2L VLP-loaded nanofiber induced
+an IFN-γ response of 111 ng ml-1 (Figure 3B), comparable to that of the gp100 peptide
+(116 ng mL-1).
+(H)
+1μm
+(B)
+40nm
+(G)
+(F)
+40nm 
+(E)
+100nm 
+(D)
+1μm
+(C)
+100nm
+(A)
+1
+2
+3
+4
+5
+6
+100
+70
+55
+35
+kDa
+Figure 2. Incorporation and analysis of VLP in electrospun nanofibers. (A) Macrostructure of a nanofiber mat produced
+by electrospinning a 15% w/v polyvinylpyrrolidone (PVP) solution. (B,C) SEM of blank nanofiber microstructures. (D,E)
+SEM of RHDV VLP-loaded nanofiber microstructures. (F,G) RHDV-loaded nanofibers were dissolved and re-purified on
+a CsCl gradient, recovered material viewed by TEM. (H) Nanofiber loading uniformity. Lanes 1-6 represent randomly
+selected samples cut from the nanofiber mat and dissolved. An amount equivalent of 0.1 cm2 nanofiber was run in each
+lane and VP60 levels compared by fluorescent western blot using an anti-RHDV VP60 antibody. The original western blot
+and relatively band intensities are shown in Supplementary Figure S1.
+ Vaccines 2021, 9, 213
+8 of 13
+Figure 3. In vitro T-cell proliferation and cytokine response towards VLP-loaded nanofibers. BMDCs Cells were pulsed
+with 1 μg of VLP in PBS, 1 μg of VLP from a nanofiber, or gp100 peptide at a molar equivalent to gp100 in 1 μg of VLP. T-cells
+were co-cultured with pulsed bone marrow-derived dendritic cells (BMDCs) for 72 h. (A) T cell proliferation determined
+by flow cytometry and (B) IFN-γ production results determined by ELISA of the supernatant. Each bar represents the
+mean percentage of T-cell proliferation (±SEM). The data represents 3 independent experiments. Statistical significance
+was determined by a one-way ANOVA with Dunnett’s multiple comparisons test. **** p &lt; 0 0001. Statistical significance
+displayed is the comparison of RHDV VLP nanofiber against negative control groups. The gating strategy used to generate
+this data is shown in Supplementary Figure S2.
+3.4. In Vivo Cytotoxicity and Antibody Response
+Following demonstration that T-cell activation and IFN-γ production was upregulated
+by VLP released from nanofibers, the activity of VLP-loaded nanofiber was assessed in vivo
+for the induction of target specific cytotoxicity towards gp100, as well as a specific antibody
+response toward the VLP. Mice were vaccinated subcutaneously with treatments followed
+by a boosting vaccination 21 days later (Figure 4A). On day 28, mice were challenged with
+unpulsed control splenocytes and gp100-pulsed target splenocytes. Mice were culled 40 h
+later and assessed for specific killing of the target cells by flow cytometry. Results from
+Figure 4B,C show that nanofibers loaded with gp100.2L VLP induced specific lysis of gp100-
+pulsed BMDCs (approximately 65%) in a similar capacity to that of gp100.2L VLP delivered
+in PBS (approximately 60%). While the results for the nanofiber gp100 VLP treatment
+produced a broader range of response than gp100 VLP without nanofiber, there was no
+statistical difference between these two VLP treatment groups carrying the gp100 epitope.
+PBS only and RHDV VLP-loaded nanofiber containing no epitope induced no specific lysis
+(Figure 4B,C). To assess ability of the released VLP to stimulate an antibody response, an
+enzyme-linked immunosorbent assay (ELISA) was performed using the collected serum
+as the source of the primary probing antibody against purified VLP (Figure 4D). Results
+indicate that all treatments that contained VLP induced an antibody response. RHDV VLP
+nanofiber and gp100.2L VLP nanofiber producing comparable antibody titers to that of the
+gp100.2L VLP delivered in PBS.
+ Vaccines 2021, 9, 213
+9 of 13
+Day 0
+21
+28
+30
+Mice vaccinated
+Mice boosted
+Target cells 
+added
+Mice culled
+(A)
+(C)
+(D)
+(B)
+Figure 4. In Vivo cytotoxicity and antibody production. (A) Cytotoxicity assay timeline. n = 6 mice per group were
+vaccinated on day 0 with a PBS control, 100 μg RHDV VLP in a PVP nanofiber, 100 μg gp100.2L VLP in PBS, 100 μg gp100.2L
+VLP in a PVP nanofiber, or gp100 peptide at a molar equivalent to that on 100 μg VLP. All treatments were supplemented
+with 25 μg CpG. On day 21, mice were boosted with the same treatments, followed by injection with fluorescently labelled
+target cells on day 28. Mice were sacrificed 40 h later, and target cells analyzed by flow cytometry for specific lysis. (B)
+Representative histograms depicting the relative proportions of non-target (unpulsed CFSELO; grey gate, left) and target
+(gp10025-33 peptide-pulsed CFSEHI; red gate, right) cells isolated from various treatment groups after 40 h. (C) Specific
+lysis of target cells administered intravenously. Data points are percent of specific lysis for single mice compared to the
+average control group (PBS) percent of specific lysis. Statistical significance was determined by a Kruskal-Wallis test with
+Dunn’s multiple comparisons test. *** p &lt; 0.001, ** p &lt; 0.01, * p &lt; 0.05. The gating strategy used to generate this data is
+shown in Supplementary Figure S3. (D) Antibody ELISA. Serum from n = 3 mice was diluted 1:10,000 and screened for
+antibody production against VP60 by ELISA. Assays were performed three times in triplicate for each animal. Data points
+represent the average for each animal from three assays. The bar represents the mean and SEM across all samples. Statistical
+significance was determined by one-way ANOVA with Tukey’s multiple comparisons test. **** p &lt; 0.0001, *** p &lt; 0.001,
+** p &lt; 0.01, * p &lt; 0.05.
+4. Discussion
+Thermally stable vaccines could revolutionize and improve the efficiency and efficacy
+of vaccination regimes by greatly reducing costs, reducing vaccine wastage, allowing for
+an extended shelf-life, and minimizing the administration of ineffective vaccines. Electro-
+spinning offers rapid drying of a polymer solution at room temperature, coupled with a
+ Vaccines 2021, 9, 213
+10 of 13
+cheaper running cost and a faster material preparation time when compared to other vac-
+cine drying technologies, such as freeze-drying or spray drying [16]. In this study, we have
+demonstrated that electrospinning is an effective method to produce a dry formulation of
+a particulate vaccine. More importantly, results of the in vivo experiments demonstrate
+that VLP formulated in the nanofibers were able to stimulate a cell-mediated and humoral
+immune response without loss of functionality when compared to VLP that had not been
+incorporated into nanofibers.
+VLP were successfully electrospun in a PVP solution into a nanofiber mat. Inspection
+by SEM confirmed that VLP-like structures were visible on the surface of the nanofibers,
+indicating a successful drying of VLP. Western blot analysis of the dissolved gp100.2L VLP
+nanofiber confirmed that the material was of RHDV VP60 origin and that the material
+was evenly distributed throughout the sheet. Repurification of a dissolved nanofiber on a
+CsCl gradient followed by TEM analysis confirmed that intact particles were present and
+that structures were intact. These results indicated that VLP can be easily incorporated
+and recovered from a nanofiber while remaining structurally intact. For the nanofiber to
+be an effective dry formulation of a vaccine, it is of utmost importance to also maintain
+immunogenicity.
+As a proof of concept and further evidence to suggest the VLP was intact and able
+to elicit an immune response, VLP-loaded nanofibers were subjected to both in vitro and
+in vivo immune assays. The gp100 epitope was previously shown to establish a strong
+immunotherapeutic response in murine melanoma models, which can be further enhanced
+by delivery on a modified VLP, thus, providing a means of evaluating the immunogenicity
+of the dry formulated VLP [41]. Results in vitro indicated that the gp100 peptide was
+effectively cleaved and processed from the VLP particles by DCs, followed by cross-
+presentation in the context of MHC-I in order to stimulate a T cell proliferation and IFN-γ
+response. Results of the in vivo cytotoxicity assay demonstrated a significant response in
+the group vaccinated with the gp100.2L VLP nanofiber, similar to that of mice vaccinated
+with gp100.2L VLP delivered in PBS. Contrastingly, the gp10025-33 free peptide showed
+very little cytotoxic stimulation. It is important to note that longer, more complex peptides
+presented on a VLP require uptake and endosomal processing by antigen presenting
+cells, leading to more efficient cross-presentation on MHC-I when compared to shorter,
+free peptides such as gp10025-33 alone [8,41,49]. The comparable nature of the cytotoxic
+responses seen in the gp100.2L VLP nanofiber and gp100.2L VLP in PBS groups further
+suggest that the nanofiber VLP are intact and are processed by cross-presentation, as has
+been shown for free VLP [50].
+Serum from the mice in the in vivo cytotoxicity work was harvested and tested for
+antibody production against VP60. All groups containing VLP, including in nanofibers,
+showed an upregulated antibody titer when compared to PBS and gp100 peptide groups.
+The similar antibody responses to VLP derived from the electrospun nanofiber and VLP that
+was not electrospun confirms that VP60 remains immunologically relevant in the nanofiber.
+This work demonstrates an early proof of concept to show that VLP can be electro-
+spun into a dry formulation nanofiber, and can be reconstituted prior to delivery while
+maintaining immunogenicity. The tuneability of the nanofiber enables the physical and
+chemical properties to be altered by adjusting the polymer composition. Due to the high
+water-solubility of PVP, reconstitution involved immersion in an aqueous solution, PBS
+in this case. Polymer choices or blends other than the PVP used in this study could be
+explored for fine tuning solubility, permeability, hydrophobicity and humidity stability, or
+to offer slow-release characteristics to enhance the immune response through the use of
+non-aqueous polymers. Other stabilizing materials such as trehalose can also be incorpo-
+rated into the polymer solution [40]. Nanofibers allow for transportation and storage in
+the dry form up until the need for administration, or can be compressed into alternative
+delivery forms, such as oral capsules or patches which can be placed directly onto mucosal
+sites. Several doses could also be electrospun into a single, large, multidose sheet. A
+ Vaccines 2021, 9, 213
+11 of 13
+nanofiber formulation has the potential to also be delivered as a dry patch, to be hydrated
+by the tissue.
+Several factors, such as polymer concentration, electrostatic field strength, fluid viscos-
+ity, surfactants, distance to the collection surface, ionic strength, and flow rate can impact
+on the efficiency and quality of the final nanofiber [51,52]. Extending the research into the
+effects of electrospinning parameters on our PVP blend could improve electrospinning
+efficiency and protein yield.
+5. Conclusions
+This work demonstrates that electrospinning offers an attractive method for the dry
+formulation of particulate vaccines with complex biological structures without loss of
+functionality. VLP were successfully electospun into a nanofibrous mat and recovered
+upon reconstitution of the mat. By using VLP as an antigenic carrier stored in the nanofibers,
+we were able to confirm that both the humoral and cell-mediated immune response was
+maintained when VLP were released from the nanofiber mat and used as a vaccine. It
+should be noted that VLP was used as an exemplar antigen, and that this technique has the
+potential to be applied to a range of vaccine types and antigens.
+Supplementary Materials: The following are available online at https://www.mdpi.com/2076-3
+93X/9/3/213/s1, Figure S1: Nanofibre loading uniformity. Lanes 1-7 represent randomly selected
+samples cut from the nanofibre mat. Lane 1, 0.05 cm2 of nanofibre. Lanes 2-7, 0.1 cm2 of nanofibre
+per lane. VP60 levels were compared by fluorescent western blot using an anti- RHDV VP60 antibody
+and near IR fluorescent secondary antibody. Image acquisition and relative band intensities were
+obtained using a LiCor Odyssey FC instrument and Image Studio software. Figure S2: Gating
+strategy for T cell proliferation analysis; Figure S3: Gating strategy for the in vivo cytotoxicity.
+Author Contributions: Conceptualization, S.D., V.L.Y., V.K.W., and G.F.W.; methodology, S.D., K.C.,
+V.K.W., and V.L.Y.; formal analysis, S.D. and K.C.; investigation, S.D. and K.C.; resources, F.A.-B.,
+V.K.W., G.F.W., and S.L.Y.; data curation, S.D.; writing-original draft preparation, S.D.; writing-
+review and editing, S.D., K.C., G.F.W., V.K.W., and V.L.Y.; visualization, S.D.; supervision, V.K.W.,
+G.F.W., and V.L.Y. All authors have read and agreed to the published version of the manuscript.
+Funding: This research received no external funding.
+Institutional Review Board Statement: Experiments were conducted in accordance with ethical
+permit granted by the University of Otago Animal Ethics Committee (AEC D103/17).
+Informed Consent Statement: Not Applicable.
+Data Availability Statement: The data presented in this study are available in the manuscript and
+associated supplementary materials.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC8000389' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC8000389|acquisition_software' data-pmcid='PMC8000389' data-item='acquisition_software'><div class='qname'><span>Acquisition software</span><span class='ans'></span></div><div class='qdef'>Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.</div><div class='qhow'><b>What to mark.</b> Mark the software name only.<span class='eg'>In <i>images captured with Image Lab software</i> mark <b>Image Lab</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC8000389|total_protein_stain' data-pmcid='PMC8000389' data-item='total_protein_stain'><div class='qname'><span>Total protein stain</span><span class='ans'></span></div><div class='qdef'>Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.</div><div class='qhow'><b>What to mark.</b> Mark the stain name only.<span class='eg'>In <i>confirmed by Ponceau S staining</i> mark <b>Ponceau S</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>5</span> of <span class='num'>6</span></h2><span class='pill'>PMC11024413</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>PubMed · <span class='num'>2024</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC11024413'>: Female Sprague Dawley rats were constructed into the TFI model and 
+treated with quercetin, Huoxuehuayu Tongluo Decoction, and combination therapy (quercetin and 
+azithromycin). Pregnancy rate and litter size were measured. Network pharmacology was applied 
+to analyze the interaction between Huoxuehuayu Tongluo Decoction and TFI. The combination of 
+quercetin and IL-6 was analyzed by molecular docking. HE staining and electron microscopy were 
+used to observe the histopathology and ultrastructure of fallopian tube tissues. The TNF-α, IL-1β, IL-
+6, IL-8, and MPO levels were detected by ELISA. The activation of JAK/STAT, MAPK, and NF-κB p65 
+pathways was detected by western blot or immunohistochemistry.
+Results: Quercetin was the main active component of Huoxuehuayu Tongluo Decoction, and could 
+bind to IL-6 in TFI. Target genes were enriched in the IL-17 signaling pathway, JAK-STAT signaling 
+pathway, inflammatory disease, etc. Under the quercetin and azithromycin combination therapy, both 
+rat pregnancy rates and litter sizes increased significantly. quercetin and azithromycin alleviated the 
+symptoms of hydrosalpinx and inflammatory damage in fallopian tube tissues. The phosphorylation 
+of JAK/STAT and MAPK pathways and NF-κB p65 translocation to the nucleus were significantly 
+inhibited by the quercetin and azithromycin therapy.
+Conclusion: Quercetin and azithromycin combination therapy inhibited inflammation and 
+phosphorylation of JAK/STAT and MAPK pathways to improve TFI inflammation and pregnancy function.
+Article history:
+Received: Apr 28, 2023
+Accepted: Nov 13, 2023
+Keywords: 
+Azithromycin
+Inflammation
+Pregnancy
+Quercetin
+Tubal factor infertility
+►Please cite this article as: 
+Shao L, Wang N, Yan Y, Tan Y, Wu Q, Lei L, Wang M, Liu L. Quercetin of huoxuehuayu tongluo decoction and azithromycin combination 
+therapy effectively improves rat tubal factor infertility by inhibiting inflammation. Iran J Basic Med Sci 2024; 27: 685-694. doi: https://dx.doi.
+org/10.22038/IJBMS.2024.72049.15662
+Introduction
+Tubal factor infertility (TFI) can be caused by multiple 
+factors, including diseases, obstructions, structural damage, 
+etc. (1). TFI, characterized by damaged and blocked 
+fallopian tubes, occurs when the fallopian tubes are blocked. 
+It may further impede a fertilized or unfertilized ovum 
+into the uterus through fallopian tubes and prevent sperm 
+from reaching the egg for fertilization (2). Therefore, TFI 
+remarkably accounts for infertility and abnormal pregnancy 
+(3). Traditionally, the treatment of TFI largely relies on 
+antibiotic therapies based on infectious agents, such as 
+Chlamydia trachomatis infection (4). The commonly used 
+antibiotics include azithromycin, cefoxitin, or cefotetan plus 
+doxycycline, clindamycin plus gentamicin, and ampicillin/
+sulbactam plus doxycycline (5). Antibiotic therapy works 
+early on, but later, patients develop resistance and have 
+many side effects. Traditional Chinese medicine (TCM) 
+has been widely used as a preventive or therapeutic strategy 
+in modern medicine (6). Therefore, we tried to relieve 
+bacterial infection-induced TFI with TCM decoction or 
+TCM decoction with antibiotics.
+Bacterial infection, especially Chlamydia infection, 
+is the primary cause of TFI (7). Chlamydia infection is 
+estimated to lead to pelvic inflammatory diseases (PID) 
+in about 35 percent of cases in women between 16 and 24 
+years old and about 20 percent in women aged 16 to 44 
+years old (8). Previous researchers have demonstrated the 
+tight connection between signaling-induced inflammation 
+and TFI, and this signaling includes pathways such as the 
+JAK/STAT pathway (9), the NF-κB pathway (10, 11), and 
+the ERK/JNK/p38 pathway (12, 13). Inflammation allows 
+fallopian tubes to exhibit multiple histomorphological 
+changes, including swelling, hydrosalpinx, tissue adhesion, 
+mucosal congestion, exudation, and lumen stenosis or even 
+occlusion (7, 14). Through the phosphorylation of critical 
+effector proteins in the pathways to fulfill downstream 
+regulations, all these well-established signaling pathways 
+considerably contribute to releasing a wide spectrum 
+of pro-inflammatory cytokines, which further triggers 
+inflammation (15). Therefore, improving inflammation 
+related to bacterial infection may be an effective method to 
+treat TFI.
+ Iran J Basic Med Sci, 2024, Vol. 27, No. 6
+Shao et al.
+Quercetin and azithromycin improve TFI
+686
+Two 
+traditional 
+Chinese 
+herbal 
+decoctions, 
+Huoxuehuayu Decoction and Tongluo Decoction have the 
+functions of promoting blood circulation and dredging 
+collateral, respectively (16, 17). Huoxuehuayu Decoction 
+was widely used as a therapeutic regimen for diseases 
+that were accompanied by blood stasis (18). Its function 
+in improving blood circulation has been well-approved 
+in different research (18-20). Being effective in dredging 
+collateral, Tongluo Decoction has been used in modern 
+biomedical studies and therapies (21, 22). For example, 
+it played a role in blocking the apoptotic mitochondrial 
+pathway and inhibiting cardiomyocyte apoptosis (23). 
+Inflammation was one of the prevailing reasons that 
+contributed to TFI formation. There were accumulating 
+reports about the therapeutic effects of Huoxuehuayu 
+Decoction and Tongluo Decoction on inflammation (18, 24, 
+25). Huoxuehuayu Tongluo Decoction was combined with 
+Huoxuehuayu Decoction and Tongluo Decoction. It consists 
+of Angelica, Rehmannia glutinosa, peach kernel, safflower, 
+Citrus Aurantium, red peon, Ligusticum chuanxiong hort, 
+bupleurum, Platycodon grandiflorum, Achyranthes, licorice, 
+pangolin, Lulutong, loofah, Saponaria thorns, Melia 
+toosendan Sieb. et Zucc, and Caulis spatholobi. As a result, 
+we speculated that the therapy of Huoxuehuayu Tongluo 
+Decoction serves as a potential cure for treating bacterial-
+induced TFI by improving inflammation. 
+At present, interventional recanalization combined 
+with TCM can significantly ameliorate the pathological 
+condition of the fallopian tube after treatment (26). 
+Combined chitosan and danshen injections were effective 
+in preventing fallopian tube obstruction after interventional 
+recanalization and may increase pregnancy rates in infertile 
+women (27, 28). Azithromycin was widely used in the 
+antibiotic treatment of reproductive tract infections and 
+sexually transmitted infections and has fewer clinical failures 
+or adverse events (29, 30). Here, we attempt to analyze the 
+potential mechanism of action of Huoxuehuayu Tongluo 
+Decoction through network pharmacology and explore the 
+efficacy of Huoxuehuayu Tongluo Decoction and its active 
+ingredients combined with azithromycin in the treatment 
+of bacterial infection-induced TFI rats. Our study provided 
+new insight to expand the use of TCM in infertility.
+Materials and Methods
+Treatment of rats with bacteria
+A total of SPF 100 female rats (250~300 g, 8~10 weeks), 
+which were sexually mature but not mated were used and 
+purchased from Hunan Slike Jingda Laboratory Animal 
+Co., Ltd. A group of 20 Sprague Dawley (SD) female rats 
+was used as the Control without further treatment. The rest 
+were treated with a mixture of multiple bacteria to induce 
+TFI rats, including Escherichia coli, Staphylococcus aureus, 
+and Streptococcus agalactiae, diluted with sterile saline at 
+a ratio of 2:1:1 (1). After the treatment, three rats of each 
+group were randomly selected on day 28 to observe the 
+histomorphological changes of the fallopian tubes and 
+the occurrence of edema, swelling, hydrosalpinx, and 
+adhesions of surrounding tissues. After cutting the lumen, 
+a successful model featured the symptoms of mucosal 
+congestion, exudation, adhesions, water accumulation, 
+and lumen stenosis or even occlusion. Based on the 
+severity of hydrosalpinx, five levels (Lv. 0-4) were used to 
+assess modeled fallopian tubes: no hydrosalpinx (Lv. 0), 
+detected hydrosalpinx only after expansion (Lv. 1), visible 
+hydrosalpinx to the naked eye with a size smaller than 
+(Lv. 2), equal to (Lv. 3), and larger than (Lv. 4) that of the 
+ipsilateral ovary.
+Preparation of Huoxuehuayu Tongluo Decoction 
+The compound of Huoxuehuayu Tongluo Decoction 
+was supplied by The First Affiliated Hospital of Hunan 
+Traditional Chinese Medicine College. Huoxuehuayu 
+Tongluo Decoction was combined with Huoxuehuayu 
+Decoction and Tongluo Decoction. It consists of 15 g of 
+Angelica, 15 g of Rehmannia glutinosa, 15 g of peach kernel, 
+10 g of safflower, 10 g of Citrus Aurantium, 10 g of red peon, 
+10 g of Ligusticum chuanxiong hort, 10 g of bupleurum, 15 
+g of Platycodon grandiflorum, 10 g of Achyranthes, 5 g of 
+licorice, 9 g of pangolin, 15 g of Lulutong, 10 g of loofah, 10 g 
+of Saponaria thorns, 10 g of Melia toosendan Sieb. et Zucc, and 
+10 g of Caulis spatholobi. The specific preparation method of 
+Huoxuehuayu Tongluo Decoction was as follows: Five doses 
+of each of the above-mentioned Chinese medicines were 
+prepared by the Pharmaceutical Preparation Room from 
+The First Affiliated Hospital of Hunan Traditional Chinese 
+Medicine College. The concentrated solution was prepared 
+by water extraction and alcohol precipitation, and adjusted 
+to 2 g/ml containing raw medicinal materials. The pH of the 
+concentrated solution was adjusted to 6.5~7.0. The solution 
+was stored at 4 °C and used in the experiments.
+Treatment of rats with drug therapies
+A total of 100 female rats, including 20 controls (Group 
+1) and 80 modeled rats (Group 2-5), were divided into 5 
+groups: Control, Model, Quercetin, Huoxuehuayu Tongluo 
+Decoction 
+(HXHYTLD), 
+and 
+combination 
+therapy 
+(Quercetin and Azithromycin, Que+Azi) groups. Rats in 
+the Control and Model groups had no drug intervention but 
+received intragastric administration of distilled water. Rats 
+in the Quercetin group were treated with quercetin (80 mg/
+kg/day, Q4951, Sigma-Aldrich)(31). Based on the clinical 
+dose of Huoxuehuayu Decoction (32) and Huoxue Tongluo 
+Decoction (33), rats in Huoxuehuayu Tongluo Decoction 
+group were treated with Huoxuehuayu Tongluo Decoction 
+drugs (14.4 g/kg), which was calculated according to the 
+body surface area method (34). Rats in the Que+Azi group 
+were gavaged with quercetin (80 mg/kg/day, Q4951, Sigma-
+Aldrich) and 0.4 ml/d azithromycin (6.5 g/ml, 101012, 
+Sanchine). Intragastric administration was carried out at 
+the same time in the morning. For examination, 10 female 
+rats of each group were randomly selected 28 days after 
+intragastric administration. A total of 25 male rats (250~300 
+g, 8~10 weeks) were used and purchased from Hunan Slike 
+Jingda Laboratory Animal Co., Ltd. The remaining 10 
+female rats of each group were mated with 5 male rats in a 
+ratio of 2:1. The pregnancy rates and average litter sizes of 
+female rats were tracked and recorded.
+Network pharmacology analysis
+The compounds and targets of Huoxuehuayu Tongluo 
+Decoction (Angelica, Rehmannia glutinosa, peach kernel, 
+safflower, Citrus aurantium, red peon, Ligusticum chuanxiong 
+hort, bupleurum, Platycodon grandiflorum, Achyranthes, 
+licorice, pangolin, Lulutong, loofah, Saponaria thorns, 
+Melia toosendan Sieb. et Zucc, and Caulis spatholobi) were 
+searched in the TCMSP database (35) (https://tcmspw.com/
+ 687
+Iran J Basic Med Sci, 2024, Vol. 27, No. 6
+Quercetin and azithromycin improve TFI
+Shao et al.
+tcmsp.php), and the screening conditions were OB≥30% and 
+DL≥0.18. The GeneCards, NCBI, OMIM, and DisGeNET 
+databases were searched using “Tubal factor infertility 
+“ as a keyword. The screened Huoxuehuayu Tongluo 
+Decoction targets and TFI targets were input into Venny 
+2.1 to obtain the common targets. The common targets of 
+Huoxuehuayu Tongluo Decoction and TFI were input into 
+the String database (36) (https://string-db.org/cgi/input.pl) 
+to construct a PPI network. PPI networks were imported 
+into Cystoscape 3.8.0 (37) for topology analysis and degree 
+sorting by using NetworkAnalyzer tools. Based on the 
+included components, therapeutic diseases, and targets, 
+the Huoxuehuayu Tongluo Decoction composition-TFI-
+target network diagram was constructed. The composition-
+disease-target network diagram was imported into 
+Cytoscape 3.8.0 for topology analysis and degree ranking. 
+KEGG pathway enrichment analysis was performed on the 
+common targets of Huoxuehuayu Tongluo Decoction and 
+TFI. The items with corrected P-value&lt;0.05 were screened 
+by using the String database. The R (4.0.3) was installed and 
+referenced to the clusterProfiler package for bubble plotting.
+Molecular docking of quercetin with IL-6 protein
+In recent years, molecular docking has played an 
+important role in obtaining new drug candidates in a 
+short time and at low cost through computational tools 
+(38). Docking aims to take a close look at ligands bound 
+to receptor-binding pockets and predict the interactions 
+and energies between receptors and ligands. In this study, 
+VINA 1.1.2 software was used to study the docking between 
+quercetin and IL-6 protein, and the docking binding 
+energy standard was less than -4.25 kcal/mol. Subsequently, 
+Discovery Studio was used for visual analysis of quercetin 
+and IL-6 protein.
+HE Staining
+Tissues of the fallopian tubes of 10 rats in each group 
+were isolated and prepared for HE staining. The tissues were 
+embedded and sectioned. The sections were dewaxed and 
+stained with hematoxylin (Abiowell) and eosin (Abiowell), 
+respectively. The sections were then dehydrated with 
+gradient alcohol (95-100%) and sealed. The sections were 
+examined on a microscope (BA210T, Motic).
+Observation of the ultrastructure of fallopian tubes under 
+electron microscopy
+For electron microscopy, isolated tissues were soaked in 
+2% glutaraldehyde at 4 °C for 2 hr followed by incubation 
+with additional post-fixation in 1% OsO4 (Merck, 
+Darmstadt, Germany) for 2 hr. After fixation, the tissues 
+were dehydrated in a graded ethanol series and embedded 
+in epoxy resin. Ultrathin sections were cut with an 
+ultramicrotome and stained with saturated uranyl acetate 
+and lead citrate. Sections were assessed at 80 kV using a 
+Philips CM-120 transmission electron microscope.
+ELISA
+The ELISA kits for IL-1β, IL-8, IL-6, and TNF-α were 
+purchased from CUSABIO, Wuhan, China. The kit for MPO 
+was purchased from Nanjing Jiancheng Bioengineering 
+Institute, Nanjing, China. The kits of IL-1β (Catalog: CSB-
+E08055r), IL-18 (Catalog: ml037351), TNF-α (Catalog: CSB-
+E11987r), IL-6 (Catalog: CSB-E04640r), and MPO (Catalog: 
+A044-1-1) were applied to assess individual cytokine levels in 
+fallopian tissue supernatant according to the manufacturer’s 
+instructions, respectively. In brief, the 96-well plates were 
+coated with antibodies against inflammatory cytokines and 
+supernatants followed by washing with sample buffer three 
+times. The secondary antibodies were added, followed by 
+further incubation and wash for 5 times. TMS substrate and 
+stop solution were sequentially added. The optical density 
+was measured at 450 nm using a microplate reader (MB-
+530, huisong).
+Western blot
+Total protein samples from rat tissues were harvested 
+and extracted using RIPA lysis buffer (AWB0136, 
+Abiowell, China). The protein samples were prepared 
+using a loading buffer and separated by 10% SDS-PAGE. 
+The proteins were electrotransferred onto nitrocellulose 
+membranes and subsequently blocked with 5% non-fat 
+milk (AWB0004, abiowell, China) dissolved in PBS for 2 hr 
+at room temperature. Next, the membranes were incubated 
+with primary antibodies under specific conditions at 
+4 °C overnight (Table 1). Membranes were incubated 
+with the secondary antibodies (Table 1). GAPDH was 
+used as an internal control. SuperECL Plus (AWB0005, 
+Abiowell, China) and Quantity One software were used for 
+visualization and imaging analysis.
+Immunohistochemistry (IHC)
+Fallopian tube tissue sections of each experimental group 
+were used for IHC. IHC staining of p65 and IκBα protein 
+expression was performed following the standard protocol 
+by using the anti-p65 and anti-IκBα antibodies (Cell 
+signaling; 1:100 dilution), followed by incubation with the 
+secondary antibody (D-3004; Shanghai Long Island Biotec. 
+Co., Ltd). Immunohistochemical evaluation was performed 
+based on the percentage of positively stained cells and the 
+staining intensity, ranging from 0 to 3.
+Table 1. Basic information of primary antibodies in Western blot
+ Iran J Basic Med Sci, 2024, Vol. 27, No. 6
+Shao et al.
+Quercetin and azithromycin improve TFI
+688
+Statistical analysis
+All statistical analyses were carried out using GraphPad 
+Prism 8.0.2 (GraphPad Software, San Diego, CA, USA). 
+Data were expressed as mean±standard deviation (SD). The 
+test conforms to the normal distribution and the variance is 
+homogeneous. The unpaired t-test is used between groups. 
+The comparison between multiple groups uses one-way 
+ANOVA or ANOVA of repeated measurement data. Tukey’s 
+post-hoc test is used for conducting multiple comparisons 
+after an ANOVA. P&lt;0.05 means the difference is statistically 
+significant.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC11024413' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC11024413|transfer_method' data-pmcid='PMC11024413' data-item='transfer_method'><div class='qname'><span>Transfer method</span><span class='ans'></span></div><div class='qdef'>How protein was moved onto the membrane: wet or tank, semi-dry, dry, or a named transfer system.</div><div class='qhow'><b>What to mark.</b> Mark the words naming the method.<span class='eg'>In <i>transferred using a semi-dry apparatus</i> mark <b>semi-dry</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>6</span> of <span class='num'>6</span></h2><span class='pill'>PMC4378121</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Pharmacognosy Magazine · <span class='num'>2015</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC4378121'>: HGC-27 cells treated 
+with shikonin at a concentration of 30μM or above showed significant growth inhibition compared 
+to control cells. Shikonin-treated cells also underwent apoptosis as detected by flow cytometric 
+analysis and microscopic examination of cellular morphology. Further investigation into the underlying 
+mechanism of apoptosis by western blot showed that the shikonin promoted the activation of poly-
+(ADP-ribose)-polymerase, caspase-3 and caspase-9 following 24 h or 48 h of treatment time, as 
+well as the activation of caspase-8, but only after 48 h of treatment time. Furthermore, the levels 
+of mitochondrial membrane potential, B-cell lymphoma 2 (Bcl-2) and Bcl-extra large were reduced 
+following shikonin treatment while the level of Bax was increased. In addition, shikonin also caused a 
+signifi cant reduction of the protein Survivin, while having little effect on the expression on X-linked 
+inhibitor of apoptosis protein. Conclusion: Taken together, these results showed that the shikonin 
+exhibited its anti-tumor activity against HGC-27 cells through inhibiting cell growth and promoting 
+apoptosis by targeting mitochondrial-related signaling pathway. Our finding may represent a positive 
+step in finding a natural and effective compound that could be important implication for future 
+development of chemotherapeutic and/or chemopreventive agent against GC.
+Key words: Apoptosis, caspases, HGC-27 cells, mitochondrial pathway, shikonin
+A B S T R A C T
+O R I G I N A L A R T I C L E
+ Hou, et al.: Shikonin induces apoptosis in the human gastric cancer cells
+Pharmacognosy Magazine | April-June 2015 | Vol 11 | Issue 42 
+251
+also induces apoptosis in hepatocellular carcinoma cells 
+via reactive oxygen species.[17] In human papillary thyroid 
+carcinoma cells, shikonin induces apoptosis through 
+mitochondrial pathway,[18] whereas in human glioma 
+cell lines, shikonin induces apoptosis through multiple 
+mechanisms, including the generation of reactive oxygen 
+species, depletion of glutathione and disruption of 
+mitochondrial transmembrane potential.[19] However, the 
+anti-tumor activity of shikonin on GC cells has not yet 
+been reported. Thus, the aim of the present study was to 
+elucidate the effect of shikonin on human GC cells and 
+explore the potential underlying mechanism of its action. 
+The results demonstrated that the shikonin could inhibit the 
+proliferation of the human gastric cancer cell line HGC-27, 
+and promote apoptosis by targeting mitochondrial-related 
+signaling pathways.
+MATERIALS AND METHODS
+Reagents
+Shikonin (purity &gt; 98%) was obtained from the 
+Beijing Institute of Biologic Products (Beijing, China). 
+Fetal bovine serum (FBS) was purchased from TBD 
+Biotechnology Development (Tianjin, China). RPMI 
+1640 was from Gibco (Grand Island, USA). Propidium 
+iodide (PI), Hoechst-33258 and 3-(4,5-dimethylthiazo
+l-2-yl)-2,5-diphenyltetrazolium bromide (MTT) were 
+purchased from Sigma Chemical (St. Louis, MO, USA). 
+Rhodamine-123 (Rh-123) was obtained from Molecular 
+Probes (Eugene, OR, USA). The antibodies against 
+poly-(ADP-ribose)-polymerase (PARP), caspase-3, 
+caspase-9 and caspase-8 were purchased from Cell 
+Signaling Technology (Beverly, MA). The antibodies 
+against B-cell lymphoma 2 (Bcl-2), Bax, Bcl-extra 
+large (Bcl-xL), Survivin, X-linked inhibitor of apoptosis 
+protein (XIAP) and β-actin were from Santa Cruz 
+Biotechnology (Santa Cruz, CA, USA).
+Cell culture
+HGC-27 cells were obtained from the Institute of 
+Biochemistry and Cell Research, China Life Science 
+Academy (Shanghai, China). The cells were cultured 
+in RPMI 1640 supplemented with 10% FBS, penicillin 
+(100 U/mL) and streptomycin (100 μg/mL) and 
+maintained at 37°C in the presence of 5% CO2 in a 
+humidified atmosphere.
+Cell growth inhibition assay
+The growth inhibitory effect of shikonin on HGC-27 cells 
+was measured by MTT assay as previously described.[16] In 
+brief, the cells were seeded in 96-well plates at a density 
+of 4 × 103 cells/well. After 12 h of incubation, the cells 
+were treated with different concentrations (1, 3, 10, 30 
+and 100 μM) of shikonin. As a control group, dimethyl 
+sulfoxide (DMSO) was added instead (final concentration 
+of 0.1%). After 24 or 48 h, the cells were incubated with 
+MTT (0.25 mg/ml) for 3 h at 37°C. The purple formazan 
+crystals were dissolved by addition of 100 μl DMSO, and 
+the absorbance of the plate was read at 490 nm using a 
+plate reader.
+Flow cytometric analysis
+HGC-27 cells (1 × 106 cells) were harvested and washed 
+once in cold phosphate buffered saline (PBS). The cell 
+pellets were fixed in 70% ethanol and washed in cold 
+PBS, and then suspended in PI solution (1 mL) containing 
+50 μg/mL of PI, 0.1% (w/v) sodium citrate, 0.1% (v/v) 
+triton X. The samples were incubated at 4°C in the dark 
+and analyzed by a FACScan flow cytometer (Becton 
+Dickinson).[16]
+Morphological changes
+After treatment with shikonin, HGC-27 cells were 
+harvested by trypsinization and washed twice with PBS. 
+The cells were fixed with 3.7% paraformaldehyde for 2 h 
+at room temperature, washed once with PBS, and then 
+stained with 167 μM Hoechst-33258 for 30 min at 37°C. 
+At the end of the incubation, the cells were washed and 
+resuspended in PBS. The nuclear morphology of the cells 
+was observed under a fluorescence microscope.[20]
+Measurement of mitochondrial membrane potential
+Mitochondrial membrane potential (MMP) was assessed 
+by the retention of Rh-123, a membrane-permeable 
+fluorescent cationic dye.[21] Briefly, cells treated with 
+various concentrations of shikonin were collected 
+and washed with PBS followed by incubation with 
+0.5 μg/mL Rh-123 in the dark for 30 min at 37°C. 
+The cells were then washed with PBS and analyzed by 
+FACScan with excitation and emission wavelength of 495 
+and 535 nm, respectively.[21,22]
+Figure 1: Structure of shikonin
+ Hou, et al.: Shikonin induces apoptosis in the human gastric cancer cells
+252 
+Pharmacognosy Magazine | April-June 2015 | Vol 11 | Issue 42
+Determination of protein changes
+Western blot analysis for detecting the changes in the 
+levels of certain proteins was performed using cells that 
+had been treated with shikonin (0, 3, 10, and 30 μM) for 
+both 24 and 48 h. Cells were lysed with radio immune 
+precipitation assay buffer (50 mM Tris-HCl, 150 mM 
+NaCl, 0.1% sodium dodecyl sulfate [SDS], 1% NP-40, 
+0.5% sodium deoxycholate, 1 mM phenylmethyl sulfonyl 
+fluoride, 100 μM leupeptin, and 2 μg/ml aprotinin, 
+pH 8.0) and samples of the extract (50 μg total protein) 
+were resolved in 8-12% SDS-polyacrylamide gels. After 
+electrophoresis, the proteins in the gels were transferred 
+to nitrocellulose membranes, and the membranes were 
+stained with 0.2% Ponceau S red to assure equal protein 
+loading and transferring. The membranes were blocked 
+with 5% nonfat milk, followed by incubation with the 
+appropriate primary antibody at 4°C for overnight. 
+The membranes were incubated with horseradish 
+peroxidase-conjugated secondary antibody. Positive 
+bands were visualized using enhanced chemiluminescence 
+Western blotting detection reagents (Amersham 
+Biosciences, UK).[21,22]
+Data analysis
+Data were expressed as mean ± SEM of three experiments. 
+Statistical significance (P &lt; 0.05) was assessed by one-way 
+ANOVA followed by Dunnett’s t-test (SPSS 13.0 software, 
+SPSS, Chicago, IL, USA).
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC4378121' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC4378121|total_protein_stain' data-pmcid='PMC4378121' data-item='total_protein_stain'><div class='qname'><span>Total protein stain</span><span class='ans'></span></div><div class='qdef'>Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.</div><div class='qhow'><b>What to mark.</b> Mark the stain name only.<span class='eg'>In <i>confirmed by Ponceau S staining</i> mark <b>Ponceau S</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div></div><div class='scrim' id='scrim' onclick='guide(false)'></div><aside class='guide' id='guide'><button type='button' class='quiet close' onclick='guide(false)'>Close</button><h2>Guide</h2><h3>You do not type anything</h3><p>Select the words in the Methods text, then press <b>Use highlighted text</b>. The exact words you selected are what gets recorded.</p><p>Typing is what this design removes. Given a sentence like the one below, one person types RIPA, another types the whole parenthesis, a third types the clause. All three read the paper correctly and disagree in the data. Selecting removes that entirely.</p><blockquote>The cell total protein was isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor (CWBIO, Shanghai, China) was added into the RIPA at a ratio of 1:100.</blockquote><p style='margin-top:10px'>For lysis buffer there, mark just <b>RIPA</b>, the first time it appears.</p><h3>How much to select</h3><p><b>The shortest phrase that states the detail.</b> Not the whole sentence when three words will do, and not the vendor, city or catalogue number unless the question asks for them.</p><p>Every question shows a worked example under <b>What to mark</b>. Follow it rather than your instinct.</p><h3>When a paper gives several</h3><p>Many papers list a table of antibodies with eight RRIDs, eight catalogue numbers and several vendors. <b>Mark them all.</b> Press <b>Use highlighted text</b> once per value and they stack up in a numbered list. Press <b>Done, next</b> when the list is complete.</p><p>If they sit in a contiguous table or a run-on list, selecting the whole block in one go is fine and much faster. You are marking where the evidence is, not counting.</p><p>The same value repeated does not need marking twice. A paper that uses 1:1000 for six antibodies has one dilution, not six.</p><p><b>If you stop before you have them all, tick 'There are more of these than I marked'.</b> That box matters more than it looks: without it, someone who stopped at five of eight cannot be told apart from someone who found everything, and the three they skipped would count against the extractor as mistakes it did not make.</p><h3>What counts</h3><p><b>Judge only what is written.</b> Not what the authors almost certainly did, and not what is standard practice in the field.</p><p><b>Only the Methods section is shown, and that is deliberate.</b> If a detail appears solely in a figure legend or a supplementary file, it is not in the text you are given, so the answer is <b>Not stated</b>.</p><p><b>Unclear</b> is a real answer. It is set aside rather than counted either way, so use it when you are genuinely stuck rather than guessing.</p><h3>The shaded sentences</h3><p>Opening a question shades the sentences most likely to hold the answer, and <b>Prev</b> and <b>Next</b> step between them.</p><p>They are a search aid and nothing more. A crude keyword rule picks them, it knows nothing about the answer, it sometimes shades irrelevant sentences and sometimes misses the right one. Read around them. When nothing is shaded, read the section normally.</p><h3>Getting through a batch</h3><p>The Methods text stays pinned on the left while questions scroll on the right. Answers collapse to one line and the next question opens automatically. Click any collapsed line to change it.</p><p>Your work is saved in this browser as you go, so closing the tab loses nothing. <b>Submit</b> is at the top of the page and turns on once every question is answered and your initials are filled in.</p><h3>Every question, in one place</h3><table><tr><td>Membrane pore size</td><td>A membrane pore size in micrometres.<br><b>Mark:</b> Mark the number and its unit. In <i>a 0.45 um PVDF membrane</i> mark <b>0.45 um</b>.</td></tr><tr><td>Imager instrument</td><td>The imaging hardware, including X-ray film where film was used.<br><b>Mark:</b> Mark the instrument name only. Leave out the manufacturer. In <i>imaged on a ChemiDoc MP (Bio-Rad)</i> mark <b>ChemiDoc MP</b>.</td></tr><tr><td>Quantification software, named</td><td>A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.<br><b>Mark:</b> Mark the package name only. Leave out the version and the supplier. In <i>quantified in ImageJ (v1.53, NIH)</i> mark <b>ImageJ</b>.</td></tr><tr><td>Antibody catalogue number</td><td>A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.<br><b>Mark:</b> Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block. In <i>(Abcam, ab1234)</i> mark <b>ab1234</b>.</td></tr><tr><td>Secondary antibody conjugate</td><td>What the secondary antibody is conjugated to.<br><b>Mark:</b> Mark each distinct conjugate once. In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</td></tr><tr><td>Lysis buffer</td><td>The lysis or extraction buffer, either named or given as a recipe.<br><b>Mark:</b> Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors. In <i>isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor was added into the RIPA</i> mark just <b>RIPA</b>, the first time it appears.</td></tr><tr><td>Reducing or denaturing conditions</td><td>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.<br><b>Mark:</b> Mark the phrase or the reagent that states it. In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</td></tr><tr><td>Detection chemistry</td><td>How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.<br><b>Mark:</b> Mark the words naming the detection method. In <i>visualised by enhanced chemiluminescence</i> mark <b>enhanced chemiluminescence</b>.</td></tr><tr><td>Membrane type</td><td>PVDF or nitrocellulose, or another named membrane chemistry.<br><b>Mark:</b> Mark the membrane name only. In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</td></tr><tr><td>Loading control, named</td><td>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.<br><b>Mark:</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two. In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</td></tr><tr><td>Protein loaded per lane</td><td>A mass of protein loaded per lane. A volume on its own does not count.<br><b>Mark:</b> Mark the mass and its unit. In <i>30 ug of protein was loaded per lane</i> mark <b>30 ug</b>.</td></tr><tr><td>Primary antibody vendor</td><td>The company that supplied a primary antibody.<br><b>Mark:</b> Mark every distinct company name. Leave out the city and country. A table can be marked as one block. In <i>(Cell Signaling Technology, Danvers, MA)</i> mark <b>Cell Signaling Technology</b>.</td></tr><tr><td>Total protein stain</td><td>Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.<br><b>Mark:</b> Mark the stain name only. In <i>confirmed by Ponceau S staining</i> mark <b>Ponceau S</b>.</td></tr><tr><td>Transfer method</td><td>How protein was moved onto the membrane: wet or tank, semi-dry, dry, or a named transfer system.<br><b>Mark:</b> Mark the words naming the method. In <i>transferred using a semi-dry apparatus</i> mark <b>semi-dry</b>.</td></tr><tr><td>Gel percentage</td><td>The acrylamide percentage of the separating gel.<br><b>Mark:</b> Mark the percentage. For a gradient, mark the whole range. In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</td></tr><tr><td>Primary antibody host or type</td><td>The host species or the clonality of a primary antibody.<br><b>Mark:</b> Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times. In <i>rabbit polyclonal anti-p53</i> mark <b>rabbit polyclonal</b>.</td></tr><tr><td>Replicate count</td><td>A number of replicates. You are not being asked whether they are biological or technical.<br><b>Mark:</b> Mark the number together with the words that make it a replicate count. In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</td></tr><tr><td>Protein quantification method</td><td>How total protein was measured before loading.<br><b>Mark:</b> Mark the assay name only. In <i>quantified by BCA assay (Pierce)</i> mark <b>BCA</b>.</td></tr><tr><td>Antibody dilution</td><td>Any antibody working dilution. Primary and secondary both count, and you are not being asked which is which.<br><b>Mark:</b> Mark each distinct dilution once. If the same dilution is used repeatedly, one mark is enough. In <i>incubated at 1:1000 overnight</i> mark <b>1:1000</b>.</td></tr><tr><td>Acquisition software</td><td>Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.<br><b>Mark:</b> Mark the software name only. In <i>images captured with Image Lab software</i> mark <b>Image Lab</b>.</td></tr></table><h3>Ask about a rule</h3><p>This answers questions about <b>what a rule means</b>, nothing else. It is never given the paper, it cannot see what you are reading, and it will refuse if you paste text and ask what the answer is. Deciding what a paper says is the whole job being measured here, so it has to stay yours.</p><p>Questions are logged with your initials, so ask freely and openly.</p><select id='ask_item' style='width:100%;margin-bottom:8px;padding:8px 12px;border-radius:var(--r-sm);border:1px solid var(--hairline-input);font-family:inherit;font-size:15px;font-weight:300;background:var(--canvas);color:var(--ink)'><option value='membrane_pore_um'>Membrane pore size</option><option value='imager_instrument'>Imager instrument</option><option value='quantification_software'>Quantification software, named</option><option value='ab_catalog_any'>Antibody catalogue number</option><option value='secondary_ab_conjugate'>Secondary antibody conjugate</option><option value='lysis_buffer'>Lysis buffer</option><option value='reducing_denaturing'>Reducing or denaturing conditions</option><option value='detection_chemistry'>Detection chemistry</option><option value='membrane_type'>Membrane type</option><option value='loading_control_identity'>Loading control, named</option><option value='protein_per_lane_ug'>Protein loaded per lane</option><option value='primary_ab_vendor'>Primary antibody vendor</option><option value='total_protein_stain'>Total protein stain</option><option value='transfer_method'>Transfer method</option><option value='gel_percentage'>Gel percentage</option><option value='primary_ab_host'>Primary antibody host or type</option><option value='replicate_n'>Replicate count</option><option value='protein_quant_method'>Protein quantification method</option><option value='ab_dilution_any'>Antibody dilution</option><option value='acquisition_software'>Acquisition software</option></select><input type='text' id='ask_q' placeholder='for example: does a lot number count as a catalogue number?' autocomplete='off'><div style='margin-top:8px'><button type='button' class='sec' onclick='ask()'>Ask</button></div><blockquote id='ask_out' style='margin-top:10px'>The rules above are the reference. This is only for when one of them is unclear.</blockquote></aside><div class='hint' id='hint'></div><script>
+const BATCH = {"batch": "batch_34", "papers": [{"pmcid": "PMC4885800", "items": ["membrane_pore_um", "imager_instrument", "quantification_software", "ab_catalog_any", "secondary_ab_conjugate", "lysis_buffer", "reducing_denaturing", "detection_chemistry", "membrane_type", "loading_control_identity", "protein_per_lane_ug", "primary_ab_vendor"]}, {"pmcid": "PMC9742946", "items": ["total_protein_stain", "transfer_method", "membrane_pore_um", "gel_percentage", "primary_ab_host", "replicate_n", "ab_catalog_any", "protein_quant_method", "lysis_buffer", "ab_dilution_any"]}, {"pmcid": "PMC8434601", "items": ["acquisition_software", "total_protein_stain", "transfer_method"]}, {"pmcid": "PMC8000389", "items": ["acquisition_software", "total_protein_stain"]}, {"pmcid": "PMC11024413", "items": ["transfer_method"]}, {"pmcid": "PMC4378121", "items": ["total_protein_stain"]}]};
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwoTYSFc73PzL9mXwm77vwmTtvDEef65ackGHNtOhhxiAQMRGf8RhQtjjeKCoIaC0dE/exec";
+const CUES = {"primary_ab_rrid": ["rrid|research resource|\\bab_\\d|identifier", "ab_\\d{4,}|rrid"], "ab_catalog_any": ["antibod|cat(alog(ue)?)?\\s*\\.?\\s*(no|num|#)|product\\s*(no|#)|from\\s+\\w+\\s*\\(", "#\\s*\\d|\\b[a-z]{2,4}-?\\d{3,6}\\b|clone"], "primary_ab_vendor": ["antibod|purchased|obtained|supplied|from\\s+\\w+\\s*\\(", "abcam|cell signal|santa cruz|sigma|thermo|invitrogen|millipore|proteintech|r&d|bd bio|novus|genetex"], "primary_ab_host": ["antibod|anti-", "rabbit|mouse|goat|rat\\b|donkey|monoclonal|polyclonal"], "ab_dilution_any": ["antibod|incubat|dilut|probe", "1\\s*[:/]\\s*\\d"], "secondary_ab_conjugate": ["secondary|conjugat", "hrp|horseradish|alkaline phosphat|irdye|alexa|biotin"], "detection_chemistry": ["detect|visuali[sz]|develop|expos", "chemilumin|\\becl\\b|fluoresc|colorimetric|autoradiograph|film"], "ecl_reagent": ["\\becl\\b|chemilumin|substrate|detect", "supersignal|clarity|luminata|immobilon|femto|pico|dura|amersham|pierce"], "blocking_agent": ["block", "milk|\\bbsa\\b|casein|serum|albumin"], "blocking_percent": ["block", "\\d+\\s*%"], "membrane_type": ["membrane|transfer|blott", "pvdf|nitrocellulose|immobilon"], "membrane_pore_um": ["membrane|pvdf|nitrocellulose|pore", "0?\\.\\d+\\s*[u\u00b5\u03bc]?m|micron|\\d\\.\\d+"], "gel_percentage": ["gel|sds-?page|acrylamide|electrophore|separat|resolv", "\\d+\\s*%|gradient|\\d+\\s*-\\s*\\d+"], "transfer_method": ["transfer|blott", "semi-?dry|wet|tank|iblot|trans-?blot|electro|\\bmini\\b"], "reducing_denaturing": ["boil|heat|denatur|reduc|sample buffer|loading buffer|laemmli", "\\bdtt\\b|mercaptoethanol|[\u03b2b]-?me\\b|95\\s*\u00b0|100\\s*\u00b0|5\\s*min"], "protein_per_lane_ug": ["load|per lane|separat|resolv|subjected", "\\d+\\s*[u\u00b5\u03bc]g|microgram"], "protein_quant_method": ["protein|concentration|quantif|determin", "\\bbca\\b|bradford|lowry|nanodrop|\\bdc\\b|coomassie"], "lysis_buffer": ["lys(is|ed|e )|extract|homogeni|solubili|harvest|isolat|scrap|resuspend|prepar|collect", "ripa|np-?40|triton|laemmli|\\btris\\b|\\bsds\\b|buffer"], "total_protein_stain": ["stain|normali[sz]|total protein", "ponceau|stain-?free|revert|coomassie|amido"], "loading_control_identity": ["loading control|normali[sz]|internal control|reprob|antibod|probe|blot", "gapdh|actin|tubulin|vinculin|hsp\\s?90|lamin|histone|vdac|calnexin"], "quantification_software": ["quantif|densitom|analy[sz]|band intensit|measur", "imagej|fiji|image ?lab|image ?studio|quantity one|imagepro|alphaview|empiria|software"], "acquisition_software": ["captur|acqui|imag(ed|ing)|software", "image ?lab|image ?studio|cs analyzer|software|version"], "imager_instrument": ["imag(ed|ing|er)|captur|develop|expos|scan", "chemidoc|odyssey|amersham|\\blas-?\\d|x-?ray|film|fusion|azure|ibright"], "replicate_n": ["experiment|replicat|independent|repeated|\\bn\\s*=|triplicate|duplicate", "\\bn\\s*=\\s*\\d|three|four|five|six|triplicate|duplicate|\\d+\\s*times"]};
+const DEFS = {"reducing_denaturing": ["Reducing or denaturing conditions", "An explicit statement of reducing or denaturing conditions, whether by name or by reagent.", "Mark the phrase or the reagent that states it."], "detection_chemistry": ["Detection chemistry", "How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.", "Mark the words naming the detection method."], "secondary_ab_conjugate": ["Secondary antibody conjugate", "What the secondary antibody is conjugated to.", "Mark each distinct conjugate once."], "transfer_method": ["Transfer method", "How protein was moved onto the membrane: wet or tank, semi-dry, dry, or a named transfer system.", "Mark the words naming the method."], "primary_ab_vendor": ["Primary antibody vendor", "The company that supplied a primary antibody.", "Mark every distinct company name. Leave out the city and country. A table can be marked as one block."], "gel_percentage": ["Gel percentage", "The acrylamide percentage of the separating gel.", "Mark the percentage. For a gradient, mark the whole range."], "primary_ab_host": ["Primary antibody host or type", "The host species or the clonality of a primary antibody.", "Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times."], "lysis_buffer": ["Lysis buffer", "The lysis or extraction buffer, either named or given as a recipe.", "Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors."], "quantification_software": ["Quantification software, named", "A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.", "Mark the package name only. Leave out the version and the supplier."], "total_protein_stain": ["Total protein stain", "Ponceau S, stain-free, REVERT, Coomassie, or another total protein normalisation stain.", "Mark the stain name only."], "loading_control_identity": ["Loading control, named", "A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.", "Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two."], "replicate_n": ["Replicate count", "A number of replicates. You are not being asked whether they are biological or technical.", "Mark the number together with the words that make it a replicate count."], "membrane_type": ["Membrane type", "PVDF or nitrocellulose, or another named membrane chemistry.", "Mark the membrane name only."], "imager_instrument": ["Imager instrument", "The imaging hardware, including X-ray film where film was used.", "Mark the instrument name only. Leave out the manufacturer."], "acquisition_software": ["Acquisition software", "Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.", "Mark the software name only."], "membrane_pore_um": ["Membrane pore size", "A membrane pore size in micrometres.", "Mark the number and its unit."], "protein_quant_method": ["Protein quantification method", "How total protein was measured before loading.", "Mark the assay name only."], "ab_dilution_any": ["Antibody dilution", "Any antibody working dilution. Primary and secondary both count, and you are not being asked which is which.", "Mark each distinct dilution once. If the same dilution is used repeatedly, one mark is enough."], "ab_catalog_any": ["Antibody catalogue number", "A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.", "Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block."], "protein_per_lane_ug": ["Protein loaded per lane", "A mass of protein loaded per lane. A volume on its own does not count.", "Mark the mass and its unit."]};
+const KEY = 'trackF_A6_' + BATCH.batch;
+const T0 = Date.now();
+
+function total(){ return BATCH.papers.reduce((a,p)=>a+p.items.length,0); }
+function esc(s){ return s.replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+/* ---- state ----------------------------------------------------------------
+   ANS[judgement_id] = {answer, spans:[{text,start,end}], more:bool, done:bool}
+
+   Several items are set-valued in the papers themselves. An antibody table gives
+   eight RRIDs, eight catalogue numbers and several vendors, and stage 2 emits all
+   of them pipe-joined. A single span could never validate that, so a question
+   accepts as many spans as the paper needs.
+
+   `more` records "there are more of these than I marked". Without it, a reviewer
+   who stopped after five of eight is indistinguishable from a reviewer who found
+   everything, and the three unmarked values would score as extractor errors. */
+const ANS = {};
+
+function answered(){
+  return Object.values(ANS).filter(v=>v.done).length;
+}
+function refresh(){
+  const a = answered(), t = total();
+  document.getElementById('count').textContent = a + ' of ' + t + ' answered';
+  document.getElementById('bar').style.width = (100*a/t) + '%';
+  document.getElementById('send').disabled =
+    (a < t) || !document.getElementById('rev').value.trim();
+  try{
+    localStorage.setItem(KEY, JSON.stringify(
+      {rev: document.getElementById('rev').value, a: ANS}));
+  }catch(e){}
+}
+function restore(){
+  let s; try{ s = JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+  if (!s) return 0;
+  document.getElementById('rev').value = s.rev || '';
+  let n = 0;
+  Object.entries(s.a||{}).forEach(([q,v])=>{
+    const el = document.querySelector('[data-q="'+CSS.escape(q)+'"]');
+    if (!el) return;
+    ANS[q] = v; paint(el); n++;
+  });
+  return n;
+}
+
+/* ---- sentence segmentation and cue ranking --------------------------------
+   Sentence level, not line level. PDF text wraps at arbitrary columns, so a
+   "line" is a fragment and marking one marks half a clause. */
+function sentences(text){
+  const out = [];
+  let start = 0;
+  const re = /([.!?])(\s|$)/g;
+  let m;
+  while ((m = re.exec(text)) !== null){
+    const end = m.index + 1;
+    if (end - start > 12) { out.push([start, end]); start = re.lastIndex; }
+  }
+  if (text.length - start > 12) out.push([start, text.length]);
+  return out;
+}
+/* A marked span longer than this is not a search aid, it is a wall. Ordinary
+   Methods sentences run 100 to 250 characters. */
+const MAXSEG = 320;
+/* Tuned on the STAR Protocols key-resources table. 70/90 let adjacent windows merge
+   into 300-character blobs; 30/40 was too tight to read a row in context. At 45/55
+   that table marks two separate RRID rows instead of one merged run, and drops from
+   100% of the block marked to about 9%. */
+const WIN_BEFORE = 45, WIN_AFTER = 55;
+
+function snapL(s, i){ const j = s.lastIndexOf(' ', i); return j > i - 25 && j >= 0 ? j + 1 : i; }
+function snapR(s, i){ const j = s.indexOf(' ', i);     return j >= 0 && j < i + 25 ? j : i; }
+
+/* Windows around each value hit inside an over-long block.
+   STAR Protocols and Cell Press papers carry a KEY RESOURCES TABLE that survives PDF
+   extraction as one 2,500-character run with almost no sentence punctuation. Marking
+   the containing "sentence" marked the entire reagent list for a question about one
+   RRID. Requiring a value hit and marking a window around it turns that into two tight
+   marks on the two RRIDs actually present. */
+function windows(text, s, e, valSrc, out){
+  const seg = text.slice(s, e);
+  let re;
+  try{ re = new RegExp(valSrc, 'gi'); }catch(err){ return; }
+  let m, n = 0;
+  while ((m = re.exec(seg)) !== null && n < 6){
+    const a = snapL(seg, Math.max(0, m.index - WIN_BEFORE));
+    const b = snapR(seg, Math.min(seg.length, m.index + m[0].length + WIN_AFTER));
+    out.push({s: s + a, e: s + b, score: 2});
+    n++;
+    if (m.index === re.lastIndex) re.lastIndex++;
+  }
+}
+
+function merge(spans){
+  if (!spans.length) return [];
+  spans.sort((a,b)=> a.s - b.s);
+  const out = [spans[0]];
+  for (let i = 1; i < spans.length; i++){
+    const last = out[out.length-1], cur = spans[i];
+    if (cur.s <= last.e){
+      last.e = Math.max(last.e, cur.e);
+      last.score = Math.max(last.score, cur.score);
+    } else out.push(cur);
+  }
+  return out;
+}
+
+function rank(text, item){
+  const c = CUES[item];
+  if (!c) return [];
+  let ctx;
+  try{ ctx = new RegExp(c[0],'i'); }catch(e){ return []; }
+  const hasVal = seg => { try{ return new RegExp(c[1],'i').test(seg); }catch(e){ return false; } };
+  const segs = sentences(text);
+  let scored = [];
+
+  for (const [s,e] of segs){
+    const seg = text.slice(s,e);
+    if (!ctx.test(seg)) continue;              // context is required, not optional
+    if (e - s <= MAXSEG){ scored.push({s, e, score: 1 + (hasVal(seg) ? 1 : 0)}); continue; }
+    windows(text, s, e, c[1], scored);         // long block: narrow to the value hits
+  }
+
+  // Requiring context is what makes the marking precise, but when a paper phrases
+  // something no context cue anticipated, shading nothing is worse than shading
+  // loosely. Drop to value cues alone rather than leave a blank pane.
+  if (!scored.length){
+    for (const [s,e] of segs){
+      const seg = text.slice(s,e);
+      if (!hasVal(seg)) continue;
+      if (e - s <= MAXSEG) scored.push({s, e, score: 1});
+      else windows(text, s, e, c[1], scored);
+    }
+  }
+
+  scored = merge(scored);
+  scored.sort((a,b)=> b.score - a.score || (a.e - a.s) - (b.e - b.s) || a.s - b.s);
+  const top = scored.slice(0, 8);
+  top.sort((a,b)=> a.s - b.s);
+  return top;
+}
+
+let curBox = null, curMarks = [], curIdx = -1;
+function highlight(pmcid, item){
+  const box = document.getElementById('m_' + pmcid);
+  if (!box) return;
+  curBox = box;
+  const raw = box.dataset.raw;
+  const spans = rank(raw, item);
+  let out = '', at = 0;
+  for (const sp of spans){
+    out += esc(raw.slice(at, sp.s)) + '<mark>' + esc(raw.slice(sp.s, sp.e)) + '</mark>';
+    at = sp.e;
+  }
+  out += esc(raw.slice(at));
+  box.innerHTML = out;
+  curMarks = [...box.querySelectorAll('mark')];
+  curIdx = -1;
+  const lab = document.getElementById('hits_' + pmcid);
+  if (lab) lab.textContent = curMarks.length
+    ? curMarks.length + ' likely passage' + (curMarks.length>1?'s':'')
+    : 'nothing obvious, read the section';
+  if (curMarks.length) jump(1);
+}
+function jump(d){
+  if (!curMarks.length) return;
+  if (curIdx >= 0) curMarks[curIdx].classList.remove('cur');
+  curIdx = (curIdx + d + curMarks.length) % curMarks.length;
+  curMarks[curIdx].classList.add('cur');
+  curMarks[curIdx].scrollIntoView({block:'center', behavior:'smooth'});
+}
+
+/* ---- selection capture -----------------------------------------------------
+   Offsets are computed against the raw text, not the marked-up DOM, so a stored
+   span is comparable to stage 2's own match offsets regardless of highlighting. */
+function textOffset(container, node, off){
+  const w = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+  let n, acc = 0;
+  while ((n = w.nextNode())){
+    if (n === node) return acc + off;
+    acc += n.nodeValue.length;
+  }
+  return -1;
+}
+function getSel(box){
+  const s = window.getSelection();
+  if (!s || s.rangeCount === 0 || s.isCollapsed) return null;
+  const r = s.getRangeAt(0);
+  if (!box.contains(r.commonAncestorContainer)) return null;
+  const a = textOffset(box, r.startContainer, r.startOffset);
+  const b = textOffset(box, r.endContainer, r.endOffset);
+  if (a < 0 || b < 0 || b <= a) return null;
+  return {start:a, end:b, text:s.toString()};
+}
+
+/* ---- answering ------------------------------------------------------------ */
+function activeEl(){ return document.querySelector('.q.active'); }
+function activate(el){
+  if (!el) return;
+  document.querySelectorAll('.q.active').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  highlight(el.dataset.pmcid, el.dataset.item);
+}
+function tidy(s){ return s.replace(/\s+/g,' ').trim(); }
+
+function paint(el){
+  const q = el.dataset.q, v = ANS[q];
+  const tag = el.querySelector('.ans');
+  const grab = el.querySelector('.grab');
+  const list = el.querySelector('.spans');
+  const moreBox = el.querySelector('.morewrap');
+  const doneBtn = el.querySelector('[data-act="done"]');
+
+  if (!v){
+    el.classList.remove('done'); tag.textContent = '';
+    grab.classList.remove('on'); list.innerHTML = '';
+    moreBox.classList.remove('on'); doneBtn.style.display = 'none';
+    return;
+  }
+  if (v.answer === 'marked'){
+    grab.classList.add('on');
+    moreBox.classList.toggle('on', !el.classList.contains('done'));
+    doneBtn.style.display = el.classList.contains('done') ? 'none' : '';
+    list.innerHTML = v.spans.map((s,i)=>
+      '<li><span>' + esc(tidy(s.text)) + '</span>'
+      + '<button type="button" class="quiet x" data-act="drop" data-i="' + i + '">'
+      + 'Remove</button></li>').join('');
+    el.querySelector('.morebox').checked = !!v.more;
+    const n = v.spans.length;
+    tag.textContent = n === 1 ? '\u201C' + tidy(v.spans[0].text).slice(0,52) + '\u201D'
+                              : n + ' marked' + (v.more ? ', more not marked' : '');
+  } else {
+    grab.classList.remove('on'); list.innerHTML = '';
+    moreBox.classList.remove('on'); doneBtn.style.display = 'none';
+    tag.textContent = v.answer === 'not_stated' ? 'Not stated' : 'Unclear';
+  }
+  el.classList.toggle('done', !!v.done);
+}
+function mark(el){
+  const box = document.getElementById('m_' + el.dataset.pmcid);
+  const sel = getSel(box);
+  if (!sel){ flash('Select the words in the Methods text first, then press this.'); return; }
+  const q = el.dataset.q;
+  const v = ANS[q] && ANS[q].answer === 'marked'
+    ? ANS[q] : (ANS[q] = {answer:'marked', spans:[], more:false, done:false});
+  v.answer = 'marked'; v.done = false;
+  const key = tidy(sel.text).toLowerCase();
+  if (!v.spans.some(s=>tidy(s.text).toLowerCase() === key)){
+    v.spans.push({text:sel.text, start:sel.start, end:sel.end});
+  } else {
+    flash('You already marked that one.');
+  }
+  window.getSelection().removeAllRanges();
+  paint(el); refresh();
+}
+function dropSpan(el, i){
+  const v = ANS[el.dataset.q];
+  if (!v) return;
+  v.spans.splice(i, 1);
+  if (!v.spans.length) delete ANS[el.dataset.q];
+  paint(el); refresh();
+}
+function finish(el){
+  const v = ANS[el.dataset.q];
+  if (!v || !v.spans.length) return;
+  v.more = el.querySelector('.morebox').checked;
+  v.done = true;
+  paint(el); refresh(); nextOpen(el);
+}
+function plain(el, a){
+  ANS[el.dataset.q] = {answer:a, spans:[], more:false, done:true};
+  paint(el); refresh(); nextOpen(el);
+}
+function reopen(el){
+  const v = ANS[el.dataset.q];
+  if (v && v.answer === 'marked') v.done = false; else delete ANS[el.dataset.q];
+  paint(el); activate(el); refresh();
+  el.scrollIntoView({block:'center', behavior:'smooth'});
+}
+function nextOpen(from){
+  const all = [...document.querySelectorAll('[data-q]')];
+  for (let k = all.indexOf(from)+1; k < all.length; k++){
+    if (!ANS[all[k].dataset.q]){
+      activate(all[k]);
+      all[k].scrollIntoView({block:'center', behavior:'smooth'});
+      return;
+    }
+  }
+}
+function guide(on, item){
+  document.getElementById('guide').classList.toggle('on', on);
+  document.getElementById('scrim').classList.toggle('on', on);
+  if (on){
+    const el = activeEl();
+    const sel = document.getElementById('ask_item');
+    if (sel) sel.value = item || (el ? el.dataset.item : sel.value);
+  }
+}
+
+/* ---- rules assistant -------------------------------------------------------
+   Definitions only. The paper text is never sent, and a question carrying a long
+   verbatim run from the Methods pane is refused here rather than upstream, because
+   the cheapest place to keep the gold standard clean is before the request leaves
+   the browser. */
+function pastedFromPaper(q){
+  const boxes = [...document.querySelectorAll('.methods')];
+  const s = q.replace(/\s+/g,' ').trim();
+  if (s.length < 60) return false;
+  for (const b of boxes){
+    const hay = (b.dataset.raw || '').replace(/\s+/g,' ');
+    for (let i = 0; i + 60 <= s.length; i += 10){
+      if (hay.indexOf(s.slice(i, i+60)) >= 0) return true;
+    }
+  }
+  return false;
+}
+async function ask(){
+  const out = document.getElementById('ask_out');
+  const q = document.getElementById('ask_q').value.trim();
+  const item = document.getElementById('ask_item').value;
+  if (!q){ out.textContent = 'Type a question about the rule first.'; return; }
+  if (pastedFromPaper(q)){
+    out.textContent = 'That looks like text from the paper. This assistant only '
+      + 'explains the rules, and deciding what a paper says is the job the study is '
+      + 'measuring. Ask what the rule means instead.';
+    return;
+  }
+  if (!ENDPOINT){ out.textContent = 'No endpoint configured, so the assistant is off. '
+      + 'The rules above are the reference.'; return; }
+  const d = DEFS[item] || ['','',''];
+  // Send the whole rule set, not just the selected item. It is about 1,500 tokens
+  // and it is what lets the assistant answer the questions reviewers actually ask,
+  // which are comparative: how is acquisition software different from
+  // quantification software, does a lot number count as a catalogue number.
+  const all = Object.entries(DEFS)
+    .map(([k,v])=> v[0] + ' :: ' + v[1] + ' :: mark: ' + v[2]).join('\n');
+  out.textContent = 'Thinking...';
+  try{
+    const r = await fetch(ENDPOINT, {method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({action:'assist', batch:BATCH.batch,
+        reviewer: document.getElementById('rev').value.trim(),
+        item, item_label:d[0], definition:d[1], rule:d[2],
+        all_rules: all, question:q})});
+    const t = (await r.text()).trim();
+    if (t.indexOf('ASSIST_OK') === 0) out.textContent = t.slice(9).trim();
+    else if (t.indexOf('ASSIST_OFF') === 0) out.textContent =
+      'The assistant is switched off for this study. The rules above are the reference.';
+    else out.textContent = 'The assistant is unavailable. The rules above are the reference.';
+  }catch(e){
+    out.textContent = 'The assistant is unavailable. The rules above are the reference.';
+  }
+}
+let flashT = null;
+function flash(msg){
+  const h = document.getElementById('hint');
+  h.textContent = msg; h.classList.add('on');
+  clearTimeout(flashT);
+  flashT = setTimeout(()=>h.classList.remove('on'), 2600);
+}
+
+/* ---- submit --------------------------------------------------------------- */
+/* One row per span, so a question answered with eight RRIDs is eight rows sharing a
+   judgement_id. n_spans is carried on every row so the scorer can tell a truncated
+   submission from a complete one without regrouping first. */
+function collect(){
+  const rows = [];
+  document.querySelectorAll('[data-q]').forEach(el=>{
+    const v = ANS[el.dataset.q];
+    const base = {judgement_id: el.dataset.q, pmcid: el.dataset.pmcid,
+                  item: el.dataset.item};
+    if (!v || v.answer !== 'marked'){
+      rows.push(Object.assign({}, base, {answer: v ? v.answer : '', span_index: 0,
+        span_text: '', span_start: -1, span_end: -1, span_len: 0,
+        n_spans: 0, more_unmarked: ''}));
+      return;
+    }
+    v.spans.forEach((s,i)=>{
+      rows.push(Object.assign({}, base, {answer:'marked', span_index: i,
+        span_text: s.text, span_start: s.start, span_end: s.end,
+        span_len: (s.text||'').length, n_spans: v.spans.length,
+        more_unmarked: v.more ? 1 : 0}));
+    });
+  });
+  return {batch: BATCH.batch, reviewer: document.getElementById('rev').value.trim(),
+          submitted_at: new Date().toISOString(),
+          minutes: Math.round((Date.now()-T0)/60000), rows};
+}
+function download(){
+  const p = collect();
+  const head = 'batch,reviewer,submitted_at,judgement_id,pmcid,item,answer,span_index,'
+             + 'span_text,span_start,span_end,span_len,n_spans,more_unmarked\n';
+  const q = s => '"' + String(s==null?'':s).replace(/"/g,'""') + '"';
+  const body = p.rows.map(r=>[p.batch,p.reviewer,p.submitted_at,r.judgement_id,r.pmcid,
+      r.item,r.answer,r.span_index,r.span_text,r.span_start,r.span_end,r.span_len,
+      r.n_spans,r.more_unmarked]
+      .map(q).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([head+body], {type:'text/csv'}));
+  a.download = 'A6_' + p.batch + '_' + (p.reviewer||'anon').replace(/\W+/g,'_') + '.csv';
+  a.click();
+}
+async function send(){
+  const st = document.getElementById('status');
+  if (!ENDPOINT){ st.innerHTML = '<b>No endpoint set.</b> Use Download CSV.'; return; }
+  st.textContent = 'Sending...';
+  try{
+    const r = await fetch(ENDPOINT, {method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(collect())});
+    const t = await r.text();
+    if (t.indexOf('OK') >= 0){
+      st.innerHTML = '<b>Submitted.</b> Thank you, you can close this tab.';
+      document.getElementById('send').disabled = true;
+      try{ localStorage.removeItem(KEY); }catch(e){}
+    } else {
+      st.innerHTML = '<b>Rejected.</b> ' + esc(t.slice(0,140)) + ' Use Download CSV.';
+    }
+  }catch(e){
+    st.innerHTML = '<b>Send failed.</b> Use Download CSV and email the file.';
+  }
+}
+
+/* ---- wiring --------------------------------------------------------------- */
+document.addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-act]');
+  if (btn){
+    const el = btn.closest('[data-q]');
+    const a = btn.dataset.act;
+    if (a === 'mark') mark(el);
+    else if (a === 'done') finish(el);
+    else if (a === 'drop') dropSpan(el, parseInt(btn.dataset.i, 10));
+    else if (a === 'reopen') reopen(el);
+    else plain(el, a);
+    return;
+  }
+  const head = e.target.closest('.q.done .qname');
+  if (head){ reopen(head.closest('[data-q]')); return; }
+  const q = e.target.closest('[data-q]');
+  if (q && !q.classList.contains('done')) activate(q);
+});
+document.addEventListener('input', e=>{ if (e.target.id === 'rev') refresh(); });
+document.addEventListener('keydown', e=>{ if (e.key === 'Escape') guide(false); });
+document.addEventListener('mouseup', ()=>{
+  const el = activeEl();
+  if (!el) return;
+  const box = document.getElementById('m_' + el.dataset.pmcid);
+  if (box && getSel(box)) flash('Press "Use highlighted text" on the open question.');
+});
+window.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.methods').forEach(b=>{ b.dataset.raw = b.textContent; });
+  const n = restore();
+  const first = [...document.querySelectorAll('[data-q]')].find(el=>!ANS[el.dataset.q]);
+  activate(first || document.querySelector('[data-q]'));
+  refresh();
+  if (n) document.getElementById('status').innerHTML =
+    '<b>Restored ' + n + ' saved answer' + (n>1?'s':'') + '</b> from this browser.';
+});
+window.addEventListener('beforeunload', e=>{
+  if (answered() > 0 && !document.getElementById('send').disabled){
+    e.preventDefault(); e.returnValue = '';
+  }
+});
+</script></body></html>

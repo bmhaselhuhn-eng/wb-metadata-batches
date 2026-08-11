@@ -1,0 +1,294 @@
+{
+  "batches": [
+    {
+      "batch": "batch_01",
+      "papers": 6,
+      "questions": 30,
+      "est_minutes": 30,
+      "kb": 173
+    },
+    {
+      "batch": "batch_02",
+      "papers": 6,
+      "questions": 30,
+      "est_minutes": 30,
+      "kb": 151
+    },
+    {
+      "batch": "batch_03",
+      "papers": 6,
+      "questions": 30,
+      "est_minutes": 30,
+      "kb": 187
+    },
+    {
+      "batch": "batch_04",
+      "papers": 6,
+      "questions": 30,
+      "est_minutes": 30,
+      "kb": 236
+    },
+    {
+      "batch": "batch_05",
+      "papers": 6,
+      "questions": 30,
+      "est_minutes": 30,
+      "kb": 157
+    },
+    {
+      "batch": "batch_06",
+      "papers": 7,
+      "questions": 30,
+      "est_minutes": 33,
+      "kb": 211
+    },
+    {
+      "batch": "batch_07",
+      "papers": 7,
+      "questions": 30,
+      "est_minutes": 33,
+      "kb": 214
+    },
+    {
+      "batch": "batch_08",
+      "papers": 7,
+      "questions": 30,
+      "est_minutes": 33,
+      "kb": 175
+    },
+    {
+      "batch": "batch_09",
+      "papers": 7,
+      "questions": 30,
+      "est_minutes": 33,
+      "kb": 199
+    },
+    {
+      "batch": "batch_10",
+      "papers": 7,
+      "questions": 30,
+      "est_minutes": 33,
+      "kb": 225
+    },
+    {
+      "batch": "batch_11",
+      "papers": 7,
+      "questions": 30,
+      "est_minutes": 33,
+      "kb": 225
+    },
+    {
+      "batch": "batch_12",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 239
+    },
+    {
+      "batch": "batch_13",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 192
+    },
+    {
+      "batch": "batch_14",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 228
+    },
+    {
+      "batch": "batch_15",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 287
+    },
+    {
+      "batch": "batch_16",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 251
+    },
+    {
+      "batch": "batch_17",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 177
+    },
+    {
+      "batch": "batch_18",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 175
+    },
+    {
+      "batch": "batch_19",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 252
+    },
+    {
+      "batch": "batch_20",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 150
+    },
+    {
+      "batch": "batch_21",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 215
+    },
+    {
+      "batch": "batch_22",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 163
+    },
+    {
+      "batch": "batch_23",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 201
+    },
+    {
+      "batch": "batch_24",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 213
+    },
+    {
+      "batch": "batch_25",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 163
+    },
+    {
+      "batch": "batch_26",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 156
+    },
+    {
+      "batch": "batch_27",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 197
+    },
+    {
+      "batch": "batch_28",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 181
+    },
+    {
+      "batch": "batch_29",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 222
+    },
+    {
+      "batch": "batch_30",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 182
+    },
+    {
+      "batch": "batch_31",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 188
+    },
+    {
+      "batch": "batch_32",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 185
+    },
+    {
+      "batch": "batch_33",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 203
+    },
+    {
+      "batch": "batch_34",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 189
+    },
+    {
+      "batch": "batch_35",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 144
+    },
+    {
+      "batch": "batch_36",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 208
+    },
+    {
+      "batch": "batch_37",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 135
+    },
+    {
+      "batch": "batch_38",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 214
+    },
+    {
+      "batch": "batch_39",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 183
+    },
+    {
+      "batch": "batch_40",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 164
+    },
+    {
+      "batch": "batch_41",
+      "papers": 6,
+      "questions": 29,
+      "est_minutes": 30,
+      "kb": 179
+    }
+  ],
+  "endpoint": "https://script.google.com/macros/s/AKfycbwoTYSFc73PzL9mXwm77vwmTtvDEef65ackGHNtOhhxiAQMRGf8RhQtjjeKCoIaC0dE/exec",
+  "total_questions": 1200,
+  "answer_mode": "span_selection"
+}

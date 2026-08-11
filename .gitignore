@@ -1,0 +1,8 @@
+# Deny by default. Only sheets and their manifest may be committed.
+# A key or an answer set added by hand is ignored rather than pushed.
+*
+!.gitignore
+!.nojekyll
+!*.html
+!index.json
+!README.md

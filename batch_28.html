@@ -1,0 +1,2445 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Track F methods review, batch_28</title><style>
+:root{
+--primary:#533afd; --primary-deep:#4434d4; --primary-press:#2e2b8c;
+--primary-soft:#665efd; --primary-subdued:#b9b9f9; --brand-dark-900:#1c1e54;
+--canvas:#ffffff; --canvas-soft:#f6f9fc; --canvas-cream:#f5e9d4;
+--hairline:#e3e8ee; --hairline-input:#a8c3de;
+--ink:#0d253d; --ink-secondary:#273951; --ink-mute:#64748d; --on-primary:#ffffff;
+--r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-pill:9999px;
+--sh1:rgba(0,55,112,.08) 0 1px 3px;
+--sh2:rgba(0,55,112,.08) 0 8px 24px, rgba(0,55,112,.04) 0 2px 6px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);
+font-family:Inter,"SF Pro Display",system-ui,-apple-system,"Segoe UI",sans-serif;
+font-weight:300;font-size:15px;line-height:1.4;
+font-feature-settings:"ss01";-webkit-font-smoothing:antialiased}
+.mesh{position:absolute;inset:0 0 auto;height:280px;z-index:0;pointer-events:none;
+background:
+ radial-gradient(60% 120% at 8% 40%, #f5e9d4 0%, rgba(245,233,212,0) 60%),
+ radial-gradient(50% 120% at 30% 30%, #ffd9b0 0%, rgba(255,217,176,0) 62%),
+ radial-gradient(55% 130% at 55% 45%, #cdc4fb 0%, rgba(205,196,251,0) 62%),
+ radial-gradient(50% 120% at 76% 30%, #533afd 0%, rgba(83,58,253,0) 60%),
+ radial-gradient(55% 120% at 96% 55%, #ea2261 0%, rgba(234,34,97,0) 62%);
+opacity:.30;filter:blur(18px)}
+.wrap{max-width:1200px;margin:0 auto;padding:40px 24px 104px;position:relative;z-index:1}
+h1{font-size:32px;font-weight:300;letter-spacing:-.64px;line-height:1.1;margin:0 0 6px}
+h2{font-size:10px;font-weight:400;letter-spacing:.1px;text-transform:uppercase;
+color:var(--ink-mute);margin:0}
+.sub{color:var(--ink-secondary);font-size:15px;margin:0 0 24px;max-width:62ch}
+.card{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);
+padding:24px;margin-bottom:14px;box-shadow:var(--sh1)}
+.card.cream{background:var(--canvas-cream);border-color:transparent;box-shadow:none}
+.card h3{font-size:18px;font-weight:300;letter-spacing:0;margin:0 0 10px}
+.note{color:var(--ink-secondary);font-size:15px}
+.note b{font-weight:400}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.num{font-feature-settings:"tnum","ss01";letter-spacing:-.42px}
+.pill{display:inline-block;background:var(--primary-subdued);color:var(--primary-deep);
+font-size:10px;font-weight:400;letter-spacing:.1px;text-transform:uppercase;
+padding:4px 8px;border-radius:var(--r-pill)}
+.paper-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+flex-wrap:wrap;margin-bottom:4px}
+.split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;
+align-items:start}
+/* clears the sticky action bar, which is about 60px tall */
+.col-text{position:sticky;top:80px}
+@media (max-width:1023px){.split{grid-template-columns:1fr}.col-text{position:static}}
+.methods{background:var(--canvas-soft);border:1px solid var(--hairline);
+border-radius:var(--r-md);padding:18px 20px;min-height:320px;
+overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.7;
+color:var(--ink-secondary);margin:10px 0 0;user-select:text;cursor:text;
+height:calc(100vh - 296px)}
+@media (max-width:1023px){.methods{height:46vh}}
+.methods mark{background:var(--canvas-cream);color:inherit;border-radius:var(--r-xs);
+padding:1px 0}
+.methods mark.cur{background:var(--primary-subdued)}
+.methods ::selection{background:var(--primary-soft);color:#fff}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;
+font-size:13px;color:var(--ink-mute);letter-spacing:-.39px}
+.tools .aid{margin-left:auto;font-size:11px;font-weight:300}
+button{font-family:inherit;font-size:14px;font-weight:400;line-height:1;
+padding:8px 16px;border-radius:var(--r-pill);border:1px solid var(--primary);
+background:var(--primary);color:var(--on-primary);cursor:pointer}
+button:hover{background:var(--primary-deep);border-color:var(--primary-deep)}
+button:active{background:var(--primary-press);border-color:var(--primary-press)}
+button.sec{background:var(--canvas);color:var(--primary);border-color:var(--primary)}
+button.sec:hover{background:var(--canvas-soft)}
+button.quiet{background:transparent;color:var(--ink-mute);border-color:var(--hairline)}
+button.quiet:hover{background:var(--canvas-soft);color:var(--ink)}
+button:disabled{opacity:.4;cursor:not-allowed}
+input[type=text]{width:100%;background:var(--canvas);color:var(--ink);
+font-family:inherit;font-size:15px;font-weight:300;padding:8px 12px;
+border-radius:var(--r-sm);border:1px solid var(--hairline-input)}
+input[type=text]:focus{outline:none;border-color:var(--primary)}
+.q{border:1px solid var(--hairline);border-radius:var(--r-lg);padding:18px 20px;
+margin-bottom:10px;background:var(--canvas)}
+.q.active{border-color:var(--primary);box-shadow:var(--sh1)}
+.q.done{padding:12px 16px;background:var(--canvas-soft);box-shadow:none}
+.q.done .qdef,.q.done .qhow,.q.done .acts,.q.done .grab{display:none}
+.q.done .qname{cursor:pointer;margin:0}
+.qname{display:flex;justify-content:space-between;gap:12px;align-items:baseline;
+font-size:18px;font-weight:300;letter-spacing:0;margin-bottom:6px}
+.q.done .qname{font-size:15px;color:var(--ink-secondary)}
+.qname .ans{font-size:13px;color:var(--ink-mute);letter-spacing:-.39px;
+white-space:nowrap;max-width:52%;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.qdef{color:var(--ink-secondary);font-size:15px;margin-bottom:10px}
+.qhow{background:var(--canvas-soft);border-radius:var(--r-md);padding:10px 12px;
+font-size:13px;color:var(--ink-secondary);letter-spacing:-.39px;margin-bottom:12px}
+.qhow b{font-weight:400;color:var(--ink)}
+.qhow .eg{display:block;margin-top:5px;color:var(--ink-mute)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.grab{margin-top:11px;display:none}
+.grab.on{display:block}
+.grab .cap{font-size:10px;text-transform:uppercase;letter-spacing:.1px;
+color:var(--ink-mute);margin-bottom:5px}
+.grab blockquote{margin:0;background:var(--canvas-cream);border-radius:var(--r-md);
+padding:10px 12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+font-size:13px;color:var(--ink);line-height:1.6}
+/* one row per marked span; an antibody table can produce eight */
+.spans{list-style:decimal;margin:0;padding:0 0 0 22px}
+.spans li{background:var(--canvas-cream);border-radius:var(--r-md);
+padding:7px 10px;margin-bottom:5px;display:flex;gap:10px;align-items:baseline;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+color:var(--ink);line-height:1.55}
+.spans li span{flex:1;overflow-wrap:anywhere}
+.spans li .x{padding:2px 9px;font-size:11px;flex:none;font-family:inherit}
+.morewrap{display:none;align-items:center;gap:8px;margin-top:8px;
+font-size:13px;color:var(--ink-secondary);letter-spacing:-.39px;cursor:pointer}
+.morewrap.on{display:flex}
+.morewrap input{accent-color:var(--primary);width:16px;height:16px;cursor:pointer}
+.q.done .spans li .x{display:none}
+/* Action bar pinned to the TOP. Submit lives here rather than at the foot of a
+   30-minute page, so it is reachable without scrolling once a batch is finished. */
+.bar{position:sticky;top:0;z-index:6;background:var(--canvas);
+border-bottom:1px solid var(--hairline);box-shadow:var(--sh1);
+margin:0 -24px 20px;padding:12px 24px;
+display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.bar .grow{flex:1 1 220px;min-width:140px}
+.prog{height:4px;border-radius:var(--r-pill);background:var(--hairline);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--primary);width:0;transition:width .2s}
+.count{font-size:14px;color:var(--ink-secondary);font-feature-settings:"tnum";
+letter-spacing:-.42px;white-space:nowrap}
+.status{font-size:13px;color:var(--ink-mute);letter-spacing:-.39px;flex-basis:100%}
+.status b{color:var(--ink);font-weight:400}
+.hint{position:fixed;z-index:12;background:var(--brand-dark-900);color:#fff;
+font-size:13px;padding:8px 14px;border-radius:var(--r-pill);box-shadow:var(--sh2);
+left:50%;transform:translateX(-50%);bottom:28px;
+pointer-events:none;opacity:0;transition:opacity .15s}
+.hint.on{opacity:1}
+
+/* Guide. The rules are needed on question 40 as much as on question 1, so they
+   live behind a button that is always in reach rather than scrolled past once. */
+.scrim{position:fixed;inset:0;z-index:10;background:rgba(13,37,61,.34);
+display:none}
+.scrim.on{display:block}
+.guide{position:fixed;top:0;right:0;bottom:0;z-index:11;width:min(560px,100%);
+background:var(--canvas);box-shadow:var(--sh2);overflow:auto;
+padding:28px 28px 64px;transform:translateX(100%);transition:transform .18s ease-out}
+.guide.on{transform:none}
+.guide h2{margin-bottom:14px}
+.guide h3{font-size:20px;font-weight:300;letter-spacing:-.2px;margin:26px 0 8px}
+.guide h3:first-of-type{margin-top:10px}
+.guide p{color:var(--ink-secondary);margin:0 0 10px}
+.guide .close{position:absolute;top:20px;right:24px}
+.guide table{border-collapse:collapse;width:100%;margin-top:6px}
+.guide td{border-bottom:1px solid var(--hairline);padding:8px 10px 8px 0;
+vertical-align:top;font-size:13px;color:var(--ink-secondary)}
+.guide td:first-child{color:var(--ink);white-space:nowrap;padding-right:16px}
+.guide blockquote{margin:8px 0 0;padding:10px 12px;background:var(--canvas-cream);
+border-radius:var(--r-md);font-size:13px;color:var(--ink)}
+</style></head><body><div class='mesh'></div><div class='wrap'><div class='bar'><span class='count' id='count'>0 answered</span><span class='grow'><span class='prog'><i id='bar'></i></span></span><button type='button' class='quiet' onclick='guide(true)'>Guide</button><button class='sec' onclick='download()'>Download CSV</button><button id='send' onclick='send()' disabled>Submit</button><span class='status' id='status'></span></div><h1>Western blot methods review</h1><p class='sub'><span class='num'>6</span> papers, <span class='num'>29</span> questions, about <span class='num'>30</span> minutes. For each paper you read one Methods section, then say whether that text states each of a short list of details. You never type a value: you select the words in the text. Press <b>Guide</b> at any point for the rules.</p><div class='card'><h2>Your name or initials</h2><p class='note' style='margin:6px 0 10px'>Only used to tell reviewers apart when two people code the same batch.</p><input type='text' id='rev' placeholder='for example BH' autocomplete='off'></div><div class='card cream'><h3>The three answers</h3><div class='note'><b>Select the words in the Methods text, then press Use highlighted text.</b> The exact words you selected are what gets recorded. If the paper gives several, mark each one and they stack up in a list; press <b>Done, next</b> when the list is complete.<br><b>Not stated.</b> The Methods text does not give this detail.<br><b>Unclear.</b> You cannot tell either way. These are set aside rather than counted, so it is a safe answer when you are stuck.<br><br>Every question carries its own <b>What to mark</b> rule with a worked example. Follow it rather than your instinct: consistency between reviewers matters more here than any single choice. Full rules under <b>Guide</b>.</div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>1</span> of <span class='num'>6</span></h2><span class='pill'>PMC5260992</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Cell Death and Disease · <span class='num'>2016</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC5260992'>
+Antibodies and reagents. Antibodies against Pin1, ATF1 were purchased
+from Santa Cruz Biotechnology, Inc (Santa Cruz, CA, USA); against phosphorylated
+ATF1 (Ser63) was from Abcam, Inc (Cambridge, MA, USA). Infrared-dye-conjugated
+secondary antibodies were from Rockland Immunochemicals (Gilbertsville, PA,
+USA). JetPEI transfection reagent was from Polyplus (llkirch, France). A polyclonal
+antibody against phosphorylated ATF1 (Thr184) was raised in a rabbit. Specificity of
+the antibody was confirmed by dot blotting and ELISA assay (Supplementary
+Information,Supplementary Figure S4).
+Cell culture. The NPC CNE1 and CNE2 cell lines derived from well
+differentiated and undifferentiated NPCs from Chinese patients, respectively, and
+HEK-293 cell were either obtained from the nitrogen stock in our department or
+purchased from the Cell Bank (Institute of Life Science, Chinese Academy of
+Science, Shanghai, China). Pin1+/+ and Pin1-/ -mouse embryonic fibroblast (MEF)
+cells were kindly provided by Professor Dong (The Hormel Institute, University of
+Minnesota, Austin, MN, USA) and originally generated by Fujimori et al.28 The
+CNE1 and CNE2 were cultured in RPMI 1640 medium (Gibco, Inc, Shanghai,
+China); Pin1+/+, Pin1-/ -and HEK-293 cell cultured in DMEM medium (Gibco)
+Figure 6
+ATF1 function in NPC regulated by Pin1. (a) IHC staining of Pin1 in NPC tissues showed Pin1 expression was higher in NPC tissues and correlated with pATF1-
+Ser63. Scale bars, 50 μm. (b and c) Overexpression of ATF1 promoted NPC tumorigenesis, which was attenuated by knockdown of Pin1 both in vitro and in vivo. (b) Colony
+formation assay showed co-expression with shPin1 impaired the cell colony formation ability of ATF1 using the stable cells established in CNE1. (c) The volumes of xenograft (six
+mice per group) were measured every 5 days after inoculation and tumors dissected at day 25 were imaged. (d) Schematic graph showed ATF1 function regulated by Pin1.
+*Po0.05
+ATF1 regulated by Pin1 in NPC progression
+G-L Huang et al
+8
+Cell Death and Disease
+ supplemented with 10% fetal bovine serum (FBS) at 37 1C in a humidified chamber
+containing 5% CO2. The immortalized nasopharyngeal epithelial cell line NP69
+(kindly provided by Professor Zeng from Sun Yat-Sen University Cancer Center,
+Guangdong, China) was cultured in keratinocyte serum-free medium (Invitrogen,
+Carlsbad, CA, USA) supplemented with 5% FBS and 0.2 ng/ml recombinant
+epidermal growth factor.
+Plasmid constructs, transfection, lentiviral infection and stable
+cells. Pin1-ORF and ATF1-ORF were polymerase chain reaction (PCR)-amplified
+and cloned into expression vector pcDNA6.0/myc-His B vector (Invitrogen) to
+produce the myc and His epitope-tagged construct. The vector of ATF1 mutants
+Ser63Ala,
+Thr184Ala,
+Ser198Ala,
+Ser63Ala-Thr184Ala,
+Ser63Ala-Ser198Ala,
+Thr184Ala-Ser198Ala and Ser63Ala-Thr184Ala-Ser198Ala were generated using
+the KOD-Plus-Mutagenesis kit (Toyobo Co., Ltd, Osaka, Japan). To construct the
+shRNA-Pin1 (shPin1) or shRNA-ATF1 (shATF1), the mU6pro vector was digested
+with XbaI and BbsI. The mU6pro vector contained the mouse U6 snRNA promoter
+(RNA polymerase III) with a Bbs1-cloning site, which allowed insertion of siRNA
+(shRNA) template sequences.29 The annealed synthetic primers (Pin1 shRNA
+sense: 5′- TTTGGCTCAGGCCGAGTGTACTATTCAAGAGATAGTACACTCGGCCT
+GAGCTTTTT-3′ and antisense: 5′-CTAGAAAAAGCTCAGGCCGAGTGTACTATC
+TCTTGAATAGTACACTCGGCCTGAGC-3′; ATF1 shRNA sense: 5′-TTTGGATC
+CGAACTACACCTTCATTCAAGAGATGAAGGTGTAGTTCGGATCTTTTT-3′
+and
+antisense: 5′-CTAGAAAAAGATCCGAACTACACCTTCATCTCTTGAATGAAGGTG
+TAGTTCGGATC-3′. Letters in italics and underlines implicated the target
+sequences.) were then introduced into the mU6pro vector. The target sequences
+for Pin1 and ATF1 were from two studies.30,31 Another siRNAs for Pin1 and ATF1
+(from Santa Cruz Biotechnology) were used to avoid off-target of shRNA
+(Supplementary Figure S5). DNA fragments of 5′-flanking region of the human
+Bcl-2 gene (-1640 to -1526)32 were synthesized and inserted into a pGL3
+luciferase reporter vector (Promega, Inc, Beijing, China). The recombinant plasmids
+were confirmed by agarose gel electrophoresis and DNA sequencing.
+The plasmid was transfected into NPC CNE1 or CNE2 cell using jetPEI
+(polyplus-transfection) according to the manufacturer’s instructions. To generate
+CNE1:ATF1 and CNE1:ATF1/shPin1 cells, CNE1 cells were infected with
+ATF1 and shPin1 lentiviral particles (purchased from GenePharma Co., Ltd,
+Shanghai, China. The lentivirus packaging vectors were LV5 and pGLV3
+plasmid, respectively. More information could be found in the website of GenePharma
+Co., Ltd) sequentially, and screened with 1 μg/ml puromycin. To generate NP69:
+ATF1, NP69:Pin1 and NP69:ATF1/Pin1 cells, NP69 cells were infected with ATF1
+and Pin1 lentiviral particles, respectively, or sequentially, and screened with
+1 μg/ml puromycin. Western blot was used to verify transfection (Supplementary
+Figure S6).
+Xenograft experiments. BALB/C nude mice, at an age of 6-8 weeks at the
+time of inoculation, were used to establish xenografts. The sample size was 18.
+Mice were randomized into three groups (n = 6 per group) and there were no
+exclusion criteria. All data were analyzed unblinded and verified by two independent
+researchers. Cells (2 × 106/0.1 ml) were inoculated subcutaneously into the left flank
+of each nude mice. The volumes of xenografts were measured every 5 days after
+inoculation. The tumor volumes were calculated according to the formula:
+volume = D × d2/2, where D and d are the longest and the shortest diameters,
+respectively. The xenografts were dissected and weights were measured 25 days
+after inoculation. Animal experiments were approved by Animal Care and Use
+Committee of Shenzhen Third People&#x27;s Hospital.
+Cell counting kit-8 (CCK-8) assay. Cell growth rates were detected by
+CCK-8 (Dojindo Laboratories, Kumamoto, Japan) assay as previously described.33
+CNE1 stable Pin1-expressing clones or CNE2 cells transfected with shPin1
+plasmids were seeded in 96-well plates (1 × 103 per well). NP69 cells were
+seeded in 96-well plates (4 × 103 per well). After culturing for different periods of
+time, CCK-8 solution (10 μl per 100 μl medium) was added to each well,
+and cells were then incubated for 1 h at 37 °C. Absorbance was measured at
+450 nm using Synergy2 Multi-Mode Microplate Reader (BioTek, Winooski, VT, USA).
+Five replicate wells for each sample and three parallel experiments were
+performed.
+Colony formation assay. The colony formation potential of the introduced
+genes in cells was evaluated by colony formation assay as previously described.33
+CNE1 stable Pin1-expressing clones or CNE2 cells transfected with shPin1
+plasmids were seeded in six-well plates (500 or 1 × 103 per well). NP69 cells were
+seeded in six-well plates (500 per well). After culturing for 2 weeks, surviving
+colonies (450 cells per colony) were counted with crystal violet staining. Triplicate
+independent experiments were performed.
+Protein extraction, western blotting and coimmunoprecipita-
+tions. Total protein was extracted with RIPA lysis buffer (Beyotime Ins. Bio,
+Shanghai, China). Protein concentration was determined by the bicinchoninic acid
+assay (Pierce, Inc, Rockford, IL, USA). Equal amount of whole-cell lysates were
+resolved by SDS-PAGE and transferred to a polyvinylidene difluoride membrane
+(Millipore, Billerica, MA, USA). The membrane was probed with the primary
+antibodies overnight at 4 1C and incubated with infrared-dye-conjugated secondary
+antibodies for 1 h at room temperature. Protein bands were visualized by Odyssey
+Infrared Imaging System (LI-COR Biotechnology, Lincoln, NE, USA). To investigate
+the interaction between Pin1 and ATF1 at the endogenous level, the clarified lysates
+were first incubated with anti-Pin1 or anti-ATF1 for 2 h at 4 °C. Then, protein A/G-
+agaroses were added overnight, and precipitates were washed four times with lysis
+buffer and analyzed by western blotting.
+For protein stability assays, exponentially growing cells were treated with 50 μg/ml
+CHX (Sigma, Inc, Shanghai, China) and harvested at various hours post-CHX
+treatment.
+Cell
+protein
+was
+extracted
+as
+described
+above,
+followed
+by
+immunoblotting.
+Mammalian two-hybrid assay. The assay was performed as previously
+described.34 Cells were seeded into 48-well plates and incubated with 10% FBS-
+DMEM for 18 h before transfection. The DNAs, pACT-ATF1, pBIND-Pin1 and pG5-
+luciferase were combined in the same molar ratio and the total amount of DNA was
+not 4100 ng per well. The transfection was done using jetPEI following the
+manufacturer&#x27;s recommended protocols. The cells were lysed and assayed for
+luciferase activity using the Dual Luciferase kit (Promega) according to the
+manufacturer’s instructions. The relative luciferase activity was calculated and
+normalized based on the pG5-luciferase basal control.
+ELISA assay. A modified ELISA assay was performed to demonstrate the
+specific binding of Pin1 to phosphorylated T184 peptides in vitro. In the modified
+ELISA assay, the synthesized peptides (pT184 or T184) were diluted and coated on
+the wells of a PVC microtiter plate at 41C overnight. After washing three times
+with PBS, the plate was blocked with 10% normal bovine serum in PBS. The
+Pin1 recombinant protein (Abcam) was added to the plate before the antibody for
+Pin1 was added. The plate was incubated with HRP-conjugated secondary
+antibody at 37 1C for 30 min and visualized with 3,3&#x27;,5,5&#x27;-tetramethylbenzidine.
+Absorbance was measured at 450 nm using Synergy2 Multi-Mode Microplate
+Reader (BioTek).
+Reporter gene assay. The luciferase reporter gene assay was performed as
+previously described.33 Cells were co-transfected with Bcl-2 reporter gene
+and Pin1, ATF1 expression plasmids. The pRL-TK vector-expressing (Promega)
+Renilla luciferase was co-transfected to calibrate the firefly luciferase activity. Cells
+were lysed and assayed for luciferase activity using the Dual Luciferase kit
+(Promega) according to the manufacturer’s instructions. Triplicate experiments
+were done.
+RNA isolation and quantitative RT-PCR. These procedures were
+performed as described previously.35 Briefly, cells transfected with Pin1 or ATF1
+expression plasmids were collected and RNAs were extracted using TRIzol
+(Invitrogen) according to the manufacturer’s instructions. The primers used for
+amplifying Pin1, ATF1, Bcl-2 and the house keeping gene, glyceraldehyde-3-
+phosphate dehydrogenase (GAPDH) were listed as follow: Pin1-F, 5′-GAGC
+TGATCAACGGCTACATCC-3′; Pin1-R, 5′-AATGGCTTCTGCATCTGACCTCT-3′; AT
+F1-F, 5′-CAACTATTCTTCAGTATGCACAGACC-3′; ATF1-R, 5′-GTTTGCATATCTCC
+TGATGCAGTT-3′; Bcl-2-F, 5′-GAGGATTGTGGCCTTCTTTG-3′; Bcl-2-R, 5′-GC
+CGGTTCAGGTACTCAGTC-3′; GAPDH-F, 5′-CTCCTCCTGTTCGACAGTCAGC-3′;
+GAPDH-R, 5′-CCCAATACGACCAAATCCGTT-3′.
+TMA and IHC analysis. NPC tissue microarrays (TMAs), containing 36 cases
+(most cases were in the advanced tumor stage, 35/36; 31 cases with
+matched normal tissues) of primary tumors, 17 cases of lymph node metastatic
+tumors and 12 cases of normal or reactive nasopharyngeal mucosal tissues, were
+purchased from US Biomax (Rockville, MD, USA: catalog no. NPC961). Informed
+ATF1 regulated by Pin1 in NPC progression
+G-L Huang et al
+9
+Cell Death and Disease
+ consent from each subject and approval from the Institutional Ethics Committee of
+Guangdong Medical College were obtained. The IHC analysis was performed as
+previously described.36 The TMA slides were deparaffinized in xylene and
+rehydrated in a graded ethanol series. For antigen retrieval, the slides were
+boiled in EDTA (1 mmol/l; pH8.0) for 15 min in a microwave oven. Endogenous
+peroxidase was quenched with 3% hydrogen peroxide and nonspecific antigen was
+blocked with 10% normal goat serum. The sections were incubated with the
+primary antibodies against Pin1 or phospho-ATF1 (Ser63) overnight at 41C. The
+primary antibodies were replaced by PBS as negative controls. The slides were
+incubated with HRP-conjugated secondary antibody (ChemMate for 30 min
+at room temperature and visualized with 3,3’-diaminobenzidine tetrahydrochloride)
+according to the manufacturer’s instruction. The specimens were counterstained
+with hematoxylin.
+The sample evaluation and information recording were conducted in a double-
+blinded manner. Two pathologists without knowing patients’ information were
+responsible for assessing the results. The staining score was based on its intensity
+(0, no staining; 1, weak staining; 2, moderate staining; 3, strong staining) and the
+percentage of positive cells (0, o5% positive cells; 1, 5-25% positive cells; 2,
+25-50% positive cells; 3,450% positive cells). The final expression score was
+calculated from ‘intensity’ multiplied by ‘percentage’: ‘-’ stands for scores 0-1, ‘+’ for
+scores 2-3, ‘++’ for scores 4-6 and ‘+++’ for scores 46. The cases scored as ‘-’ and
+‘+’ were combined as low score and the cases with scored as ‘++’ and ‘+++’ were
+combined as high score for statistical analysis.
+Mutation analysis of ATF1 and mRNA expression in NPC. We
+used GEO data repository Sequence Read Archive (SRP035573) to analyze the
+mutation status of ATF1 in NPC.37,38 This archive included whole-exome
+sequencing data of 56 NPC germline and tumor pairs. Blast analysis was
+performed to compare the ATF1 sequence with the sequencing data of these
+samples. Another GEO data repository (GSE 13597) was used to analyze the
+mRNA expression of ATF1 in NPC.37,39 This archive included a genome-wide
+mRNA expression data of 25 NPC and 3 non-tumor tissues.
+Statistical analysis. Quantitative value was represented as mean ± S.D.
+Student&#x27;s t-test was used to compare the mean value of each group. The
+relationship between Pin1 and ATF1 phosphorylation expression, as well as
+clinicopathological characteristics was analyzed using Chi-square test or Fisher’s
+exact tests. The SPSS software package (SPSS, Inc. Chicago, IL, USA) and
+GraphPad Prism (GraphPad Software, Inc. La Jolla, CA, USA) were used for the
+statistical analysis and data plotting. Po0.05 was considered as statistically
+significant.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC5260992' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC5260992|imager_instrument' data-pmcid='PMC5260992' data-item='imager_instrument'><div class='qname'><span>Imager instrument</span><span class='ans'></span></div><div class='qdef'>The imaging hardware, including X-ray film where film was used.</div><div class='qhow'><b>What to mark.</b> Mark the instrument name only. Leave out the manufacturer.<span class='eg'>In <i>imaged on a ChemiDoc MP (Bio-Rad)</i> mark <b>ChemiDoc MP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|replicate_n' data-pmcid='PMC5260992' data-item='replicate_n'><div class='qname'><span>Replicate count</span><span class='ans'></span></div><div class='qdef'>A number of replicates. You are not being asked whether they are biological or technical.</div><div class='qhow'><b>What to mark.</b> Mark the number together with the words that make it a replicate count.<span class='eg'>In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|ab_catalog_any' data-pmcid='PMC5260992' data-item='ab_catalog_any'><div class='qname'><span>Antibody catalogue number</span><span class='ans'></span></div><div class='qdef'>A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block.<span class='eg'>In <i>(Abcam, ab1234)</i> mark <b>ab1234</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|protein_quant_method' data-pmcid='PMC5260992' data-item='protein_quant_method'><div class='qname'><span>Protein quantification method</span><span class='ans'></span></div><div class='qdef'>How total protein was measured before loading.</div><div class='qhow'><b>What to mark.</b> Mark the assay name only.<span class='eg'>In <i>quantified by BCA assay (Pierce)</i> mark <b>BCA</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|secondary_ab_conjugate' data-pmcid='PMC5260992' data-item='secondary_ab_conjugate'><div class='qname'><span>Secondary antibody conjugate</span><span class='ans'></span></div><div class='qdef'>What the secondary antibody is conjugated to.</div><div class='qhow'><b>What to mark.</b> Mark each distinct conjugate once.<span class='eg'>In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|lysis_buffer' data-pmcid='PMC5260992' data-item='lysis_buffer'><div class='qname'><span>Lysis buffer</span><span class='ans'></span></div><div class='qdef'>The lysis or extraction buffer, either named or given as a recipe.</div><div class='qhow'><b>What to mark.</b> Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors.<span class='eg'>In <i>isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor was added into the RIPA</i> mark just <b>RIPA</b>, the first time it appears.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|reducing_denaturing' data-pmcid='PMC5260992' data-item='reducing_denaturing'><div class='qname'><span>Reducing or denaturing conditions</span><span class='ans'></span></div><div class='qdef'>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.</div><div class='qhow'><b>What to mark.</b> Mark the phrase or the reagent that states it.<span class='eg'>In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|blocking_agent' data-pmcid='PMC5260992' data-item='blocking_agent'><div class='qname'><span>Blocking agent</span><span class='ans'></span></div><div class='qdef'>What the membrane was blocked in.</div><div class='qhow'><b>What to mark.</b> Mark the agent only. Leave the percentage out, it is a separate question.<span class='eg'>In <i>blocked in 5% non-fat dry milk</i> mark <b>non-fat dry milk</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|detection_chemistry' data-pmcid='PMC5260992' data-item='detection_chemistry'><div class='qname'><span>Detection chemistry</span><span class='ans'></span></div><div class='qdef'>How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.</div><div class='qhow'><b>What to mark.</b> Mark the words naming the detection method.<span class='eg'>In <i>visualised by enhanced chemiluminescence</i> mark <b>enhanced chemiluminescence</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|membrane_type' data-pmcid='PMC5260992' data-item='membrane_type'><div class='qname'><span>Membrane type</span><span class='ans'></span></div><div class='qdef'>PVDF or nitrocellulose, or another named membrane chemistry.</div><div class='qhow'><b>What to mark.</b> Mark the membrane name only.<span class='eg'>In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|loading_control_identity' data-pmcid='PMC5260992' data-item='loading_control_identity'><div class='qname'><span>Loading control, named</span><span class='ans'></span></div><div class='qdef'>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two.<span class='eg'>In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|protein_per_lane_ug' data-pmcid='PMC5260992' data-item='protein_per_lane_ug'><div class='qname'><span>Protein loaded per lane</span><span class='ans'></span></div><div class='qdef'>A mass of protein loaded per lane. A volume on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark the mass and its unit.<span class='eg'>In <i>30 ug of protein was loaded per lane</i> mark <b>30 ug</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5260992|primary_ab_vendor' data-pmcid='PMC5260992' data-item='primary_ab_vendor'><div class='qname'><span>Primary antibody vendor</span><span class='ans'></span></div><div class='qdef'>The company that supplied a primary antibody.</div><div class='qhow'><b>What to mark.</b> Mark every distinct company name. Leave out the city and country. A table can be marked as one block.<span class='eg'>In <i>(Cell Signaling Technology, Danvers, MA)</i> mark <b>Cell Signaling Technology</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>2</span> of <span class='num'>6</span></h2><span class='pill'>PMC6782031</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>OncoTargets and Therapy · <span class='num'>2019</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC6782031'>
+Cell Culture
+SNU-16 cell was purchased from Chinese Academy of
+Sciences (Shanghai, China) and cultured in Roswell Park
+Memorial Institute (RPMI) 1640 media. Primary gastric
+and colorectal cancer cells were isolated from cancer tis-
+sues of patients with gastric and colorectal cancer and
+cultured
+in
+Dulbecco’s
+Modified
+Essential
+Media
+(DMEM) media. Cancer stem cells were isolated by sus-
+pension culture in ultra-low attachment multi-well plate
+(Corning Incorporated, NY, USA) with serum-free med-
+ium containing 100 μg/mL human bFGF, 20 μg/mL insu-
+lin and 10 ng/mL human EGF.
+Human Samples
+The gastric and colorectal cancer tissues were obtained from
+Renji Hospital Shanghai Jiao Tong University School of
+Medicine (Shanghai, China), which was approved by the
+Institutional Review Board. All patients provided written
+informed consent, and this was conducted in accordance
+with the Declaration of Helsinki.
+Plasmids
+The coding sequence (CDs) regions of PTPRU and YAP
+were generated by reverse-transcription polymerase chain
+reaction (PCR). The shRNAs specifically against PPTRU
+were
+synthesized
+exogenously
+(Shenggong
+Biotech,
+Shanghai, China). The promoter region of YAP was also
+generated by reverse-transcription PCR. For overexpression,
+the CDs regions of PTPRU and YAP were cloned into pCDH
+lentivirus vectors. For knockdown assay, the shRNAs were
+cloned into pLKO.1 lentivirus vectors. For reporter gene
+assay, the promoter of YAP was cloned into PGL3 plasmid
+(Promega Corp., Madison, WI, USA). The sequences of PCR
+primer and shRNAs are listed in Supplementary table 1 and
+Supplementary table 2.
+Antibodies And Reagents
+The
+antibodies
+used
+in
+this
+study
+are
+listed
+in
+Supplementary table 3. All other reagents were purchased
+from Sigma-Aldrich (St. Louis, MO, USA).
+Lentivirus Package, Transfection And
+Stable Cell Selection
+Lentiviruses were generated by Lenti-X Packaging Single
+Shots (Clontech Laboratories Inc, Palo Alto, USA) accord-
+ing to the manufacturer’s manual. Media containing lenti-
+virus particles were used to infect the cells. Stable cell line
+was selected by treatment with puromycin for 15-20 days.
+The efficiency was determined by Western blot assay.
+Quantitative Real-Time Reverse-
+Transcription PCR
+Total RNA was isolated by RNeasy Mini Kit (Qiagen,
+Hilden, Germany). cDNA was synthesized by SuperScript
+II reverse transcriptase (Thermo Fisher Scientific, Waltham,
+MA, USA). The qRT-PCR assay was then performed by
+TaqMan gene expression assay using specific primers
+(Supplementary Table 1). The results were expressed by
+comparative threshold cycle (Ct) method with GAPDH as a
+control.
+Western Blot
+The Western blot assay was performed as previously
+described.21-24
+Briefly,
+samples
+were
+separated
+by
+Gu et al
+Dovepress
+submit your manuscript | www.dovepress.com
+DovePress
+OncoTargets and Therapy 2019:12
+8096
+ electrophoresis
+using 4-12% NuPAGE
+Bis-Tris gels
+(Invitrogen, Carlsbad, CA). The samples were then trans-
+ferred to nitrocellulose membranes. Membranes were
+blocked with 5% non-fat milk for 2 hrs at room tempera-
+ture. Membranes were incubated with first antibodies
+(Supplementary Table 3) at 4oC overnight. After washing
+in 0.05% Tween 20-TBS, membranes were incubated with
+the appropriate horseradish peroxidase-conjugated second-
+ary
+antibodies
+for
+1.5
+hrs
+at
+room
+temperature.
+Immunoreactive bands were detected by chemilumines-
+cence
+using
+SuperSignal
+chemiluminescent
+substrate
+(Pierce Biotechnology, Rockford, IL, USA).
+Reporter Gene Assay
+The cells were transfected with PGL3 vector containing
+the promoter of YAP and hRluc/TK vector. Luciferase
+activity was measured with Dual-Luciferases Reporter
+Assay kit (Promega Corp., Madison, WI, USA) according
+to the manufacturer’s manual.
+Cell Proliferation
+The cells were seeded into 96-well plates. After 2-3 days
+of incubation, the cells were washed and incubated with 10
+μL of Cell Counting Kit-8 (CCK-8) solution (Dojindo
+Molecular Technologies Inc., Kumamoto, Japan). The
+absorbance at 450 nm was detected by a microplate reader
+(BioTek, Winooski, VT, USA).
+Sphere Formation
+The cells were cultured in ultra-low attachment multi-well
+plate (Corning Incorporated, NY, USA) with serum-free
+medium containing 100 μg/mL human bFGF, 20 μg/mL
+insulin and 10 ng/mL human EGF. After 10-15 days, the
+colonies were stained and counted.
+Migration
+The migration activities of the cells were measured by
+transwell assay (Thermo Fisher Scientific, Waltham, MA,
+USA) according to the manufacturer’s manual.
+Statistics
+Each experiment was performed at least three times. Data
+were represented as mean ± s.d. Student’s t-test was used
+for determination of the significance between two experi-
+mental groups.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC6782031' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC6782031|ecl_reagent' data-pmcid='PMC6782031' data-item='ecl_reagent'><div class='qname'><span>ECL reagent, named</span><span class='ans'></span></div><div class='qdef'>A named ECL or substrate product. The word ECL on its own, with no product name, does not count.</div><div class='qhow'><b>What to mark.</b> Mark the product name. Leave out the manufacturer unless the name alone would not identify it.<span class='eg'>In <i>SuperSignal West Pico (Thermo)</i> mark <b>SuperSignal West Pico</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6782031|blocking_percent' data-pmcid='PMC6782031' data-item='blocking_percent'><div class='qname'><span>Blocking agent concentration</span><span class='ans'></span></div><div class='qdef'>A percentage attached to the blocking step. A blocking agent with no percentage does not count.</div><div class='qhow'><b>What to mark.</b> Mark the percentage only.<span class='eg'>In <i>blocked in 5% non-fat dry milk</i> mark <b>5%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6782031|secondary_ab_conjugate' data-pmcid='PMC6782031' data-item='secondary_ab_conjugate'><div class='qname'><span>Secondary antibody conjugate</span><span class='ans'></span></div><div class='qdef'>What the secondary antibody is conjugated to.</div><div class='qhow'><b>What to mark.</b> Mark each distinct conjugate once.<span class='eg'>In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6782031|blocking_agent' data-pmcid='PMC6782031' data-item='blocking_agent'><div class='qname'><span>Blocking agent</span><span class='ans'></span></div><div class='qdef'>What the membrane was blocked in.</div><div class='qhow'><b>What to mark.</b> Mark the agent only. Leave the percentage out, it is a separate question.<span class='eg'>In <i>blocked in 5% non-fat dry milk</i> mark <b>non-fat dry milk</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6782031|detection_chemistry' data-pmcid='PMC6782031' data-item='detection_chemistry'><div class='qname'><span>Detection chemistry</span><span class='ans'></span></div><div class='qdef'>How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.</div><div class='qhow'><b>What to mark.</b> Mark the words naming the detection method.<span class='eg'>In <i>visualised by enhanced chemiluminescence</i> mark <b>enhanced chemiluminescence</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6782031|membrane_type' data-pmcid='PMC6782031' data-item='membrane_type'><div class='qname'><span>Membrane type</span><span class='ans'></span></div><div class='qdef'>PVDF or nitrocellulose, or another named membrane chemistry.</div><div class='qhow'><b>What to mark.</b> Mark the membrane name only.<span class='eg'>In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6782031|loading_control_identity' data-pmcid='PMC6782031' data-item='loading_control_identity'><div class='qname'><span>Loading control, named</span><span class='ans'></span></div><div class='qdef'>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two.<span class='eg'>In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6782031|protein_per_lane_ug' data-pmcid='PMC6782031' data-item='protein_per_lane_ug'><div class='qname'><span>Protein loaded per lane</span><span class='ans'></span></div><div class='qdef'>A mass of protein loaded per lane. A volume on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark the mass and its unit.<span class='eg'>In <i>30 ug of protein was loaded per lane</i> mark <b>30 ug</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>3</span> of <span class='num'>6</span></h2><span class='pill'>PMC6131224</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Molecular Medicine Reports · <span class='num'>2018</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC6131224'>
+Cell culture. TF3 (&gt;90.0%) was purchased from Sigma-Aldrich 
+(Merck KGaA, Darmstadt, Germany) and is approved by the 
+Food and Drug Administration (32,33). GES-1 human gastric 
+mucosa epithelial cells were obtained from the American 
+Type Culture Collection (Manassas, VA, USA) in order to 
+investigate the effects of TF3 on ethanol-induced injury 
+in vitro. For the similar reactions to ethanol with primary 
+gastric mucosa epithelial cells, the GES-1 cell line has been 
+widely used in the study of the effects of ethanol on the gastric 
+mucosa, and so the GES-1 cell line was determined to be 
+appropriate for use in the present study (34,35). Cells were 
+cultured in RPMI 1640 medium (Hyclone; GE Healthcare 
+Life Sciences, Logan, UT, USA) with 10% fetal bovine serum 
+(Gibco; Thermo Fisher Scientific, Inc., Waltham, MA, USA) 
+and 1% penicillin/streptomycin (Invitrogen; Thermo Fisher 
+Scientific, Inc.) in a 5% CO2-containing humidified incubator 
+at 37 ̊C. When cells reached 70% confluence, cell morpholo­
+gies were observed under a DMi8 optical microscope (Leica 
+Microsystems GmbH, Wetzlar, Germany).
+When cells reached 70% confluence, they were divided 
+into five groups: EtOH group (treated with 0.5 mol/l ethanol 
+for 24 h at room temperature); TF-1, TF-2 and TF-3 groups 
+(respectively treated with 20, 40 and 80 μg/ml TF3 for 6 h, 
+and then 0.5 mol/l ethanol for 24 h, at room temperature) and 
+the Control group (without any treatment). Cell viability and 
+proliferation abilities were subsequently investigated to deter­
+mine the degree of injury exhibited by GES-1 cells following 
+treatment with ethanol, and whether administration of TF3 
+attenuates these effects. 
+Cell Counting Kit-8 (CCK-8) cell viability assay. The cell 
+viability of GES-1 cells treated with varying concentra­
+tions of TF3 (20, 40 and 80 μg/ml) for 6 h prior to ethanol 
+(0.5 mol/l) treatment were investigated using the CCK-8 
+assay (Beyotime Institute of Biotechnology, Haimen, China) 
+at specific time intervals (0, 6, 12, 24 and 48 h), according to 
+the manufacturer&#x27;s protocol. Briefly, cells (5x103 cells/well) 
+were seeded with CCK-8 reagent (20 μl) in 96-well plates and 
+incubated for 1 h at 37 ̊C in an atmosphere of 5% CO2. The 
+optical density values were analyzed under 450 nm using a 
+microplate reader (Bio-Tek Instruments, Inc., Winooski, VT, 
+USA).
+Carboxyfluorescein diacetate succinimidyl ester (CFSE) cell 
+proliferation assay. The CFSE assay was used to investigate 
+the proliferation ability of cells in all groups following treat­
+ment with ethanol for 24 h, with or without pretreatment with 
+20, 40 and 80 μg/ml TF3 for 6 h. Proliferation was assessed 
+based on the even distribution of CFSE fluorescence when 
+cell division occurs. The CellTrace CFSE Cell Proliferation 
+kit (Invitrogen; Thermo Fisher Scientific, Inc.) was used to 
+investigate GES-1 cell proliferation according to the manu­
+facturer&#x27;s protocol. Cells were mixed with preheated PBS 
+(1 ml) in sterile centrifuge tubes to reach a final concentration 
+of 1x106 cells/ml. A total of 2 μl CFSE (5 mmol/l) reagent 
+was added to the mixture, which was subsequently incubated 
+for 10 min at 37 ̊C. Following culture in 10 ml RPMI 1640 
+containing 10% FBS for 5 min on ice in the dark, cells were 
+seeded into 24-well plates (1x105 cells/well) and cultured 
+in an incubator containing 5% CO2 at 37 ̊C for 4 h. Finally, 
+cells were investigated using a FACSCalibur flow cytometer 
+(BD Biosciences, Franklin Lakes, NJ, USA) and CellQuestTM 
+Pro Software version 5.1 (BD Biosciences). 
+ROS detection. ROS levels were measured using dichlo­
+rofluorescein-diacetate (DCTH-DA), an oxygen-sensitive 
+fluorescence probe. Briefly, DCFH-DA (10 μmol/l) was 
+added to EtOH, TF-1, TF-2, TF-3 and Control cell groups 
+(1x105 cells/well) in a 6-well plate. Following incubation for 
+30 min at 37 ̊C in the dark, cells were washed with PBS three 
+times to remove excess dye, and were immediately collected 
+and analyzed using a FACSCalibur flow cytometer (BD 
+Biosciences) and CellQuestTM Pro Software version 5.1 (BD 
+Biosciences).
+ MOLECULAR MEDICINE REPORTS 18: 3791-3799, 2018
+3793
+Detection of oxidative stress-associated factors. MDA levels, 
+SOD activity and the GSH/GSSG ratio in the EtOH, TF-1, TF-2, 
+TF-3 and Control cell groups were determined. MDA levels 
+were detected by thiobarbituric acid in a Lipid Peroxidation 
+MDA assay kit (Beyotime Institute of Biotechnology). SOD 
+activities were investigated using Total Superoxide Dismutase 
+assay kit with WST-8 (Beyotime Institute of Biotechnology). 
+Additionally, GSH/GSSG redox potentials were determined 
+using 2,2-dithio-bis-nitrobenzoic acid in the GSH and GSSG 
+assay kit (Beyotime Institute of Biotechnology). All assays 
+were performed according to the manufacturer&#x27;s protocols.
+Annexin V-fluorescein isothiocyanate (FITC)/propidium 
+iodide (PI) apoptosis detection. The apoptosis rates of 
+GES-1 cells were determined using an Annexin V-FITC/PI 
+double-staining assay, according to the manufacturer&#x27;s protocol 
+(BioVision, Inc., Milpitas, CA, USA). In the present study, cells 
+in the EtOH, TF-1, TF-2, TF-3 and Control cell groups, with 
+the initial concentration of 1x106 cells/ml, were seeded in a 
+96-well plate. Following this, Annexin V/FITC (40 μg/ml, 
+5 μl) and PI (20 μg/ml, 10 μl) were added to the cell suspen­
+sion. Following incubation for 15 min at room temperature, 
+cells were analyzed using a FACSCalibur flow cytometer. A 
+wavelength of 488 nm was used as the exciting light wave­
+length, and wavelengths of 515 nm (FITC) and 560 nm (PI) 
+were used as detecting light wavelengths. 
+Reverse transcription-quantitative polymerase chain reac­
+tion (RT-qPCR). Total RNA was extracted using TRIzol 
+(Invitrogen; Thermo Fisher Scientific, Inc.) from the EtOH, 
+TF-1, TF-2, TF-3 and Control cell groups, and cDNA was 
+obtained using a EN-QuantiTect Reverse Transcription 
+(Qiagen GmbH, Hilden, Germany), according to the manufac­
+turer&#x27;s protocols of 37 ̊C for 10 min, and 85 ̊C for 15 sec. The 
+thermocycling conditions for qPCR were as follows: Initial 
+denaturation at 95 ̊C for 30 sec, followed by 40 cycles of dena­
+turation at 95 ̊C for 5 sec and annealing/extension at 60 ̊C for 
+30 sec. qPCR was performed in an ABI 7300 Thermocycler 
+(Applied Biosystems; Thermo Fisher Scientific, Inc.) using 
+a SYBR Green Master Mix (Applied Biosystems; Thermo 
+Fisher Scientific, Inc.). The 2-∆∆Cq method used to normalize 
+gene expression to the housekeeping gene (GAPDH) (36). The 
+primer sequences used for PCR are presented in Table I.
+Western blot analysis. Total proteins were extracted from cells 
+in EtOH, TF-1, TF-2, TF-3 and Control cell groups. Cells were 
+lysed using lysis buffer (50 mM Tris-Cl, 150 mM NaCl, 0.02% 
+NaN2, 100 μg/ml phenylmethanesulfonyl fluoride, 1 μg/ml apro­
+tinin, and 1% Triton X-100), and centrifuged at 12,000 x g for 
+30 min at 4 ̊C. Total protein concentration was determined via 
+a BCA assay (Beyotime Institute of Biotechnology). Following 
+this, proteins (20 μg/well) were separated via 12% SDS-PAGE 
+and transferred to polyvinylidene fluoride (PVDF) membranes 
+(EMD Millipore, Billerica, MA, USA). Following blocking 
+using 5% non-fat dry milk for 1 h at room temperature, the 
+membranes were probed using the following rabbit primary 
+antibodies overnight at 4 ̊C: Anti-caspase-3 (cat no. ab13847; 
+1:500; Abcam, Cambridge, UK), anti-B-cell lymphoma-2 
+(Bcl-2;cat. no. ab59348; 1:1,000; Abcam), anti-Bcl-2-associ­
+ated X (Bax; cat. no. ab32503; 1:2,000; Abcam), anti-GAPDH 
+(cat. no. ab9485; 1:2,500; Abcam), anti-ERK1/2 (cat. no. 4695; 
+1:1,000; Cell Signaling Technology, Inc., Danvers, MA, USA), 
+anti-phosphorylated (p)-ERK1/2 (cat. no. 4370; 1:2,000; 
+Cell Signaling Technology, Inc.), anti-JNK (cat. no. 9252; 
+1:1,000; Cell Signaling Technology, Inc.), anti-p-JNK (cat. 
+no. 4668; 1:1,000; Cell Signaling Technology, Inc.), anti-p38 
+(cat. no. 8690; 1:1,000; Cell Signaling Technology, Inc.) and 
+anti-p-p38 (cat. no. 4511; 1:1,000; Cell Signaling Technology, 
+Inc.). GAPDH was used as the loading control. Following this, 
+membranes were probed with horseradish peroxidase-conju­
+gated goat anti-rabbit IgG H&amp;L (cat. no. ab6721; 1:5,000; 
+Abcam) for 2 h at room temperature. PVDF membranes were 
+subsequently exposed to X-ray film and visualized using an 
+enhanced chemiluminescence detection system, GE ECL 
+Start (GE Healthcare, Chicago, IL, USA). Lab Works Image 
+Acquisition and Analysis software PLUS 4.1 (UVP, LLC, 
+Phoenix, AZ, USA) was used to quantify the band intensities. 
+Statistical analysis. Data are presented as the mean ± stan­
+dard deviation of three independent experiments. Statistical 
+analysis was performed using SPSS software (version 22.0; 
+IBM Corp., Armonk, NY, USA). Statistical differences were 
+determined via one-way analysis of variance and Dunnett&#x27;s 
+post-hoc test. P&lt;0.05 was considered to indicate a statistically 
+significant difference.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC6131224' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC6131224|imager_instrument' data-pmcid='PMC6131224' data-item='imager_instrument'><div class='qname'><span>Imager instrument</span><span class='ans'></span></div><div class='qdef'>The imaging hardware, including X-ray film where film was used.</div><div class='qhow'><b>What to mark.</b> Mark the instrument name only. Leave out the manufacturer.<span class='eg'>In <i>imaged on a ChemiDoc MP (Bio-Rad)</i> mark <b>ChemiDoc MP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6131224|gel_percentage' data-pmcid='PMC6131224' data-item='gel_percentage'><div class='qname'><span>Gel percentage</span><span class='ans'></span></div><div class='qdef'>The acrylamide percentage of the separating gel.</div><div class='qhow'><b>What to mark.</b> Mark the percentage. For a gradient, mark the whole range.<span class='eg'>In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6131224|primary_ab_host' data-pmcid='PMC6131224' data-item='primary_ab_host'><div class='qname'><span>Primary antibody host or type</span><span class='ans'></span></div><div class='qdef'>The host species or the clonality of a primary antibody.</div><div class='qhow'><b>What to mark.</b> Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times.<span class='eg'>In <i>rabbit polyclonal anti-p53</i> mark <b>rabbit polyclonal</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC6131224|replicate_n' data-pmcid='PMC6131224' data-item='replicate_n'><div class='qname'><span>Replicate count</span><span class='ans'></span></div><div class='qdef'>A number of replicates. You are not being asked whether they are biological or technical.</div><div class='qhow'><b>What to mark.</b> Mark the number together with the words that make it a replicate count.<span class='eg'>In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>4</span> of <span class='num'>6</span></h2><span class='pill'>PMC7546010</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Theranostics · <span class='num'>2020</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC7546010'> 
+Preparation of TXL Solution for the In Vitro 
+Experiments 
+A solution of TXL ultrafine powder (Lot 
+Number: 071201; Shijiazhuang Yiling Pharmaceutical 
+Co., Shijiazhuang, China) was made as described 
+previously [18]. In brief, after TXL was dissolved in 
+ Theranostics 2020, Vol. 10, Issue 25 
+ 
+ 
+http://www.thno.org 
+11756 
+serum-free Dulbecco’s modified Eagle’s medium 
+(DMEM; Life Technologies, Grand Island, NY, USA), 
+the suspension was sonicated for 30 min and then 
+centrifuged at 2,500 rpm for 15 min. A 0.22-μm filter 
+was used to filter the supernatant to prepare a sterile 
+TXL solution. 
+Animals 
+Male Sprague Dawley rats (220-250 g) were 
+utilized in our experiments. Animal studies were 
+performed in accordance with the “Guide for the Care 
+and Use of Laboratory Animals” issued by the US 
+National Institutes of Health (Bethesda, MD, USA, 
+NIH Publication No. 85-23, revised 1996) and the 
+“Regulation to the Care and Use of Experimental 
+Animals” of the Beijing Council on Animal Care 
+(1996). The experimental protocol was reviewed and 
+approved by the Care of Experimental Animals 
+Committee of Fuwai Hospital. 
+Establishment of an in vivo Myocardial I/R 
+Injury Model and infarct size measurement 
+Male Sprague Dawley rats were anesthetized 
+with 
+sodium 
+pentobarbital 
+(50 
+mg/kg, 
+intraperitoneally) before endotracheal intubation. I/R 
+was induced by ligating the left anterior descending 
+artery (LAD) for 45 min, followed by loosening the 
+ligature for 3 hours, as described previously [19]. Rats 
+were randomized to: (1) Sham group, in which LAD 
+was encircled by a suture but not occluded, and rats 
+were administered saline by gavage 1 h prior to I/R; 
+(2) I/R group, in which rats were administered saline 
+by gavage 1 h prior to I/R; (3) I/R + TXL group, in 
+which rats were administered TXL dissolved in saline 
+(0.4 g/kg, an equivalent dose to that used clinically in 
+humans) by gavage 1 h prior to I/R; and (4) I/R + TXL 
++ GW4869 (Selleck, Houston, TX, USA) group, in 
+which the rats were administered GW4869 (1 mg/kg) 
+intraperitoneally every 24 h for 3 days prior to I/R, as 
+described previously [20, 21], in addition to receiving 
+the same TXL treatment as the TXL group. GW4869 
+was dissolved in saline with 2.5% DMSO. The same 
+volume of 2.5% DMSO saline buffer was injected as a 
+vehicle control in groups where GW4869 was not 
+given. 
+Myocardial infarct sizes were assessed as 
+previously described [18]. Briefly, after reperfusion, 
+the suture was re-tied to ligate the LAD again, and 1 
+mL 2% Evans Blue dye (Sigma, Darmstadt, Germany) 
+was injected into the thoracic aorta to delineate the 
+ischemic 
+area 
+(area-at-risk, 
+AAR) 
+and 
+the 
+non-ischemic area (Evans blue perfused region). Then 
+the heart was harvested and stored at -80°C 
+overnight. On the second day, frozen ventricles were 
+cut into 5 or 6 slices and incubated in 1% 2, 3, 
+5-triphenyltetrazolium chloride (TTC, Amresco, USA) 
+for 15 min at 37°C. After staining, slices were 
+incubated in 10% formalin to increase the contrast 
+between dyed and undyed tissues. Ischemic but 
+viable tissue will be stained red and the infarcted area 
+(IA) will be stained pale white. ImageJ software 
+(National Institutes of Health) was used to measure 
+the IA, AAR, and total cross-sectional heart area (TA). 
+A percentage of AAR (IA/AAR) or TA (AAR/TA) 
+was used to express the infarct size and ischemic area, 
+respectively. 
+Detection of microcirculatory perfusion 
+To determine microcirculatory blood flow 
+during myocardial (M) I/R, rats were anesthetized 
+using pentobarbital sodium, intubated and ventilated 
+with a positive-pressure respirator. After removing 
+the thoracic muscle, the thoracic cage was opened via 
+thoracotomy through the 4th intercostal space on both 
+sides and the mid-sternum. The heart was then 
+completely exposed by cutting 2-4 ribs on both sides 
+and fixing the free anterior thorax wall towards the 
+rat’s head with a forcep. To induce myocardial 
+ischemia, the LAD coronary artery was ligated with a 
+6-0 silk suture 2-3 mm from the origin. 45 minutes 
+later, the ligature was removed to re-perfuse the 
+ischemic myocardium. To monitor microcirculatory 
+perfusion, hearts were scanned using laser Doppler 
+flowmetry (PeriCam PSI System, Perimed, Sweden) at 
+baseline (prior to ligation), and 0, 10, 20, 30 and 40 
+mins post-reperfusion. Left ventricular blood flow at 
+the ischemic part was determined and analyzed 
+blindly. 
+Langendorff model, study design and infarct 
+size measurement 
+After being heparinized (3 IU/g BW) and 
+anesthetized with sodium pentobarbital (50 mg/kg, 
+intraperitoneally), rat hearts were rapidly removed 
+(the procedure time from opening the chest to heart 
+excision was less than 2 min). Then the aorta was 
+immediately connected to a standard Langendorff 
+apparatus and perfused with Krebs-Henseleit (K-H) 
+buffer solution (pH 7.4: in mM: NaCl 118; KCl 4.7; 
+CaCl2 2.0; MgSO4 1.2; NaHCO3 25; KH2PO4 1.2; 
+glucose 11.1) gassed with 95% O2 and 5% CO2 during 
+the perfusion, at a constant flow of 10 mL/min at 
+37°C. A pulmonary arteriotomy was performed to 
+drain coronary effluent. To establish a global I/R 
+model, the perfusion pump was switched off for 40 
+min to stop coronary flow and switched on for 60 min 
+to re-establish perfusion. 
+Rats were randomized to: (1) I/R; (2) I/R +TXL; 
+(3) I/R+TXL+TritonX-100; and (4) I/R+TXL+L-NNA. 
+TXL (400 μg/mL) was added into the perfusion fluid 
+ Theranostics 2020, Vol. 10, Issue 25 
+ 
+ 
+http://www.thno.org 
+11757 
+before ischemia and throughout reperfusion in the 
+presence or absence of L-NNA (0.1 mM) or 
+TritonX-100 (0.125%). L-NNA is a competitive 
+inhibitor with selectivity for NOS. TritonX-100 at a 
+low dose, as demonstrated before [22], can be used to 
+inactivate the eNOS activity and decrease NO 
+synthesis in endothelium, without losing eNOS or 
+denaturing eNOS. The Triton-induced membrane 
+damage may lead to leakage of raw materials (both 
+substrates such as L-arginine and cofactors such as 
+BH4) necessary for NO generation through the 
+plasma membrane [22]. To investigate whether the 
+TXL-induced protective effect is dependent on the 
+activation of eNOS in endothelium, a Triton X-100 
+(0.125 %) bolus solution was used to abolish 
+eNOS-mediated NO production [9,23]. Triton-X 100 at 
+a concentration of 0.25%, which is commonly used by 
+other research groups [9,23], increased infarct size in 
+our preliminary experiments. Therefore, a lower 
+concentration of Triton-X 100, which had no impact 
+on infarct size but significantly reduced NO 
+production, was utilized in our study. 
+Infarct size was measured 1 h after reperfusion. 
+The hearts were harvested and stored at -80°C 
+overnight. The steps for TTC staining were the same 
+as those described for measuring infarct size after in 
+vivo I/R. ImageJ software (National Institutes of 
+Health) was used to measure the IA and total 
+cross-sectional heart area (TA). A percentage of TA 
+(IA/TA) was used to express the infarct size. 
+Measurement of nitric oxide production 
+Total NO production in cardiac tissues was 
+determined by measuring the concentration of nitrate 
+and nitrite, the stable metabolites of NO, by the 
+modified Griess reaction method, according to the 
+manufacturer’s instructions (Beyotime Institute of 
+Biotechnology, Shanghai, China). Optical density was 
+measured at 540 nm and the amount of nitrite in the 
+tissue lysate was calculated using sodium nitrite as a 
+reference standard. 
+Determination of CK-MB release in serum 
+Blood 
+samples 
+were 
+collected 
+from 
+the 
+abdominal aorta of rats using a 10 mL syringe 3 hours 
+after reperfusion. Blood samples were collected and 
+serum was separated by centrifugation and then kept 
+at -80°C. The levels of CK-MB were measured using a 
+commercially available Rat Elisa Assay kit with a 
+microplate reader according to the manufacturer’s 
+instructions 
+(Jiancheng 
+Bioengineering 
+Institute, 
+Nanjing, China). 
+Cell Culture and Treatments 
+Human CMs isolated from the ventricles of 
+human adult hearts were purchased from PromoCell 
+(Heidelberg, Germany). Cells were grown in a 
+monolayer to 80% confluence and then sub-cultured 
+using 
+Ready-to-Use 
+Myocyte 
+Growth 
+Medium 
+(PromoCell). Experiments with human CMs were 
+performed at passages three to seven. 
+Human CMECs were purchased from ScienCell 
+Research Laboratories (San Diego, CA, USA) and 
+cultured according to the manufacturer’s instructions. 
+Cells were grown in endothelial cell medium 
+(ScienCell Research Laboratories) containing 5% fetal 
+bovine serum (ScienCell Research Laboratories), 1% 
+endothelial 
+cell 
+growth 
+supplement 
+(ScienCell 
+Research 
+Laboratories), 
+and 
+1% 
+penicillin/ 
+streptomycin at 37°C with 5% CO2, and then 
+sub-cultured at a ratio of 1:3 when reaching 90% 
+confluence. Cells in passages three to seven were used 
+in our experiments. 
+Human cardiac fibroblasts were bought from 
+ScienCell Research Laboratories. Human cardiac 
+fibroblasts 
+between 
+passages 
+3-7 
+at 
+70-80% 
+confluence were used for experiments. Human 
+cardiac fibroblasts were cultured on poly-L-lysine 
+coated culture plates in fibroblast medium (ScienCell) 
+containing 10% FBS, growth supplements and 
+penicillin/streptomycin, 
+according 
+to 
+the 
+manufacturer’s instructions. 
+For co-culture experiments, 120,000 CMs were 
+seeded into 6-well plate inserts with 0.4 μm pores 
+(Corning, New York, USA) in normal culture 
+medium. CMs were allowed to attach for 24 h before 
+different treatments such as TXL pretreatment (400 
+μg/mL, 1 h) or siRNA transfection, and then the 
+inserts were placed into 6-well plates previously 
+plated with CMECs. 
+For H/R experiments, cells were washed with 
+warm PBS twice and then exposed to different 
+treatments in serum-free DMEM medium. Then cells 
+were kept in an airtight and hypoxic GENbox jar 
+fitted with a catalyst (BioMérieux, Marcy l’Etoile, 
+France) to remove oxygen and induce 18 h hypoxia, as 
+previously described [24]. They were then placed 
+under normal conditions for 2 h of reoxygenation. To 
+ensure that the in vitro H/R model was successfully 
+established, an anaerobic indicator dye (BioMérieux) 
+was used to reflect the oxygen tension of the medium. 
+To investigate whether TXL protected CMECs 
+via the eNOS pathway, CMECs were washed with 
+phosphate buffered saline (PBS) and exposed to 
+L-NNA (100 μM) [9] in serum-free DMEM for 30 min 
+prior to hypoxia and throughout the H/R conditions 
+in the absence or presence of TXL (800 μg/mL) [25]. 
+For sEV inhibition, human CMs were treated in 
+6-well plate inserts (Corning) with a chemical sEV 
+inhibitor, GW4869 [26,27] (10μm) (Sigma, USA) for 24 
+h. Then, they were co-treated with TXL (400 μg/mL) 
+ Theranostics 2020, Vol. 10, Issue 25 
+ 
+ 
+http://www.thno.org 
+11758 
+[18] and GW4869 for 1 h prior to hypoxia, and then 
+exposed to GW4869 alone when subjected to H/R. 
+Human CMs were treated with DMSO as the vehicle 
+control. 
+For all the in vitro experiments, at least 3 
+independent batches of CMECs, CMs or cardiac 
+fibroblasts were used. 
+Assessment of Morphological Changes 
+The chromatin dye Hoechst 33,342 was used to 
+stain and assess cell nuclear condensation and 
+fragmentation (Beyotime Institute of Biotechnology, 
+China). 
+Briefly, 
+CMECs 
+were 
+fixed 
+with 
+paraformaldehyde (4%) for 30 min and then treated 
+with 5 mg/mL Hoechst 33,342 for 30 min. Finally, 
+stained cells were washed twice with PBS at room 
+temperature and observed under a fluorescence 
+microscope (Leica, Germany). Cells with fragmented 
+and condensed nuclei were defined as dead cells. 
+Determination of Cell Death by flow 
+Cytometry 
+The percentage of dead cells was evaluated 
+using the Annexin V-FITC/PI Kit (Becton, Dickinson 
+and Company, USA), following the manufacturer’s 
+instructions. Briefly, CMECs, after experimental 
+treatments, were collected and resuspended in 100 μl 
+1× binding buffer. The cell suspension was incubated 
+with Annexin V and propidium iodide (PI) at room 
+temperature in the dark for 15 min. Next, the binding 
+buffer was mixed with another 400 μl 1× binding 
+buffer, and CMECs were harvested and analyzed 
+using the FACS Calibur System (Becton-Dickinson). 
+Viable 
+CMECs 
+were 
+considered 
+annexin 
+V-/propidium iodide (PI)-, early apoptotic CMECs as 
+annexin V+/PI- and late apoptotic CMECs and 
+already dead CMECs as annexin V+/PI+. Cells of 
+annexin V+/PI- or annexin V+/PI+ were added 
+together to calculate the proportion of dead CMECs. 
+SEV isolation 
+SEVs were isolated by differential centrifugation 
+described in detail elsewhere [28]. Briefly, to isolate 
+sEVs derived from CMs that were untreated, 
+pretreated with TXL, or treated with lincRNA-ROR 
+siRNA or conditioned medium from cells pretreated 
+with TXL pretreatment (1 h) and then stimulated by 
+H/R (18 h/2 h) were harvested and centrifuged. Cells 
+and 
+debris 
+were 
+removed 
+by 
+differential 
+centrifugation at 300 ×g (10 min) and 2000 ×g (20 
+min), respectively. Microvesicles were precipitated by 
+centrifuging at 13,500 ×g (30 min) and discarded. 
+Supernatants were then ultra-centrifuged at 120,000 
+×g (70 min) to acquire a raw sEV pellet. The pellet was 
+then rinsed with PBS followed by a second 
+ultracentrifugation (120,000 ×g, 70 min). The sEV 
+pellet was resuspended in PBS and stored at -80°C for 
+the corresponding experiments. The whole procedure 
+was undertaken under sterile conditions. 
+Transmission electron microscopy (TEM) 
+SEVs diluted in PBS were adsorbed to a 
+200-mesh 
+formvar/carbon 
+coated 
+electron 
+microscopy grid (Electron Microscopy Sciences, PA, 
+USA) and incubated at room temperature for 5 min. 
+Next, excessive PBS was removed and 0.75% uranyl 
+acetate dihydrate was used to stain sEVs for 5 min, 
+followed by rinsing the samples with PBS three times. 
+After the excess liquid was removed, the grids were 
+observed by TEM and images were recorded with a 
+camera. 
+Fluorescence confocal microscopy for sEV 
+uptake 
+To determine how fast sEVs were taken up by 
+CMECs in vitro, isolated sEVs were labeled with 
+fluorescent dye PKH26 using a Red Fluorescent Cell 
+Linker 
+Kit 
+(Sigma-Aldrich) 
+according 
+to 
+the 
+manufacturer’s instructions and rinsed with PBS 
+followed by ultra-centrifuging twice to remove 
+redundant dye. PKH26-labeled sEVs were incubated 
+with CMECs for 1 or 18 h. CMECs were then rinsed 
+twice with PBS, fixed with 4% paraformaldehyde for 
+15 min, rinsed twice with PBS and permeabilized with 
+0.1% Triton X-100 for 5 min. Thereafter, cells were 
+blocked with 1% goat serum for 40 min and stained 
+with phalloidine and DAPI at room temperature. 
+Uptake of PKH26-labeled sEVs by CMECs was 
+observed by confocal microscopy. 
+Real-Time RT-PCR 
+Total RNA from CMECs, human CMs or sEVs 
+was extracted using Trizol, according to the 
+manufacturer’s protocol (Invitrogen). linc-ROR and 
+GAPDH mRNAs were reverse transcribed to cDNA 
+using an iScript cDNA Synthesis Kit (Bio-Rad, 
+Hercules, CA, USA) and then quantified by 
+quantitative real-time RT-PCR with SYBR Green PCR 
+Master Mix. MicroRNAs were reverse transcribed 
+using a miScript II RT Kit (Qiagen, Valencia, CA, 
+USA) and quantified by quantitative real-time 
+RT-PCR using a miScript SYBR green PCR kit 
+(Qiagen). qRT-PCR was performed on an ABI 7500 
+thermocycler (Applied Biosystems) for 40 cycles. The 
+following PCR primers were used: GAPDH forward, 
+5′-GAAGGTGAAGGTCGGAGTCA-3′; reverse, 5′-GG 
+AAGATGGTGATGGGATTTC-3′; linc-ROR forward, 
+5′-AGGAAGCCTGAGAGTTGGC-3′; reverse, 5′-CTC 
+AGTGGGGAAGACTCCAG-3′. Specific primers for 
+microRNAs (miR-497-5p, miR-145-5p, miR-128-3p, 
+and U6) were purchased from Qiagen. The linc-ROR 
+ Theranostics 2020, Vol. 10, Issue 25 
+ 
+ 
+http://www.thno.org 
+11759 
+from CMECs or human CMs was quantified using the 
+2(-ΔΔCT) relative quantification method, using GAPDH 
+as an internal control. Linc-ROR in sEVs was 
+quantified using the 2(-ΔΔCT) relative quantification 
+method, using ce-miR-39-3p as an external control, as 
+previously described [29, 30]. MicroRNA levels were 
+quantified by the 2(-ΔΔCT) relative quantification 
+method, using U6 as an internal control. 
+Western Blotting 
+Proteins were extracted from CMECs, sEVs or 
+myocardial tissue samples. The BCA assay (Beyotime 
+Institute of Biotechnology, China) was used to 
+measure protein concentrations. To assess protein 
+levels in these samples, lysates containing 25 μ g 
+protein were separated on NuPage 4%-12% Bis-Tris 
+Gels (Novex, Life Technologies) and protein bands 
+were transferred to nitrocellulose membranes using a 
+dry electroblotting apparatus (Invitrogen). Then 5% 
+non-fat dry milk was utilized to block the membranes. 
+Membranes were incubated in solutions of primary 
+antibodies overnight at 4°C. The primary antibodies 
+used 
+included 
+eNOS 
+(#32027; 
+1:1000) 
+and 
+phospho-eNOS (Ser 1177) (#9570; 1:1000), Calnexin 
+(#2679S; 1:1000), all from Cell Signaling Technology. 
+Other 
+primary 
+antibodies 
+used 
+were 
+p70s6k1(ab32529; 1:5,000), phosphop70s6k1 (Thr389) 
+(ab2571; 1:250), CD81(ab109201; 1:2000) and CD63 
+(ab134045; 1:2000), all from Abcam. After being 
+incubated with primary antibodies, membranes were 
+rinsed three times and incubated with appropriate 
+secondary antibodies (1:5,000; Zhongshanjinqiao, 
+China) on the second day. Then stained bands were 
+visualized with a Chemiluminescence Detection Kit 
+(Pierce) after washing membranes three times. Protein 
+signals were normalized to GAPDH (ab181602; 
+primary antibody at 1:5,000; Abcam, Cambridge, UK). 
+ImageJ 
+software 
+was 
+used 
+to 
+analyze 
+the 
+densitometry. 
+Cell Transfection 
+Small interfering RNA (siRNA) oligonucleotides 
+against 
+p70s6k1 
+(Santa 
+Cruz 
+Biotechnology), 
+nonspecific control siRNA oligonucleotide (Santa 
+Cruz Biotechnology), mimics of miR-145-5p (Thermo 
+Fisher Scientific, Inc., Waltham, MA, USA) or the 
+microRNA negative control (Thermo Fisher Scientific, 
+Inc.) 
+were 
+transfected 
+into 
+CMECs 
+using 
+LipofectamineTM 2000 (Thermo Fisher Scientific, Inc.) 
+in Opti-MEM Reduced Serum Medium (Thermo 
+Fisher Scientific, Inc.). siRNA against linc-ROR 
+(Genepharma, Shanghai, China) and nonspecific 
+control 
+siRNA 
+oligonucleotides 
+(Genepharma, 
+Shanghai, China) were transfected into human CMs 
+with the above-mentioned reagents. Cells were used 
+in the following experiments after 48 h transfection. 
+The 
+siRNA 
+sequence 
+for 
+linc-ROR 
+was 
+5’-GGAGAGGAAGCCTGAGAGT-3’. 
+The 
+other 
+proprietary sequences of siRNAs and microRNAs 
+were not divulged by the companies. 
+Statistical Analysis 
+Statistical analysis was conducted in the 
+GraphPad 
+Prism 
+8.0.1. 
+Quantitative 
+data 
+are 
+displayed as the means ± standard error of the mean 
+(SEM). Continuous variables between two groups 
+were compared by the Student t-test. In the 
+experiment of microcirculatory perfusion, two-way 
+analysis of variance (ANOVA) was used for data 
+comparisons. Comparison in other experiments with 
+more than two groups was performed by one-way 
+ANOVA. Following either one-way or two-way 
+ANOVA, post-hoc analysis by Tukey’s test utilized 
+for multiple comparisons. P &lt; 0.05 was considered to 
+show statistical significance. 
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC7546010' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC7546010|transfer_method' data-pmcid='PMC7546010' data-item='transfer_method'><div class='qname'><span>Transfer method</span><span class='ans'></span></div><div class='qdef'>How protein was moved onto the membrane: wet or tank, semi-dry, dry, or a named transfer system.</div><div class='qhow'><b>What to mark.</b> Mark the words naming the method.<span class='eg'>In <i>transferred using a semi-dry apparatus</i> mark <b>semi-dry</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC7546010|membrane_pore_um' data-pmcid='PMC7546010' data-item='membrane_pore_um'><div class='qname'><span>Membrane pore size</span><span class='ans'></span></div><div class='qdef'>A membrane pore size in micrometres.</div><div class='qhow'><b>What to mark.</b> Mark the number and its unit.<span class='eg'>In <i>a 0.45 um PVDF membrane</i> mark <b>0.45 um</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>5</span> of <span class='num'>6</span></h2><span class='pill'>PMC6343965</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>PLoS ONE · <span class='num'>2019</span> <span class='pill'>no Methods heading found, full text shown</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC6343965'>RESEARCH ARTICLE
+Fluorescent labelling of membrane fatty acid
+transporter CD36 (SR-B2) in the extracellular
+loop
+Yilin Liu1, Ricardo Rodriguez-CalvoID1¤a, Shujin Wang1, Xiaoqing Zhu1, Jos L.
+V. BroersID2, Jan F. C. Glatz1, Joost J. F. P. Luiken1, Dietbert NeumannID1¤b*
+1 Department of Molecular Genetics, CARIM School for Cardiovascular Diseases, Maastricht University,
+Maastricht, the Netherlands, 2 Department of Molecular Cell Biology, CARIM School for Cardiovascular
+Diseases, Maastricht University, Maastricht, the Netherlands
+¤a Current address: Research Unit on Lipids and Atherosclerosis, Sant Joan University Hospital, Institut
+d’Investigacio ́ Sanitària Pere Virgili (IISPV), Spanish Biomedical Research Centre in Diabetes and Associated
+Metabolic Disorders (CIBERDEM), Universitat Rovira i Virgili, Reus, Spain
+¤b Current address: Department of Pathology, CARIM School for Cardiovascular Diseases, Maastricht
+University, Maastricht, the Netherlands
+* d.neumann@maastrichtuniversity.nl
+Abstract
+Context
+Upon palmitate oversupply, membrane fatty acid-transporter CD36 (SR-B2) permanently
+translocates from endosomal storage to the sarcolemma, inducing lipotoxicity. CD36 trans-
+location results from endosomal alkalinisation elicited by palmitate-induced disattachment
+of the cytoplasmic V1-subcomplex from the membrane-integrated V0-subcomplex of vacuo-
+lar-type H+-ATPase.
+Objective
+Develop a CD36 fluorescent labeling technique as initial step towards live cell imaging.
+Methods
+Three human CD36 (hCD36) mutants were constructed via insertion of a tetracysteine motif
+at different positions within the extracellular domain. Constructs were lentivirally transduced
+for subsequent CD36 labeling with fluorescein-arsenical hairpin-binder (FlAsH). Cell imag-
+ing was combined with V0/V1 immunostaining and Western blotting.
+Results
+Transduction of hCD36-wildtype and mutants yielded corresponding proteins in HL-1 cardi-
+omyocytes. Tetracysteine mutant-2 (hCD36-TC2) showed similar fatty acid uptake to wild-
+type. FlAsH staining revealed a speckled pattern reminiscent of endosomes. We found
+decreased V1 co-localization with CD36 upon high-palmitate culturing. Conversely, V0 con-
+sistently co-localized with CD36.
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+1 / 14
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+OPEN ACCESS
+Citation: Liu Y, Rodriguez-Calvo R, Wang S, Zhu X,
+Broers JLV, Glatz JFC, et al. (2019) Fluorescent
+labelling of membrane fatty acid transporter CD36
+(SR-B2) in the extracellular loop. PLoS ONE 14(1):
+e0210704. https://doi.org/10.1371/journal.
+pone.0210704
+Editor: Christina Chan, Michigan State University,
+UNITED STATES
+Received: April 18, 2018
+Accepted: January 1, 2019
+Published: January 23, 2019
+Copyright: © 2019 Liu et al. This is an open access
+article distributed under the terms of the Creative
+Commons Attribution License, which permits
+unrestricted use, distribution, and reproduction in
+any medium, provided the original author and
+source are credited.
+Data Availability Statement: All relevant data are
+within the paper.
+Funding: Y.L. and X.Z. received support from the
+Chinese Scholarship Council. D.N. is recipient of a
+Vidi Innovational Research Grant from the
+Netherlands Organization of Scientific Research
+(NWO-ALW grant no. 864.10.007). The funders
+had no role in study design, data collection and
+analysis, decision to publish, or preparation of the
+manuscript.
+ Conclusion
+hCD36-TC2 is a possible candidate for application of biarsenical dyes in live imaging studies
+pending further investigation. Our data is compatible with V0/V1 disassembly in high-palmi-
+tate-treated cells.
+Introduction
+Accumulation of fatty acids and their metabolites in cardiomyocytes is a cause for cardiac
+insulin resistance, and ultimately leads to cardiac dysfunction, commonly referred to as dia-
+betic cardiomyopathy [1, 2]. CD36, also known as fatty acid translocase or scavenger receptor
+(SR-B2), is the predominant fatty acid transporter in the heart, mediating an estimated 70% of
+the cardiac fatty acid flux [2, 3]. Under normal conditions, CD36 cycles between intracellular
+storage compartments and the sarcolemma. Hormonal or mechanical stimuli induce translo-
+cation of CD36 to the sarcolemma to enhance fatty acid uptake and its subsequent metabolism.
+Thus, CD36 translocation forms the basis of dynamic adaptation of the fatty acid transport
+rate into cardiomyocytes in response to physiological stimuli [4, 5]. Studies in insulin-resistant
+rodent models have shown increased abundance of CD36 at the cell surface due to a sustained
+translocation from endosomes in the absence of changes in CD36 total expression, indicating
+that fatty acid oversupply induces alterations in subcellular CD36 cycling [6, 7]. Aberrantly
+high sarcolemmal CD36 presence is seen in association with high extracellular concentrations
+of long-chain fatty acids such as palmitate. Palmitate causes a chronically elevated influx of
+fatty acids into cardiomyocytes, which is directly coupled to lipid accumulation, insulin resis-
+tance and contractile dysfunction. Thus, permanent CD36 relocation plays a vital role in the
+development of diabetic cardiomyopathy [6].
+Previous studies have identified vacuolar-type H+-ATPase (v-ATPase) involvement in the
+CD36 translocation process [8]. As a multi-unit proton pump occurring in acidic organelles,
+v-ATPase is responsible for endosomal acidification. V-ATPase consist of two sub-complexes,
+i.e., the integral membrane sub-complex V0 and the cytoplasmic sub-complex V1 [9]. Bio-
+chemical assays have demonstrated that pharmacologically induced v-ATPase inhibition
+(using the specific inhibitor Bafilomycin) leads to expulsion of CD36 from the endosomes to
+the sarcolemma [8]. Biochemical data further suggested that CD36 translocation during lipid
+overload to the sarcolemma is due to the disassembly of the V1 sub-complex into the cyto-
+plasm, resulting in a loss of v-ATPase proton pumping activity and hence a decreased acidifi-
+cation of the endosomes [10].
+Live cellular imaging would be an effective approach to visualize the CD36 translocation
+process. Green fluorescent proteins (GFP) have been widely used for biological imaging to
+investigate protein localization, intracellular trafficking, and protein-protein interactions [11].
+Previous studies have shown the functional discrepancy of N- and C-terminally GFP-tagged
+hCD36 trafficking in Chinese hamster ovary (CHO) cells [12]. Notably, the N- and C-termini
+of CD36 are intracellular [2]. As an alternative method, immune labelling offers the potential
+to capture CD36 in live cells provided the antibodies recognise the extracellular domain. How-
+ever, such antibodies can also block CD36 mediated lipid uptake [13] and due to their bulky
+nature can be expected to interfere with other known functions of CD36.
+The genetically encoded tetracysteine tag (with amino acid sequence Cys-Cys-Pro-Gly-
+Cys-Cys) offers the advantage of a small size protein label [14, 15]. As a result, potentially the
+tetracysteine motif can be introduced within a functional domain of a protein without
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+2 / 14
+Competing interests: The authors have declared
+that no competing interests exist.
+ disrupting its biological function. The tetracysteine tag binds with high-affinity to biarsenical
+dyes, such as fluorescein arsenical hairpin binder (FlAsH) and resorufin arsenical hairpin
+binder (ReAsH) [16, 17]. FlAsH or ReAsH are prepared as ethane dithiol (EDT) nonfluores-
+cent complexes. Upon binding of either FlAsH-EDT2 or ReAsH-EDT2 to the tetracysteine
+sequence, the displacement of EDT causes FlAsH or ReAsH to become highly fluorescent
+green or red dyes, respectively.
+In the present study, we selected three different positions in the extracellular loop of human
+CD36 to incorporate the tetracysteine motif as potential FlAsH labelling site. Upon lentiviral
+transduction we used Western blotting, functional assays and fluorescent microscopy analyses
+to identify a tetracysteine construct that would not interfere with CD36 functioning. We fur-
+ther investigated the co-localization of v-ATPase V0/V1 subunits with tetracysteine-tagged
+CD36, which is expected to be dynamically changing depending on stimuli based on our previ-
+ous studies.
+Materials and methods
+Plasmid constructs
+The tetracysteine motif Cys-Cys-Pro-Gly-Cys-Cys was engineered into the extracellular loop
+of CD36 by two-step PCR. Three different sites were selected for this insertion, encoded at the
+following amino acid (aa) positions: hCD36-TC1: aa48; hCD36-TC2: aa89; hCD36-TC3: aa398
+(Fig 1). To genetically encode the tetracysteine motif at the desired position of myc-DDK-
+tagged hCD36 cDNA, we designed a set of primers containing the sequence 5’-XXXXX
+TGCTGTCCAGGATGCTGCXXXXX-3’ and general primers for the sequence of hCD36
+(Table 1).
+The intended mutations were incorporated into cDNA of myc-DDK-tagged hCD36 by
+two-step PCR (Fig 2). Mutants were confirmed by sequencing (Eurogentec, Maastricht, The
+Netherlands). The three mutant sequences of CD36 were cut from pCMV6 construct (Ori-
+gene, Rockville, United States) using the restriction enzymes, BglII/SmaI, and subcloned to the
+lentiviral vector pLVX by ligation to the same restriction sites.
+Virus production and infections
+HEK293T cells were plated at 40% confluency in 10 cm dishes. After 24 h, lentiviral vector
+pLVX-Puro (Clontech, No. 632164), together with the two packaging plasmids, psPAX2 and
+pMD2.G (Envelope and GagPol), were transfected into 293T cells by using P-PEI. DMEM
+medium supplemented with 10% fetal calf serum (FCS) and 1% 100 U/ml penicillin-strepto-
+mycin was refreshed, 24 h after transfection. The medium was harvested after both 48 h and 72
+h, filtered through 0.45 μm filters and used for infection. Mouse HL-1 cardiomyocytes were
+Fig 1. CD36 target sites for insertion of the tetracysteine motif. Part of CD36 coding sequence showing the exact positions where the tetracysteine tag was introduced
+for each of the mutant.
+https://doi.org/10.1371/journal.pone.0210704.g001
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+3 / 14
+ cultured in Claycomb medium at 60% confluency in 6-well plate as previously described [18].
+3 Hours after seeding, cell culture medium was aspirated, and the cells were infected with viral
+supernatant in the presence of polybrene (8 μg/ml) overnight. After recovery for 48 h with
+Table 1. Primer sequences used for two-step PCR.
+Sense
+Antisense
+General
+primer
+5’-AGG AGATCT GCCGCCGCGATCGCC-3’ (BglII)
+5’-CCA CCCGGG ATCTGTTCAGGAAACAGCTATG-3’ (SmaI)
+hCD36-TC1
+5’-CGAAGAAGGTAC TGCTGTCCAGGATGCTGC AATTGCTTTTAA-3’
+5’-TTAAAAGCAATT GCAGCATCCTGGACAGCA GTACCTTCTTCG-3’
+hCD36-TC2
+5’-TTAAGCAAAGAG TGCTGTCCAGGATGCTGC GTCCTTATACGT-3’
+5’-ACGTATAAGGAC GCAGCATCCTGGACAGCA CTCTTTGCTTAA-3’
+hCD36-TC3
+5’-GCCATCAGAAAA TGCTGTCCAGGATGCTGC AATTCAAGTATT-3’
+5’-AATACTTGAATT GCAGCATCCTGGACAGCA TTTTCTGATGGC-3’
+https://doi.org/10.1371/journal.pone.0210704.t001
+Fig 2. Two-step PCR applied for generation of CD36 tetracysteine tag mutants. For each mutant in step 1 two PCR
+reactions were performed in parallel either using forward or reverse mutant primers carrying the tetracysteine motif.
+The products from the first step were applied as templates for the second step. General primers for amplification of the
+full coding sequence of CD36 generated the entire coding sequence including the desired tetracysteine tag sequence.
+https://doi.org/10.1371/journal.pone.0210704.g002
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+4 / 14
+ fresh medium, infected cells were selected with puromycin (4 μg/ml) for 48 h. Thereafter cells
+were used for experiments as described.
+Western blotting
+The lentivirally infected cell lysates were prepared and analysed by Western blotting as previ-
+ously described [19]. The following primary antibodies were used: anti-hCD36 (1: 20000 in
+TBST; kindly provided by Dr. Tandon, Bethesda, USA) and anti-DDK (1: 2000 in 5% BSA in
+TBST; Origene). Primary antibody binding was detected by anti-mouse secondary antibody
+(1:20000 in TBST; Dako).
+[14C] Palmitate uptake assays
+The infected different HL-1 cardiomyocytes were cultured on gelatin/fibronectin-coated cov-
+erslips in 12-well plates. Prior to the uptake assay, cells were incubated in serum-free depletion
+medium for 16 h. Then cells were treated either with or without 200 nM insulin for 30 min.
+Subsequently, [1-14C] palmitate (coupled to BSA in a palmitate/BSA ratio of 1:3) was added to
+a final concentration of 20 μM. After 10 min, uptake was terminated by Stop medium (Serum-
+free depletion medium, 0.2 mM phloretin). After transfer of the coverslips into new cell culture
+wells with stop medium, cells were lysed by adding 1 M NaOH and then cell-associated palmi-
+tate was measured by scintillation counting of 14C.
+CD36 labeling with FlAsH-EDT2 and immunofluorescence
+HL-1 cardiomyocytes infected with the various CD36 constructs were cultured on gelatin/fibro-
+nectin-coated coverslips in 24-well plate. Prior to labelling, cells were incubated in serum-free
+depletion medium for 16 h. Next day, medium was removed and cells were washed twice with
+HBSS with 5.6 mM glucose. Cells were incubated with 500 nM FlAsH-EDT2 (Thermofisher) in
+HBSS/glucose medium for 1 h at 37 ̊C. After the aspiration of FlAsH-EDT2, non-specifically
+bound dye was removed by incubation with 250 μM EDT for 10 min at 37 ̊C. Cells were washed
+seven times with HBSS/glucose and fixed with 4% formaldehyde afterwards for 10 min at room
+temperature. Subsequently, cells were rinsed twice in PBS and permeabilised by 0.2% Triton X-
+100 in PBS for 15 min at room temperature, followed by 90 min of incubation with anti-Myc
+antibody (Cell Signaling Technology; 1:4000), anti-v-ATPase a2 (Abcam; 1:100), or anti-v-
+ATPase B2 (Abcam; 1:1000) in blocking buffer (5% FCS in 0.02% Triton X-PBS) and Texas Red
+conjugated goat anti-mouse or rabbit antibody (SouthernBiotech; 1:100) in blocking buffer for
+1 h at room temperature in darkness. Coverslips were washed and mounted with DABCO-glyc-
+erol medium (Sigma-Aldrich) containing DAPI (1:10,000; Sigma-Aldrich).
+Confocal imaging
+Fixed cells were imaged using a Leica TCS SPE confocal laser scanning microscope (Leica
+Microsystems GmbH) equipped with diode lasers of 405, 488, 532 and 635 nm, using oil
+immersion objectives (×63, numerical aperture = 1.4). Optical sections were recorded with
+either two or three scans for each image. ImageJ software was used to analyse the images.
+Image brightness and contrast was adjusted to the same settings where needed.
+Statistics
+All data are presented as means ± SEM. Statistical analysis was performed by using two-sided
+Student’s t-test, and when possible paired testing was applied. P-values of less than 0.05 were
+considered statistically significant.
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+5 / 14
+ Results
+Visualizing proteins with the biarsenical reagent FlAsH-EDT2 is based on its high binding
+affinity to the tetracysteine motif [17]. We predicted three different sites that were remote
+from either the hydrophobic binding pocket or the two known phosphorylation sites on the
+extracellular loop, i.e., at amino acid positions 48, 89, and 398, respectively.
+In order to establish stable hCD36-expressing cell lines, mouse HL-1 cardiomyocytes were
+infected with lentivirus carrying empty vector, wildtype or mutant hCD36, the latter carrying
+an insertion of the tetracysteine motif at one of the three different sites within the extracellular
+domain (Fig 2). The cells infected with empty lentiviral vector or wildtype hCD36 were taken
+as controls. To verify hCD36 expression, we used CD36 antibodies that specifically recognize
+the human but not the mouse protein. In addition, we exploited the vector encoded DDK-tag.
+Accordingly, cell lysates were analyzed by Western blotting, revealing that neither hCD36 nor
+DDK-tag was detected in control empty vector, whereas hCD36 wildtype and mutants were
+detected using both antibodies (Fig 3). These results suggested that the corresponding proteins
+were being appropriately expressed in HL-1 cardiomyocytes.
+To investigate whether the different mutants still preserve fatty acid transport function, we
+assessed fatty acid uptake in the absence or presence of insulin. Basal fatty acid uptake was
+increased 1.2-1.4-fold in both the wildtype hCD36 and two tetracysteine-tagged hCD36 trans-
+fected cells (hCD36-TC2 and hCD36TC3) compared to empty vector (Fig 4, white bars), indi-
+cating increased fatty acid uptake capacity due to the additional hCD36 on top of the
+endogenous mouse CD36 (mCD36). Short-term insulin stimulation enhanced fatty acid
+uptake by 1.2-fold in non-transfected HL-1 cells. Similarly, the insulin effect was observed in
+control empty vector (1.2-fold), wildtype hCD36 (1.1-fold), as well as hCD36-TC2 (1.2-fold),
+but not in hCD36-TC1and -TC3 (Fig 4, black bars). Taken together, based on the enhance-
+ment of fatty acid uptake and the retaining of insulin stimulation, the hCD36-TC2 mutant was
+selected for further studies.
+We next examined the cellular fluorescent labeling of tetracysteine-tagged hCD36 with FlA-
+sH-EDT2 in combination with immunofluorescence by an anti-myc antibody. In cells with the
+control empty vector, immunofluorescence or FlAsH-EDT2 did not result in any fluorescent
+signals. Immunofluorescence exhibited a speckled pattern in both wild-type hCD36 and
+hCD36-TC2, as shown by using myc-antibody. A similar speckled pattern from FlAsH-EDT2
+was seen in hCD36-TC2, not in wild-type hCD36, likely reflecting the binding of tetracysteine
+motif and FlAsH (Fig 5, upper panels). The speckled pattern is in line with endosomal localiza-
+tion. Notably, the speckled pattern of hCD36-TC2 from FlAsH-EDT2 co-localized with myc,
+indicating that the speckles indeed represented hCD36 presence in endosomes (Fig 5, lower
+panels).
+We further assessed FlAsH-EDT2 staining in both wildtype hCD36 and hCD36-TC2 upon
+different stimulations. FlAsH-EDT2 staining under basal conditions yielded an intracellular
+speckled pattern. The speckled staining clearly decreased upon both short-term insulin stimu-
+lation and bafilomycin treatment (Fig 6A). These observations may indicate that in both con-
+ditions CD36 translocates to the cell surface, where the signal is more diffuse. Additionally,
+high-palmitate treatment led to a similar loss of speckles. When this condition was subjected
+to short-term insulin or bafilomycin stimulation, no further loss of the speckled staining was
+observed (Fig 6A). Quantification of the speckled pattern showed high-palmitate treatment
+induced a decrease to 50% in endosomal staining compared to basal condition, which also
+occurred upon short-term stimulations with insulin or bafilomycin. No further decrease was
+seen upon insulin or bafilomycin treatment if cells were incubated in high-palmitate medium
+(Fig 6B). Thus, wild-type hCD36 and hCD36-TC2 showed similar biological responses in all
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+6 / 14
+ tested conditions. Therefore, hCD36-TC2 appears to be a suitable construct for further imag-
+ing studies.
+Previously, we found that lipid-induced CD36 translocation to the cell surface was due to
+disassembly of the two sub-complexes V0 and V1 of v-ATPase and the resulting loss of v-
+ATPase activity [10]. This conclusion was based on both immunoprecipitation and subcellular
+fractionation experiments. In order to visualize lipid-induced CD36 relocation and v-ATPase
+disassembly by microscopy, we combined FlAsH-EDT2 staining with immunofluorescence
+using antibodies directed against either v-ATPase a2 (part of the integral membrane V0 sub-
+complex) or v-ATPase B2 (part of the membrane-associated V1 sub-complex). a2 Subunit
+staining presented as a speckled pattern, co-localizing with FlAsH-EDT2 staining in the basal
+condition. In contrast, the FlAsH-EDT2 staining decreased by 60% upon high-palmitate treat-
+ment. Yet, the a2 speckled pattern remained unchanged upon high palmitate treatment com-
+pared to the basal condition (Fig 7). While in the basal condition also the B2 subunit staining
+was found to co-localize with FlAsH-EDT2 staining, upon high-palmitate treatment the num-
+ber of cytosolic speckles decreased by 50% for B2, similarly as with FlAsH-EDT2 (Fig 7). These
+results are again in agreement with translocation of CD36 to the plasma membrane upon
+exposure to media containing high lipid concentrations. Furthermore, the data are compatible
+with dissociation of v-ATPase V1 from the endosomal membrane bound V0 sub-complex by
+high-palmitate.
+Discussion
+Tetracysteine-based labelling of protein has been successfully achieved via biarsenical dyes,
+such as FlAsH [14-16]. As the tetracysteine sequence, Cys-Cys-Pro-Gly-Cys-Cys, rarely
+appears in endogenous proteins [14], incorporating the sequence into target proteins generates
+Fig 3. Protein levels as determined by western blotting after lentiviral transduction of hCD36 constructs. Cells were infected with the indicated constructs and cell
+lysates were prepared for Western blot analysis. Representative immunoblots of 3 independent experiments using hCD36 and its DDK-tag antibodies are shown.
+Numbers below the blot are means of protein amount as determined by densitometric analysis relative to Caveolin 3. A second normalization was performed by setting
+the wildtype at 1.
+https://doi.org/10.1371/journal.pone.0210704.g003
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+7 / 14
+ a small but highly specific target for FlAsH protein labelling. In our current study, we intro-
+duced tetracysteine motifs to the extracellular domain of hCD36 at three different positions. If
+transduced with hCD36-TC2 (carrying the insert at amino acid position 89), HL-1-cardio-
+myocytes, after selection with antibiotics, showed overexpression of hCD36 in conjunction
+with enhanced fatty acid uptake and sensitivity to different stimuli, i.e., similar to the wildtype
+construct. The crystal structure of CD36 was inspected (PDB: 5lgd) to determine the location
+of the TC2 insertion. Although revealing residue 89 as part of a cell-surface accessible β-sheet,
+this methodology does not allow drawing conclusions whether glycosylation or phosphoryla-
+tion could be affected by the TC2 insertion. The other two mutants did not show enhanced
+fatty acid uptake upon insulin stimulation, which could be due to subtle changes of protein
+function despite the small tag size. In this respect, it will be interesting to determine if the
+mutations impact CD36 co-localization or expression of other binding partners (e.g. TLR and
+caveolin-3) that are known to impact the signaling and localization of the protein [20, 21].
+We also combined FlAsH-EDT2 labelling with immunofluorescence staining of the myc
+epitope encoded by hCD36-TC2. The fluorescent staining pattern was congruent, suggesting
+that the speckled pattern resulting from FlAsH-staining indeed represents CD36. The speckled
+pattern is in agreement with the expected endosomal localization of CD36, as verified by co-
+staining with v-ATPase a2-subunit (Fig 7; [10]). Furthermore, we demonstrated that different
+stimuli (insulin, bafilomycin, and palmitate) triggered the disappearance of hCD36-TC2 from
+the endosomal compartment in keeping with the known translocation of CD36 to the cell
+Fig 4. Palmitate uptake after lentiviral transduction of hCD36 constructs under basal and short-term insulin stimulation conditions. Prior to the uptake assay,
+cells were incubated in serum-free depletion medium for 16 h. Cells were then treated either with or without 200 nM insulin for 30 min in presence of [14C] palmitate.
+Subsequently palmitate uptake was determined by scintillation counting. Values are displayed as mean ± SEM. (n = 3) p&lt;0.05.
+https://doi.org/10.1371/journal.pone.0210704.g004
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+8 / 14
+ surface (as previously shown by subcellular fractionation [4], cell surface biotinylation [19],
+ELISA-based colorimetry [18], and 2-photon microscopy [13]). These data also strongly argue
+Fig 5. Labelling of tetracysteine-tagged hCD36 and immunofluorescence with anti-myc antibody. Shown are plain HL-1, cells stably
+overexpressing wildtype of hCD36, and mutant-2, as indicated. Cells were fixed and stained with FlAsH-EDT2 (shown in green).
+Thereafter hCD36 was immune stained using anti-myc antibody detected by Texas red-labelled secondary antibody (shown in red).
+Cells were stained with DAPI for visualisation of nuclei (shown in blue). Fluorescent staining was assessed by confocal imaging. Data are
+representative of three experiments. Images have been adjusted for brightness and contrast for presentation. Scale bars correspond to
+10 μm.
+https://doi.org/10.1371/journal.pone.0210704.g005
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+9 / 14
+ Fig 6. Labelling of wildtype and TC2 mutant hCD36 in basal conditions or upon high-palmitate (HP) treatment. Indicated cells were incubated with serum-starved
+medium or HP medium for 16 h and thereafter were treated for 30 min with 200 nM insulin or 100 nM bafilomycin. (A) Cells were fixed and stained with FlAsH-EDT2
+(shown in green). Data are representative of three experiments. Images have been adjusted for brightness and contrast for presentation. (B) Quantification of
+FlAsH-EDT2 stained speckles in hCD36-TC2 expressing cells comparing non-stimulated, insulin, and bafilomycin conditions. Counts are averages of 30 images per
+condition and are displayed as mean ± SEM. (n = 3) p&lt;0.05. Scale bars correspond to 10 μm.
+https://doi.org/10.1371/journal.pone.0210704.g006
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+10 / 14
+ Fig 7. Labelling of hCD36-TC2 in basal conditions or upon high-palmitate (HP) treatment in combination with immune detection of v-ATPase a2 and B2
+subunit proteins. Indicated cells were incubated with serum-starved medium or HP medium for 16 h. (A) Cells were fixed and stained with FlAsH-EDT2 (shown in
+green). Thereafter v-ATPase a2 or B2 proteins were immune stained using the respective protein-specific antibodies detected by Texas red-labelled secondary antibody
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+11 / 14
+ against artefacts as being responsible for the observed patterns. However, we could not visual-
+ize the increased surface localization of CD36, which may be due to a more diffuse staining
+pattern after translocation to the membrane. Collectively, our findings suggest hCD36-TC2 as
+a potential candidate to label with biarsenical dyes. Notably, the availability of lentiviral vectors
+encoding tetracysteine-tagged CD36 should facilitate evaluation of the method in wide variety
+of cultured cell types in addition to HL-1 cardiomyocytes.
+A major advantage of the tetracysteine motif insertion is the small tag size and the flexibility
+that staining with biarsenical dyes can offer for downstream applications. Despite the obvious
+merits, also a few disadvantages that may restrict the use of FlAsH-EDT2 and thus may affect
+the application. Firstly, in our hands the non-specific binding with excess dyes gave a relatively
+high background, which we needed to remove with high-concentrations of EDT, followed by
+multiple washing steps with HBSS/glucose as compared to the standard protocol [22]. Perhaps,
+the requirement of washing steps is also cell-dependent, which has to be tested experimentally.
+Secondly, in order to selectively study cell surface-localized CD36, membrane-impermeable
+biarsenical dyes are desirable. Yet, the commercially available FlAsH-EDT2 and ReAsH-EDT2
+both are membrane-permeable, and thus can stain the entire cellular CD36 protein population.
+A sulfonated derivative of FlAsH (sFlAsH), which has been described as membrane-imperme-
+able, is not commercially available, and the synthesis of such compound is beyond our exper-
+tise [17]. An alternative method to exclusively label extracellular tetracysteines is to pre-
+incubate FlAsH-EDT2 with DMPS (dimercaptopranesulfonate sodium salt, Sigma-Aldrich).
+This compound exchanges the membrane-permeable EDT for the charged DMPS and has
+been applied successfully in tetracysteine-tagged proteins in intact cells [22]. Following this
+protocol, we made several attempts to exclusively label surface CD36. However, this procedure
+proved only partially effective. Despite improved surface CD36 labelling, some intracellular
+CD36 staining remained.
+Another technology similar to FlAsH-EDT2 uses small fluorogen activating peptide (FAP),
+a novel fluorescent biosensor that can be turned on and off by adding or removing fluorogen,
+or by changing the signal wavelength through substitution of one fluorogen for another [23,
+24]. This technology is particularly useful in trafficking studies since cell surface labeling is fea-
+sible by incubating mutant FAP-protein-transfected cells with a membrane impermeable
+fluorogen. However, the relative large size of the FAP-tag (25 kDa) limits its fusion site to the
+protein N-terminus, and therefore is not suitable for CD36 trafficking studies, as both C- and
+N-terminals are localized intracellularly, i.e., not allowing the binding of FAP-tag to imperme-
+able fluorogen. The combination of those two techniques, offering a relative small size of the
+tag and an impermeable fluorogen, we would judge as the ideal approach for CD36 trafficking
+studies. Commercial availability of (novel) membrane impermeable biarsenical dyes could
+resolve this issue in short term.
+We previously identified v-ATPase as a mediator of lipid-induced CD36 relocation to the
+sarcolemma and the resulting lipid accumulation and development of cardiac insulin resis-
+tance [10]. Assembly/disassembly of the two v-ATPase sub-complexes, V1 and V0, is the main
+mechanism of regulation of v-ATPase activity in yeast [25]. This mechanism is sensitive to glu-
+cose concentrations, which favour assembly and, hence, v-ATPase activation [26]. Vice versa,
+in the mammalian heart, v-ATPase appears to be regulated by assembly/disassembly, with
+(shown in red). Cells were stained with DAPI for visualisation of nuclei (shown in blue). Fluorescent staining was assessed by confocal imaging. Data are representative
+of three experiments. Images have been adjusted for brightness and contrast for presentation. (B) Quantification of fluorescent speckles for cells as either stained with
+FlAsH-EDT2 or immune stained with v-ATPase a2 (left) or B2 (right) antibodies in hCD36-TC2 expressing cells. The bar graphs show a comparison of basal condition
+versus HP-treated cells. Counts are averages of 30 images per condition and are displayed as mean ± SEM. (n = 3) p&lt;0.05. Scale bars correspond to 10 μm.
+https://doi.org/10.1371/journal.pone.0210704.g007
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+12 / 14
+ high lipid concentrations inducing the dissociation of the V1 sub-complex, whereas the V0
+sub-complex remained integral to the endosomal membrane [10]. This novel mechanism was
+revealed using both immunoprecipitation and subcellular fractionation methods [10]. In the
+present study, we further investigated lipid-induced v-ATPase disassembly in cardiomyocytes
+by direct microscopic observation. Indeed, the combination of FlAsH-EDT2 staining and
+immunofluorescence by antibodies against subunits of the V1 and V0 sub-complexes is in line
+with our earlier conclusion that lipid induced dissociation and migration of V1 into the cyto-
+plasm is concomitant to increased CD36 translocation to the plasma membrane (Fig 7).
+Author Contributions
+Conceptualization: Joost J. F. P. Luiken, Dietbert Neumann.
+Funding acquisition: Dietbert Neumann.
+Investigation: Yilin Liu, Ricardo Rodriguez-Calvo, Shujin Wang, Joost J. F. P. Luiken.
+Methodology: Ricardo Rodriguez-Calvo, Xiaoqing Zhu, Jos L. V. Broers.
+Resources: Jos L. V. Broers.
+Supervision: Jos L. V. Broers, Jan F. C. Glatz, Joost J. F. P. Luiken.
+Writing - original draft: Yilin Liu, Jan F. C. Glatz, Joost J. F. P. Luiken, Dietbert Neumann.
+Writing - review &amp; editing: Jos L. V. Broers, Jan F. C. Glatz, Joost J. F. P. Luiken, Dietbert
+Neumann.
+References
+1.
+Wilson CR, Tran MK, Salazar KL, Young ME, Taegtmeyer H. Western diet, but not high fat diet, causes
+derangements of fatty acid metabolism and contractile dysfunction in the heart of Wistar rats. Biochem
+J. 2007; 406(3):457-67. https://doi.org/10.1042/BJ20070392 PMID: 17550347; PubMed Central
+PMCID: PMCPMC2049036.
+2.
+Glatz JF, Luiken JJ, Bonen A. Membrane fatty acid transporters as regulators of lipid metabolism: impli-
+cations for metabolic disease. Physiol Rev. 2010; 90(1):367-417. https://doi.org/10.1152/physrev.
+00003.2009 PMID: 20086080.
+3.
+Glatz JF, Nabben M, Heather LC, Bonen A, Luiken JJ. Regulation of the subcellular trafficking of CD36,
+a major determinant of cardiac fatty acid utilization. Biochim Biophys Acta. 2016; 1861(10):1461-71.
+https://doi.org/10.1016/j.bbalip.2016.04.008 PMID: 27090938.
+4.
+Luiken JJ, Koonen DP, Willems J, Zorzano A, Becker C, Fischer Y, et al. Insulin stimulates long-chain
+fatty acid utilization by rat cardiac myocytes through cellular redistribution of FAT/CD36. Diabetes.
+2002; 51(10):3113-9. PMID: 12351456.
+5.
+Luiken JJ, Coort SL, Willems J, Coumans WA, Bonen A, van der Vusse GJ, et al. Contraction-induced
+fatty acid translocase/CD36 translocation in rat cardiac myocytes is mediated through AMP-activated
+protein kinase signaling. Diabetes. 2003; 52(7):1627-34. PMID: 12829625.
+6.
+Ouwens DM, Diamant M, Fodor M, Habets DD, Pelsers MM, El Hasnaoui M, et al. Cardiac contractile
+dysfunction in insulin-resistant rats fed a high-fat diet is associated with elevated CD36-mediated fatty
+acid uptake and esterification. Diabetologia. 2007; 50(9):1938-48. https://doi.org/10.1007/s00125-007-
+0735-8 PMID: 17639306; PubMed Central PMCID: PMC2039861.
+7.
+Coort SL, Hasselbaink DM, Koonen DP, Willems J, Coumans WA, Chabowski A, et al. Enhanced sarco-
+lemmal FAT/CD36 content and triacylglycerol storage in cardiac myocytes from obese zucker rats. Dia-
+betes. 2004; 53(7):1655-63. PMID: 15220187.
+8.
+Steinbusch LK, Wijnen W, Schwenk RW, Coumans WA, Hoebers NT, Ouwens DM, et al. Differential
+regulation of cardiac glucose and fatty acid uptake by endosomal pH and actin filaments. Am J Physiol
+Cell Physiol. 2010; 298(6):C1549-59. https://doi.org/10.1152/ajpcell.00334.2009 PMID: 20375272.
+9.
+Forgac M. Vacuolar ATPases: rotary proton pumps in physiology and pathophysiology. Nat Rev Mol
+Cell Biol. 2007; 8(11):917-29. https://doi.org/10.1038/nrm2272 PMID: 17912264.
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+13 / 14
+ 10.
+Liu Y, Steinbusch LKM, Nabben M, Kapsokalyvas D, van Zandvoort M, Schonleitner P, et al. Palmitate-
+Induced Vacuolar-Type H(+)-ATPase Inhibition Feeds Forward Into Insulin Resistance and Contractile
+Dysfunction. Diabetes. 2017; 66(6):1521-34. https://doi.org/10.2337/db16-0727 PMID: 28302654.
+11.
+Misteli T, Spector DL. Applications of the green fluorescent protein in cell biology and biotechnology.
+Nat Biotechnol. 1997; 15(10):961-4. https://doi.org/10.1038/nbt1097-961 PMID: 9335045.
+12.
+Zhang J, Crandall I. Expression of both N- and C-terminal GFP tagged huCD36 and their discrepancy in
+OxLDL and pRBC binding on CHO cells. Lipids Health Dis. 2007; 6:24. https://doi.org/10.1186/1476-
+511X-6-24 PMID: 17888147; PubMed Central PMCID: PMC2064913.
+13.
+Angin Y, Steinbusch LK, Simons PJ, Greulich S, Hoebers NT, Douma K, et al. CD36 inhibition prevents
+lipid accumulation and contractile dysfunction in rat cardiomyocytes. Biochem J. 2012; 448(1):43-53.
+https://doi.org/10.1042/BJ20120060 PMID: 22780108.
+14.
+Griffin BA, Adams SR, Tsien RY. Specific covalent labeling of recombinant protein molecules inside live
+cells. Science. 1998; 281(5374):269-72. PMID: 9657724.
+15.
+Gaietta G, Deerinck TJ, Adams SR, Bouwer J, Tour O, Laird DW, et al. Multicolor and electron micro-
+scopic imaging of connexin trafficking. Science. 2002; 296(5567):503-7. https://doi.org/10.1126/
+science.1068793 PMID: 11964472.
+16.
+Adams SR, Tsien RY. Preparation of the membrane-permeant biarsenicals FlAsH-EDT2 and ReAsH-
+EDT2 for fluorescent labeling of tetracysteine-tagged proteins. Nat Protoc. 2008; 3(9):1527-34. https://
+doi.org/10.1038/nprot.2008.144 PMID: 18772880; PubMed Central PMCID: PMC2843588.
+17.
+Adams SR, Campbell RE, Gross LA, Martin BR, Walkup GK, Yao Y, et al. New biarsenical ligands and
+tetracysteine motifs for protein labeling in vitro and in vivo: synthesis and biological applications. J Am
+Chem Soc. 2002; 124(21):6063-76. PMID: 12022841.
+18.
+Schwenk RW, Dirkx E, Coumans WA, Bonen A, Klip A, Glatz JF, et al. Requirement for distinct vesicle-
+associated membrane proteins in insulin- and AMP-activated protein kinase (AMPK)-induced transloca-
+tion of GLUT4 and CD36 in cultured cardiomyocytes. Diabetologia. 2010; 53(10):2209-19. https://doi.
+org/10.1007/s00125-010-1832-7 PMID: 20582536; PubMed Central PMCID: PMC2931635.
+19.
+van Oort MM, van Doorn JM, Bonen A, Glatz JF, van der Horst DJ, Rodenburg KW, et al. Insulin-
+induced translocation of CD36 to the plasma membrane is reversible and shows similarity to that of
+GLUT4. Biochim Biophys Acta. 2008; 1781(1-2):61-71. https://doi.org/10.1016/j.bbalip.2007.11.006
+PMID: 18167317.
+20.
+Triantafilou M, Gamper FG, Haston RM, Mouratis MA, Morath S, Hartung T, et al. Membrane sorting of
+toll-like receptor (TLR)-2/6 and TLR2/1 heterodimers at the cell surface determines heterotypic associa-
+tions with CD36 and intracellular targeting. J Biol Chem. 2006; 281(41):31002-11. https://doi.org/10.
+1074/jbc.M602794200 PMID: 16880211.
+21.
+Vistisen B, Roepstorff K, Roepstorff C, Bonen A, van Deurs B, Kiens B. Sarcolemmal FAT/CD36 in
+human skeletal muscle colocalizes with caveolin-3 and is more abundant in type 1 than in type 2 fibers.
+J Lipid Res. 2004; 45(4):603-9. https://doi.org/10.1194/jlr.M300424-JLR200 PMID: 14729862.
+22.
+Hoffmann C, Gaietta G, Zurn A, Adams SR, Terrillon S, Ellisman MH, et al. Fluorescent labeling of tetra-
+cysteine-tagged proteins in intact cells. Nat Protoc. 2010; 5(10):1666-77. https://doi.org/10.1038/nprot.
+2010.129 PMID: 20885379; PubMed Central PMCID: PMC3086663.
+23.
+Szent-Gyorgyi C, Schmidt BF, Creeger Y, Fisher GW, Zakel KL, Adler S, et al. Fluorogen-activating sin-
+gle-chain antibodies for imaging cell surface proteins. Nat Biotechnol. 2008; 26(2):235-40. https://doi.
+org/10.1038/nbt1368 PMID: 18157118.
+24.
+Holleran J, Brown D, Fuhrman MH, Adler SA, Fisher GW, Jarvik JW. Fluorogen-activating proteins as
+biosensors of cell-surface proteins in living cells. Cytometry A. 2010; 77(8):776-82. https://doi.org/10.
+1002/cyto.a.20925 PMID: 20653017; PubMed Central PMCID: PMC2945705.
+25.
+Kane PM. Targeting reversible disassembly as a mechanism of controlling V-ATPase activity. Curr Pro-
+tein Pept Sci. 2012; 13(2):117-23. PMID: 22044153; PubMed Central PMCID: PMC3536023.
+26.
+Kane PM. Disassembly and reassembly of the yeast vacuolar H(+)-ATPase in vivo. J Biol Chem. 1995;
+270(28):17025-32. PMID: 7622524.
+Fluorescent labelling of CD36 in the extracellular loop
+PLOS ONE | https://doi.org/10.1371/journal.pone.0210704
+January 23, 2019
+14 / 14
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC6343965' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC6343965|membrane_pore_um' data-pmcid='PMC6343965' data-item='membrane_pore_um'><div class='qname'><span>Membrane pore size</span><span class='ans'></span></div><div class='qdef'>A membrane pore size in micrometres.</div><div class='qhow'><b>What to mark.</b> Mark the number and its unit.<span class='eg'>In <i>a 0.45 um PVDF membrane</i> mark <b>0.45 um</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>6</span> of <span class='num'>6</span></h2><span class='pill'>PMC6383822</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Oncotarget · <span class='num'>2019</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC6383822'>
+Synthesis of non-spherical nanoparticle
+‘Origami’ 
+method 
+was 
+adopted 
+for 
+the 
+synthesis of non-spherical MSN (MSNA) with slight 
+modification [27]. In brief, H2O, HCl, formamide, 
+CTAB (Cetyltrimethylammonium bromide) were mixed 
+in a molar ratio of 100:7.8:10.2:0.11 and magnetically 
+stirred at 600 rpm for 40 h. at room temperature. Silica 
+formation was initiated by adding 0.3 mL TEOS drop 
+wise to this mixture and incubated further for 18 h. The 
+template was removed by refluxing in HCl and methanol 
+(1:20) overnight. The obtained nanostructures were coated 
+with 0.3% of 10 kDa PEI (Alfa Aesar) [5]. MCM-41 was 
+synthesized and coated with PEI as described earlier [33].
+ Oncotarget
+1204
+www.oncotarget.com
+Characterization of MSNAP
+Structural analysis of MSNAP was carried out with 
+TEM and SEM. MSNAP was dried on carbon paper for 
+SEM (Evo18 Zeiss Munich, Germany), which executes at 
+20 KV and with Energy Dispersive X-ray (EDX) (Bruker, 
+Madison, WI, USA). MSNAP was dried on carbon grids 
+for High-resolution transmission electron microscope 
+(HRTEM, T12 tecnai, Hillsboro, Oregon USA) HT650 
+ES1000W t 120 kV. The pore size of these nanoparticles 
+was measured by image J software of HRTEM.
+Drug loading and release studies
+10 mg of synthesized MSNAP was suspended 
+separately in 5 mM curcumin (Alfa Aesar) in ethanol for 24 h. 
+in an orbital shaker. The unbound free curcumin was removed 
+after 24 h. and its absorbance at 420 nm was compared with 
+0 h. in nanodrop (Biospec Nano, Shimadzu). Percentage of 
+curcumin loaded in both nanostructure was determined by the 
+formula (Abs at 0 h- Abs at 24 h/ Abs at 0 h)*100.
+The concentration of curcumin released from CUR-
+MSNAP (30 μM curcumin loaded with 30 mg/mL MSNAP) 
+as determined in phosphate buffer saline (PBS) at pH 7.4. 
+Initially, 4 mg/mL of both the MSN loaded with curcumin 
+was immersed in PBS separately till 96 h Curcumin released 
+in PBS was analyzed at every 12 h at 420 nm in nanodrop. 
+The concentration of curcumin released was calculated by 
+referring to the standard curcumin graph.
+Cell culture
+Breast adenocarcinoma (MCF-7) cells were cultured 
+in IMDM (Gibco/Life Technologies, Gaithersburg, MD, 
+USA) medium with 10% FBS (Gibco BRL) in 5% CO2 
+incubator at 37°C. Serum-free media was used in all the 
+experiments involved with nanoparticle.
+Development of doxorubicin resistant MCF-7 
+cells (MCF-7R)
+Doxorubicin (DOX) (Doxotero, Hetero HC, 
+Hyderabad, India) resistant cells were developed by 
+adapting the MCF-7 cells to increasing concentration of 
+doxorubicin from 500 ng/mL to 33 μg/mL [60] (Clinically 
+relevant resistant DOX concentration in patient’s plasma). 
+Initially, MCF-7 cells were exposed to 500 nM of DOX for 
+48 h. and retrieved in fresh media until the plate reached 
+confluence. The same procedure was repeated with the 
+higher concentrations from 1 μM to 33 μM.
+Toxicity assays
+Viability assay
+ Cell death induced by MSN, was assessed with 
+water-soluble tetrazolium-1 (WST-1) reagent (Roche, 
+Germany GmbH). Briefly, 10,000 cells were seeded in 
+96 well plate (Greiner, Bio-One, Ireland) and allowed 
+to adhere overnight. MSNAP and MCM-41P of 
+concentration from 0.5 μg/mL to 100 μg/mL were added 
+to the plate in triplicates and incubated for 24 h. followed 
+by addition of 5 μL WST-1. The plate was read at 450 nm 
+in a microplate reader (Biotek, Model FLx800, Vermont, 
+USA). Percentage of live cells was calculated from 
+formula (OD of sample/OD of control) X100.
+Accumulation of MSNs in MCF-7 cells
+Accumulation of nanoparticles in MCF-7 cells was 
+analyzed by confocal laser scanning microscopy (CLSM), 
+(LSM 500, Zeiss, Munich, Germany). Cells were grown 
+on coverslips till they attain 60% confluence. 5 nM DOX 
+(Doxotero, Hetero HC, Hyderabad, India) loaded silica 
+nanostructures (DOX-MSNAP) were incubated with 
+MCF-7 cells for different time intervals such as 0, 20, 40, 
+60, 120 and 180 min. Then the coverslips were fixed with 
+4% paraformaldehyde followed by DAPI staining. Cells 
+were imaged with CLSM with excitation at 405 nm and 
+emission from 580 to 620 nm [33].
+Bio-TEM studies for subcellular localization of 
+MSNs in MCF-7 cells
+The non-toxic concentrations of MCM-41P and 
+MSNAP were incubated for 72 h. and 30 μM of CUR-
+MSNAP was incubated for 24 and 48 h. in MCF-7 cells. 
+After incubation cells were harvested and fixed in a 
+fixative mixture of 2.5% glutaraldehyde, 2% sucrose and 
+complete media for 12 h. Then the fixed cells were stained 
+with 1% osmium tetroxide. Followed by dehydration 
+in a series of ethanol from 70%-100%. The fixed cells 
+were added with 100% propylene oxide then gradually 
+transferred to 100% epoxy resin (TAAB, England) by 
+decreasing the percentage of propylene oxide. Finally, 
+cells were kept in pure resin for 5 h. and embedded in a 
+freshly prepared resin at 50°C for 48 h. Resin embedded 
+samples were made to 80-100 nm thin sections with 
+ultra-microtome. These sections were counterstained 
+with uranyl acetate and lead citrate and imaged with 
+transmission electron microscope (Tecnai G2, Hillsboro, 
+Oregon, USA) at 80 KV.
+Evaluation of CUR-MSNAP induced apoptosis 
+in MCF-7 cells
+Viability assay
+IC50 value of CUR-MSNAP in MCF-7 cells was 
+determined by WST-1 assay as mentioned earlier. Cells 
+were treated with different concentration of curcumin 
+(5-50 μM) loaded on non-toxic concentrations of 30 μg/
+mL MSNAP. After 72 h, cell viability was measured with 
+ Oncotarget
+1205
+www.oncotarget.com
+WST-1 reagent as described earlier [33]. Percentage of 
+live cells was determined by the formula (Absorbance of 
+treated cells / Absorbance of control cells)*100.
+FACS analysis was used to quantify live and dead 
+cells on curcumin, MSNAP, CUR-MSNAP treatment. 
+Cells were grown in 12 well plate (Greiner) and treated 
+independently with 30 μg/mL MSNAP, 50 μM curcumin, 
+and 30 μM-CUR-MSNAP for 72 h. Cells were harvested 
+and stained with 5 μL of 10 μg/mL propidium iodide 
+(PI) for 10 min. The stained cells were analyzed in 
+FACS (FC500, Beckman Coulter, Brea, CA, USA) 
+and PI positive cells were gated in FL3. The forward 
+scatter (FSC) and side scatter (SSC) was also analyzed 
+simultaneously.
+Measurement of intracellular curcumin released 
+from nanoparticles
+The concentration of curcumin released from CUR-
+MSNAP in MCF-7 cells was determined by nanodrop. 
+Briefly, 20,000 cells were grown in 12 well plate and 
+incubated with 30 μM CUR-MSNAP (IC50 value) and with 
+standard curcumin (solubilized in ethanol) concentrations 
+(1, 5, 10, 25, 50 μM). After 72 h, the cells were harvested 
+and lysed with lysis buffer (Tris pH 10, 150 mM NaCl, 
+10% DMSO) for 30 min. and the lysate was sheared with 
+25 gauge needles followed by centrifugation at 12,000 
+rpm for 10 min. at 4°C. The supernatant was measured 
+at 420 nm in nanodrop. The absorbance of curcumin was 
+compared with standard curcumin graph.
+Western blot analysis
+The qualitative differences of CUR-MSNAP 
+influenced protein expression in MCF-7 cells were 
+analyzed using Western blot. 2 × 106 cells grown in 100 
+mm dishes (Greiner) were treated with 50 μM curcumin, 
+30 μg/mL MSNAP, 30 μM CUR-MSNAP, and 15 μM 
+DTT for 72 h. DTT was used as a positive control for 
+UPR induction [61]. After incubation, MCF-7 cells were 
+lysed with RIPA (Radio immunoprecipitation assay) 
+buffer (pH 7.4) containing protease and phosphatase 
+cocktail inhibitors (Roche, Switzerland) on ice for 
+20 min. and the lysates were sheared with 25 gauge 
+needle, followed by centrifugation at 12,000 rpm for 
+25 min. at 4°C. Proteins were quantified with BCA 
+reagent (Sigma-Aldrich, St. Louis, MO). Each 50 μg of 
+proteins were loaded on SDS-PAGE and run at 110V 
+for 2 h. The proteins were transferred to nitrocellulose 
+membrane (Amersham Bioscience, Piscataway, NJ, 
+USA). Anti-PERK, anti-IRE1α, anti-GRP 78, anti-
+calnexin, anti-phospho-Akt (Ser473), anti-total Akt, 
+anti-phospho PTEN (ser 380), anti-PARP, anti-caspase 
+12, anti-caspases 9, 6, anti-CHOP, and anti-GAPDH 
+were obtained from Cell Signalling Technology 
+(Danvers, MA, USA). The membrane was incubated 
+overnight with primary antibodies at 4°C followed by 
+either anti-rabbit IgG or anti-mouse IgG HRP-linked 
+secondary antibodies (Santa Cruz, CA, USA) for 1 
+h. Presence of the protein was detected with addition 
+of lumiglo (Thermo Scientific, Rockford, IL, USA) 
+reagent and imaged in gel documentation system (Bio-
+Rad, Hercules, CA, USA) with Image lab 5 software. 
+Densitometry of respective bands was analyzed 
+by Image J software. Expression of proteins was 
+represented as fold change with a ratio of each protein 
+to its loading control GAPDH.
+Analysing DOX-MSNAP induced cell death in 
+MCF-7R cells
+Viability assay was performed on MCF-7R cells 
+with DOX, DOX-MSNAP, CUR, and CUR-MSNAP as 
+described earlier in 96 well plate. WST reagent was used to 
+quantify the percentage of cell death and the concentration 
+of DOX, DOX-MSNAP, CUR, CUR-MSNAP inducing 
+50% cell death was predicted. Flow cytometric analysis 
+was also used to confirm the live and dead cells population 
+in above-mentioned conditions.
+Docking studies
+Autodock 4.2 tool was used for docking curcumin 
+with proteins caspase 3, 9, IRE 1α, PERK, PARP, Akt1, 
+and PTEN. The grid was built for 60 × 60 × 60 in X, Y 
+&amp; Z directions. The binding model for each protein was 
+analyzed with visualization tool PyMOL [62].
+Statistical analysis
+All experiments were repeated in three times. 
+Results analyzed as the mean ± standard error of the mean 
+values. Statistical analysis of control group and treatment 
+group was performed with student’s t-test (Graph pad 
+Prism 5, Graph pad software, San Diego, CA, USA). P 
+value of &lt; 0.05 was considered statistically significant 
+with a 95% confidence interval.
+CONCLUSIONS
+In summary, non-spherical mesoporous silica 
+nanoparticle coated with PEI was characterized for its 
+drug delivery efficiency in MCF-7 cells. Influence of 
+MCM-41P, MSNAP and CUR-MSNAP treated MCF-7 
+cells were summarized in Supplementary Figure 1. The 
+non-spherical shape of MSNAP synthesized by origami 
+method aids reduction in toxicity, faster intracellular 
+accumulation, and better drug release. Drug released 
+from MSNAP intracellularly even at lower concentration 
+disturbs the cellular organelles and induce apoptosis. 
+Additionally, MSNAP mediated drug delivery sensitized 
+resistant cells at subordinate drug concentration. We report 
+ Oncotarget
+1206
+www.oncotarget.com
+the mesoporous silica nanoparticle with non-spherical 
+shape has to influence on cytotoxicity and drug delivery. 
+Further in vivo exploitation of MSNAP will be helpful in 
+understanding the biodistribution and bioavailability of this 
+carrier particle.
+Abbreviations
+PEI: Polyethyleneimine; MCM-41P: MCM-41 
+coated with PEI; MSNAP: MSNA coated with PEI; CUR-
+MSNAP: Curcumin loaded MSNA coated with PEI; 
+MSN: Mesoporous silica nanoparticles; IC50: Inhibitory 
+concentration (50%); LD50: Lethal dosage (50%); DOX-
+MSNAP/MCM-41P: Doxorubicin loaded MSNAP/MCM-
+41P; DDS: Drug delivery system; CUR-DOX-MSNAP: 
+Curcumin and Doxorubicin loaded MSNAP.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC6383822' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC6383822|acquisition_software' data-pmcid='PMC6383822' data-item='acquisition_software'><div class='qname'><span>Acquisition software</span><span class='ans'></span></div><div class='qdef'>Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.</div><div class='qhow'><b>What to mark.</b> Mark the software name only.<span class='eg'>In <i>images captured with Image Lab software</i> mark <b>Image Lab</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div></div><div class='scrim' id='scrim' onclick='guide(false)'></div><aside class='guide' id='guide'><button type='button' class='quiet close' onclick='guide(false)'>Close</button><h2>Guide</h2><h3>You do not type anything</h3><p>Select the words in the Methods text, then press <b>Use highlighted text</b>. The exact words you selected are what gets recorded.</p><p>Typing is what this design removes. Given a sentence like the one below, one person types RIPA, another types the whole parenthesis, a third types the clause. All three read the paper correctly and disagree in the data. Selecting removes that entirely.</p><blockquote>The cell total protein was isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor (CWBIO, Shanghai, China) was added into the RIPA at a ratio of 1:100.</blockquote><p style='margin-top:10px'>For lysis buffer there, mark just <b>RIPA</b>, the first time it appears.</p><h3>How much to select</h3><p><b>The shortest phrase that states the detail.</b> Not the whole sentence when three words will do, and not the vendor, city or catalogue number unless the question asks for them.</p><p>Every question shows a worked example under <b>What to mark</b>. Follow it rather than your instinct.</p><h3>When a paper gives several</h3><p>Many papers list a table of antibodies with eight RRIDs, eight catalogue numbers and several vendors. <b>Mark them all.</b> Press <b>Use highlighted text</b> once per value and they stack up in a numbered list. Press <b>Done, next</b> when the list is complete.</p><p>If they sit in a contiguous table or a run-on list, selecting the whole block in one go is fine and much faster. You are marking where the evidence is, not counting.</p><p>The same value repeated does not need marking twice. A paper that uses 1:1000 for six antibodies has one dilution, not six.</p><p><b>If you stop before you have them all, tick 'There are more of these than I marked'.</b> That box matters more than it looks: without it, someone who stopped at five of eight cannot be told apart from someone who found everything, and the three they skipped would count against the extractor as mistakes it did not make.</p><h3>What counts</h3><p><b>Judge only what is written.</b> Not what the authors almost certainly did, and not what is standard practice in the field.</p><p><b>Only the Methods section is shown, and that is deliberate.</b> If a detail appears solely in a figure legend or a supplementary file, it is not in the text you are given, so the answer is <b>Not stated</b>.</p><p><b>Unclear</b> is a real answer. It is set aside rather than counted either way, so use it when you are genuinely stuck rather than guessing.</p><h3>The shaded sentences</h3><p>Opening a question shades the sentences most likely to hold the answer, and <b>Prev</b> and <b>Next</b> step between them.</p><p>They are a search aid and nothing more. A crude keyword rule picks them, it knows nothing about the answer, it sometimes shades irrelevant sentences and sometimes misses the right one. Read around them. When nothing is shaded, read the section normally.</p><h3>Getting through a batch</h3><p>The Methods text stays pinned on the left while questions scroll on the right. Answers collapse to one line and the next question opens automatically. Click any collapsed line to change it.</p><p>Your work is saved in this browser as you go, so closing the tab loses nothing. <b>Submit</b> is at the top of the page and turns on once every question is answered and your initials are filled in.</p><h3>Every question, in one place</h3><table><tr><td>Imager instrument</td><td>The imaging hardware, including X-ray film where film was used.<br><b>Mark:</b> Mark the instrument name only. Leave out the manufacturer. In <i>imaged on a ChemiDoc MP (Bio-Rad)</i> mark <b>ChemiDoc MP</b>.</td></tr><tr><td>Replicate count</td><td>A number of replicates. You are not being asked whether they are biological or technical.<br><b>Mark:</b> Mark the number together with the words that make it a replicate count. In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</td></tr><tr><td>Antibody catalogue number</td><td>A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.<br><b>Mark:</b> Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block. In <i>(Abcam, ab1234)</i> mark <b>ab1234</b>.</td></tr><tr><td>Protein quantification method</td><td>How total protein was measured before loading.<br><b>Mark:</b> Mark the assay name only. In <i>quantified by BCA assay (Pierce)</i> mark <b>BCA</b>.</td></tr><tr><td>Secondary antibody conjugate</td><td>What the secondary antibody is conjugated to.<br><b>Mark:</b> Mark each distinct conjugate once. In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</td></tr><tr><td>Lysis buffer</td><td>The lysis or extraction buffer, either named or given as a recipe.<br><b>Mark:</b> Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors. In <i>isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor was added into the RIPA</i> mark just <b>RIPA</b>, the first time it appears.</td></tr><tr><td>Reducing or denaturing conditions</td><td>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.<br><b>Mark:</b> Mark the phrase or the reagent that states it. In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</td></tr><tr><td>Blocking agent</td><td>What the membrane was blocked in.<br><b>Mark:</b> Mark the agent only. Leave the percentage out, it is a separate question. In <i>blocked in 5% non-fat dry milk</i> mark <b>non-fat dry milk</b>.</td></tr><tr><td>Detection chemistry</td><td>How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.<br><b>Mark:</b> Mark the words naming the detection method. In <i>visualised by enhanced chemiluminescence</i> mark <b>enhanced chemiluminescence</b>.</td></tr><tr><td>Membrane type</td><td>PVDF or nitrocellulose, or another named membrane chemistry.<br><b>Mark:</b> Mark the membrane name only. In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</td></tr><tr><td>Loading control, named</td><td>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.<br><b>Mark:</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two. In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</td></tr><tr><td>Protein loaded per lane</td><td>A mass of protein loaded per lane. A volume on its own does not count.<br><b>Mark:</b> Mark the mass and its unit. In <i>30 ug of protein was loaded per lane</i> mark <b>30 ug</b>.</td></tr><tr><td>Primary antibody vendor</td><td>The company that supplied a primary antibody.<br><b>Mark:</b> Mark every distinct company name. Leave out the city and country. A table can be marked as one block. In <i>(Cell Signaling Technology, Danvers, MA)</i> mark <b>Cell Signaling Technology</b>.</td></tr><tr><td>ECL reagent, named</td><td>A named ECL or substrate product. The word ECL on its own, with no product name, does not count.<br><b>Mark:</b> Mark the product name. Leave out the manufacturer unless the name alone would not identify it. In <i>SuperSignal West Pico (Thermo)</i> mark <b>SuperSignal West Pico</b>.</td></tr><tr><td>Blocking agent concentration</td><td>A percentage attached to the blocking step. A blocking agent with no percentage does not count.<br><b>Mark:</b> Mark the percentage only. In <i>blocked in 5% non-fat dry milk</i> mark <b>5%</b>.</td></tr><tr><td>Gel percentage</td><td>The acrylamide percentage of the separating gel.<br><b>Mark:</b> Mark the percentage. For a gradient, mark the whole range. In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</td></tr><tr><td>Primary antibody host or type</td><td>The host species or the clonality of a primary antibody.<br><b>Mark:</b> Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times. In <i>rabbit polyclonal anti-p53</i> mark <b>rabbit polyclonal</b>.</td></tr><tr><td>Transfer method</td><td>How protein was moved onto the membrane: wet or tank, semi-dry, dry, or a named transfer system.<br><b>Mark:</b> Mark the words naming the method. In <i>transferred using a semi-dry apparatus</i> mark <b>semi-dry</b>.</td></tr><tr><td>Membrane pore size</td><td>A membrane pore size in micrometres.<br><b>Mark:</b> Mark the number and its unit. In <i>a 0.45 um PVDF membrane</i> mark <b>0.45 um</b>.</td></tr><tr><td>Acquisition software</td><td>Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.<br><b>Mark:</b> Mark the software name only. In <i>images captured with Image Lab software</i> mark <b>Image Lab</b>.</td></tr></table><h3>Ask about a rule</h3><p>This answers questions about <b>what a rule means</b>, nothing else. It is never given the paper, it cannot see what you are reading, and it will refuse if you paste text and ask what the answer is. Deciding what a paper says is the whole job being measured here, so it has to stay yours.</p><p>Questions are logged with your initials, so ask freely and openly.</p><select id='ask_item' style='width:100%;margin-bottom:8px;padding:8px 12px;border-radius:var(--r-sm);border:1px solid var(--hairline-input);font-family:inherit;font-size:15px;font-weight:300;background:var(--canvas);color:var(--ink)'><option value='imager_instrument'>Imager instrument</option><option value='replicate_n'>Replicate count</option><option value='ab_catalog_any'>Antibody catalogue number</option><option value='protein_quant_method'>Protein quantification method</option><option value='secondary_ab_conjugate'>Secondary antibody conjugate</option><option value='lysis_buffer'>Lysis buffer</option><option value='reducing_denaturing'>Reducing or denaturing conditions</option><option value='blocking_agent'>Blocking agent</option><option value='detection_chemistry'>Detection chemistry</option><option value='membrane_type'>Membrane type</option><option value='loading_control_identity'>Loading control, named</option><option value='protein_per_lane_ug'>Protein loaded per lane</option><option value='primary_ab_vendor'>Primary antibody vendor</option><option value='ecl_reagent'>ECL reagent, named</option><option value='blocking_percent'>Blocking agent concentration</option><option value='gel_percentage'>Gel percentage</option><option value='primary_ab_host'>Primary antibody host or type</option><option value='transfer_method'>Transfer method</option><option value='membrane_pore_um'>Membrane pore size</option><option value='acquisition_software'>Acquisition software</option></select><input type='text' id='ask_q' placeholder='for example: does a lot number count as a catalogue number?' autocomplete='off'><div style='margin-top:8px'><button type='button' class='sec' onclick='ask()'>Ask</button></div><blockquote id='ask_out' style='margin-top:10px'>The rules above are the reference. This is only for when one of them is unclear.</blockquote></aside><div class='hint' id='hint'></div><script>
+const BATCH = {"batch": "batch_28", "papers": [{"pmcid": "PMC5260992", "items": ["imager_instrument", "replicate_n", "ab_catalog_any", "protein_quant_method", "secondary_ab_conjugate", "lysis_buffer", "reducing_denaturing", "blocking_agent", "detection_chemistry", "membrane_type", "loading_control_identity", "protein_per_lane_ug", "primary_ab_vendor"]}, {"pmcid": "PMC6782031", "items": ["ecl_reagent", "blocking_percent", "secondary_ab_conjugate", "blocking_agent", "detection_chemistry", "membrane_type", "loading_control_identity", "protein_per_lane_ug"]}, {"pmcid": "PMC6131224", "items": ["imager_instrument", "gel_percentage", "primary_ab_host", "replicate_n"]}, {"pmcid": "PMC7546010", "items": ["transfer_method", "membrane_pore_um"]}, {"pmcid": "PMC6343965", "items": ["membrane_pore_um"]}, {"pmcid": "PMC6383822", "items": ["acquisition_software"]}]};
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwoTYSFc73PzL9mXwm77vwmTtvDEef65ackGHNtOhhxiAQMRGf8RhQtjjeKCoIaC0dE/exec";
+const CUES = {"primary_ab_rrid": ["rrid|research resource|\\bab_\\d|identifier", "ab_\\d{4,}|rrid"], "ab_catalog_any": ["antibod|cat(alog(ue)?)?\\s*\\.?\\s*(no|num|#)|product\\s*(no|#)|from\\s+\\w+\\s*\\(", "#\\s*\\d|\\b[a-z]{2,4}-?\\d{3,6}\\b|clone"], "primary_ab_vendor": ["antibod|purchased|obtained|supplied|from\\s+\\w+\\s*\\(", "abcam|cell signal|santa cruz|sigma|thermo|invitrogen|millipore|proteintech|r&d|bd bio|novus|genetex"], "primary_ab_host": ["antibod|anti-", "rabbit|mouse|goat|rat\\b|donkey|monoclonal|polyclonal"], "ab_dilution_any": ["antibod|incubat|dilut|probe", "1\\s*[:/]\\s*\\d"], "secondary_ab_conjugate": ["secondary|conjugat", "hrp|horseradish|alkaline phosphat|irdye|alexa|biotin"], "detection_chemistry": ["detect|visuali[sz]|develop|expos", "chemilumin|\\becl\\b|fluoresc|colorimetric|autoradiograph|film"], "ecl_reagent": ["\\becl\\b|chemilumin|substrate|detect", "supersignal|clarity|luminata|immobilon|femto|pico|dura|amersham|pierce"], "blocking_agent": ["block", "milk|\\bbsa\\b|casein|serum|albumin"], "blocking_percent": ["block", "\\d+\\s*%"], "membrane_type": ["membrane|transfer|blott", "pvdf|nitrocellulose|immobilon"], "membrane_pore_um": ["membrane|pvdf|nitrocellulose|pore", "0?\\.\\d+\\s*[u\u00b5\u03bc]?m|micron|\\d\\.\\d+"], "gel_percentage": ["gel|sds-?page|acrylamide|electrophore|separat|resolv", "\\d+\\s*%|gradient|\\d+\\s*-\\s*\\d+"], "transfer_method": ["transfer|blott", "semi-?dry|wet|tank|iblot|trans-?blot|electro|\\bmini\\b"], "reducing_denaturing": ["boil|heat|denatur|reduc|sample buffer|loading buffer|laemmli", "\\bdtt\\b|mercaptoethanol|[\u03b2b]-?me\\b|95\\s*\u00b0|100\\s*\u00b0|5\\s*min"], "protein_per_lane_ug": ["load|per lane|separat|resolv|subjected", "\\d+\\s*[u\u00b5\u03bc]g|microgram"], "protein_quant_method": ["protein|concentration|quantif|determin", "\\bbca\\b|bradford|lowry|nanodrop|\\bdc\\b|coomassie"], "lysis_buffer": ["lys(is|ed|e )|extract|homogeni|solubili|harvest|isolat|scrap|resuspend|prepar|collect", "ripa|np-?40|triton|laemmli|\\btris\\b|\\bsds\\b|buffer"], "total_protein_stain": ["stain|normali[sz]|total protein", "ponceau|stain-?free|revert|coomassie|amido"], "loading_control_identity": ["loading control|normali[sz]|internal control|reprob|antibod|probe|blot", "gapdh|actin|tubulin|vinculin|hsp\\s?90|lamin|histone|vdac|calnexin"], "quantification_software": ["quantif|densitom|analy[sz]|band intensit|measur", "imagej|fiji|image ?lab|image ?studio|quantity one|imagepro|alphaview|empiria|software"], "acquisition_software": ["captur|acqui|imag(ed|ing)|software", "image ?lab|image ?studio|cs analyzer|software|version"], "imager_instrument": ["imag(ed|ing|er)|captur|develop|expos|scan", "chemidoc|odyssey|amersham|\\blas-?\\d|x-?ray|film|fusion|azure|ibright"], "replicate_n": ["experiment|replicat|independent|repeated|\\bn\\s*=|triplicate|duplicate", "\\bn\\s*=\\s*\\d|three|four|five|six|triplicate|duplicate|\\d+\\s*times"]};
+const DEFS = {"reducing_denaturing": ["Reducing or denaturing conditions", "An explicit statement of reducing or denaturing conditions, whether by name or by reagent.", "Mark the phrase or the reagent that states it."], "detection_chemistry": ["Detection chemistry", "How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.", "Mark the words naming the detection method."], "secondary_ab_conjugate": ["Secondary antibody conjugate", "What the secondary antibody is conjugated to.", "Mark each distinct conjugate once."], "transfer_method": ["Transfer method", "How protein was moved onto the membrane: wet or tank, semi-dry, dry, or a named transfer system.", "Mark the words naming the method."], "primary_ab_vendor": ["Primary antibody vendor", "The company that supplied a primary antibody.", "Mark every distinct company name. Leave out the city and country. A table can be marked as one block."], "gel_percentage": ["Gel percentage", "The acrylamide percentage of the separating gel.", "Mark the percentage. For a gradient, mark the whole range."], "primary_ab_host": ["Primary antibody host or type", "The host species or the clonality of a primary antibody.", "Mark the host and clonality together where they sit together. Mark each distinct combination once; you do not need to mark rabbit eight times."], "lysis_buffer": ["Lysis buffer", "The lysis or extraction buffer, either named or given as a recipe.", "Mark the words that name the buffer. Leave out the vendor, the city, and anything added to it such as protease inhibitors."], "loading_control_identity": ["Loading control, named", "A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.", "Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two."], "replicate_n": ["Replicate count", "A number of replicates. You are not being asked whether they are biological or technical.", "Mark the number together with the words that make it a replicate count."], "membrane_type": ["Membrane type", "PVDF or nitrocellulose, or another named membrane chemistry.", "Mark the membrane name only."], "imager_instrument": ["Imager instrument", "The imaging hardware, including X-ray film where film was used.", "Mark the instrument name only. Leave out the manufacturer."], "acquisition_software": ["Acquisition software", "Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.", "Mark the software name only."], "ecl_reagent": ["ECL reagent, named", "A named ECL or substrate product. The word ECL on its own, with no product name, does not count.", "Mark the product name. Leave out the manufacturer unless the name alone would not identify it."], "membrane_pore_um": ["Membrane pore size", "A membrane pore size in micrometres.", "Mark the number and its unit."], "blocking_agent": ["Blocking agent", "What the membrane was blocked in.", "Mark the agent only. Leave the percentage out, it is a separate question."], "protein_quant_method": ["Protein quantification method", "How total protein was measured before loading.", "Mark the assay name only."], "ab_catalog_any": ["Antibody catalogue number", "A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.", "Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block."], "protein_per_lane_ug": ["Protein loaded per lane", "A mass of protein loaded per lane. A volume on its own does not count.", "Mark the mass and its unit."], "blocking_percent": ["Blocking agent concentration", "A percentage attached to the blocking step. A blocking agent with no percentage does not count.", "Mark the percentage only."]};
+const KEY = 'trackF_A6_' + BATCH.batch;
+const T0 = Date.now();
+
+function total(){ return BATCH.papers.reduce((a,p)=>a+p.items.length,0); }
+function esc(s){ return s.replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+/* ---- state ----------------------------------------------------------------
+   ANS[judgement_id] = {answer, spans:[{text,start,end}], more:bool, done:bool}
+
+   Several items are set-valued in the papers themselves. An antibody table gives
+   eight RRIDs, eight catalogue numbers and several vendors, and stage 2 emits all
+   of them pipe-joined. A single span could never validate that, so a question
+   accepts as many spans as the paper needs.
+
+   `more` records "there are more of these than I marked". Without it, a reviewer
+   who stopped after five of eight is indistinguishable from a reviewer who found
+   everything, and the three unmarked values would score as extractor errors. */
+const ANS = {};
+
+function answered(){
+  return Object.values(ANS).filter(v=>v.done).length;
+}
+function refresh(){
+  const a = answered(), t = total();
+  document.getElementById('count').textContent = a + ' of ' + t + ' answered';
+  document.getElementById('bar').style.width = (100*a/t) + '%';
+  document.getElementById('send').disabled =
+    (a < t) || !document.getElementById('rev').value.trim();
+  try{
+    localStorage.setItem(KEY, JSON.stringify(
+      {rev: document.getElementById('rev').value, a: ANS}));
+  }catch(e){}
+}
+function restore(){
+  let s; try{ s = JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+  if (!s) return 0;
+  document.getElementById('rev').value = s.rev || '';
+  let n = 0;
+  Object.entries(s.a||{}).forEach(([q,v])=>{
+    const el = document.querySelector('[data-q="'+CSS.escape(q)+'"]');
+    if (!el) return;
+    ANS[q] = v; paint(el); n++;
+  });
+  return n;
+}
+
+/* ---- sentence segmentation and cue ranking --------------------------------
+   Sentence level, not line level. PDF text wraps at arbitrary columns, so a
+   "line" is a fragment and marking one marks half a clause. */
+function sentences(text){
+  const out = [];
+  let start = 0;
+  const re = /([.!?])(\s|$)/g;
+  let m;
+  while ((m = re.exec(text)) !== null){
+    const end = m.index + 1;
+    if (end - start > 12) { out.push([start, end]); start = re.lastIndex; }
+  }
+  if (text.length - start > 12) out.push([start, text.length]);
+  return out;
+}
+/* A marked span longer than this is not a search aid, it is a wall. Ordinary
+   Methods sentences run 100 to 250 characters. */
+const MAXSEG = 320;
+/* Tuned on the STAR Protocols key-resources table. 70/90 let adjacent windows merge
+   into 300-character blobs; 30/40 was too tight to read a row in context. At 45/55
+   that table marks two separate RRID rows instead of one merged run, and drops from
+   100% of the block marked to about 9%. */
+const WIN_BEFORE = 45, WIN_AFTER = 55;
+
+function snapL(s, i){ const j = s.lastIndexOf(' ', i); return j > i - 25 && j >= 0 ? j + 1 : i; }
+function snapR(s, i){ const j = s.indexOf(' ', i);     return j >= 0 && j < i + 25 ? j : i; }
+
+/* Windows around each value hit inside an over-long block.
+   STAR Protocols and Cell Press papers carry a KEY RESOURCES TABLE that survives PDF
+   extraction as one 2,500-character run with almost no sentence punctuation. Marking
+   the containing "sentence" marked the entire reagent list for a question about one
+   RRID. Requiring a value hit and marking a window around it turns that into two tight
+   marks on the two RRIDs actually present. */
+function windows(text, s, e, valSrc, out){
+  const seg = text.slice(s, e);
+  let re;
+  try{ re = new RegExp(valSrc, 'gi'); }catch(err){ return; }
+  let m, n = 0;
+  while ((m = re.exec(seg)) !== null && n < 6){
+    const a = snapL(seg, Math.max(0, m.index - WIN_BEFORE));
+    const b = snapR(seg, Math.min(seg.length, m.index + m[0].length + WIN_AFTER));
+    out.push({s: s + a, e: s + b, score: 2});
+    n++;
+    if (m.index === re.lastIndex) re.lastIndex++;
+  }
+}
+
+function merge(spans){
+  if (!spans.length) return [];
+  spans.sort((a,b)=> a.s - b.s);
+  const out = [spans[0]];
+  for (let i = 1; i < spans.length; i++){
+    const last = out[out.length-1], cur = spans[i];
+    if (cur.s <= last.e){
+      last.e = Math.max(last.e, cur.e);
+      last.score = Math.max(last.score, cur.score);
+    } else out.push(cur);
+  }
+  return out;
+}
+
+function rank(text, item){
+  const c = CUES[item];
+  if (!c) return [];
+  let ctx;
+  try{ ctx = new RegExp(c[0],'i'); }catch(e){ return []; }
+  const hasVal = seg => { try{ return new RegExp(c[1],'i').test(seg); }catch(e){ return false; } };
+  const segs = sentences(text);
+  let scored = [];
+
+  for (const [s,e] of segs){
+    const seg = text.slice(s,e);
+    if (!ctx.test(seg)) continue;              // context is required, not optional
+    if (e - s <= MAXSEG){ scored.push({s, e, score: 1 + (hasVal(seg) ? 1 : 0)}); continue; }
+    windows(text, s, e, c[1], scored);         // long block: narrow to the value hits
+  }
+
+  // Requiring context is what makes the marking precise, but when a paper phrases
+  // something no context cue anticipated, shading nothing is worse than shading
+  // loosely. Drop to value cues alone rather than leave a blank pane.
+  if (!scored.length){
+    for (const [s,e] of segs){
+      const seg = text.slice(s,e);
+      if (!hasVal(seg)) continue;
+      if (e - s <= MAXSEG) scored.push({s, e, score: 1});
+      else windows(text, s, e, c[1], scored);
+    }
+  }
+
+  scored = merge(scored);
+  scored.sort((a,b)=> b.score - a.score || (a.e - a.s) - (b.e - b.s) || a.s - b.s);
+  const top = scored.slice(0, 8);
+  top.sort((a,b)=> a.s - b.s);
+  return top;
+}
+
+let curBox = null, curMarks = [], curIdx = -1;
+function highlight(pmcid, item){
+  const box = document.getElementById('m_' + pmcid);
+  if (!box) return;
+  curBox = box;
+  const raw = box.dataset.raw;
+  const spans = rank(raw, item);
+  let out = '', at = 0;
+  for (const sp of spans){
+    out += esc(raw.slice(at, sp.s)) + '<mark>' + esc(raw.slice(sp.s, sp.e)) + '</mark>';
+    at = sp.e;
+  }
+  out += esc(raw.slice(at));
+  box.innerHTML = out;
+  curMarks = [...box.querySelectorAll('mark')];
+  curIdx = -1;
+  const lab = document.getElementById('hits_' + pmcid);
+  if (lab) lab.textContent = curMarks.length
+    ? curMarks.length + ' likely passage' + (curMarks.length>1?'s':'')
+    : 'nothing obvious, read the section';
+  if (curMarks.length) jump(1);
+}
+function jump(d){
+  if (!curMarks.length) return;
+  if (curIdx >= 0) curMarks[curIdx].classList.remove('cur');
+  curIdx = (curIdx + d + curMarks.length) % curMarks.length;
+  curMarks[curIdx].classList.add('cur');
+  curMarks[curIdx].scrollIntoView({block:'center', behavior:'smooth'});
+}
+
+/* ---- selection capture -----------------------------------------------------
+   Offsets are computed against the raw text, not the marked-up DOM, so a stored
+   span is comparable to stage 2's own match offsets regardless of highlighting. */
+function textOffset(container, node, off){
+  const w = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+  let n, acc = 0;
+  while ((n = w.nextNode())){
+    if (n === node) return acc + off;
+    acc += n.nodeValue.length;
+  }
+  return -1;
+}
+function getSel(box){
+  const s = window.getSelection();
+  if (!s || s.rangeCount === 0 || s.isCollapsed) return null;
+  const r = s.getRangeAt(0);
+  if (!box.contains(r.commonAncestorContainer)) return null;
+  const a = textOffset(box, r.startContainer, r.startOffset);
+  const b = textOffset(box, r.endContainer, r.endOffset);
+  if (a < 0 || b < 0 || b <= a) return null;
+  return {start:a, end:b, text:s.toString()};
+}
+
+/* ---- answering ------------------------------------------------------------ */
+function activeEl(){ return document.querySelector('.q.active'); }
+function activate(el){
+  if (!el) return;
+  document.querySelectorAll('.q.active').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  highlight(el.dataset.pmcid, el.dataset.item);
+}
+function tidy(s){ return s.replace(/\s+/g,' ').trim(); }
+
+function paint(el){
+  const q = el.dataset.q, v = ANS[q];
+  const tag = el.querySelector('.ans');
+  const grab = el.querySelector('.grab');
+  const list = el.querySelector('.spans');
+  const moreBox = el.querySelector('.morewrap');
+  const doneBtn = el.querySelector('[data-act="done"]');
+
+  if (!v){
+    el.classList.remove('done'); tag.textContent = '';
+    grab.classList.remove('on'); list.innerHTML = '';
+    moreBox.classList.remove('on'); doneBtn.style.display = 'none';
+    return;
+  }
+  if (v.answer === 'marked'){
+    grab.classList.add('on');
+    moreBox.classList.toggle('on', !el.classList.contains('done'));
+    doneBtn.style.display = el.classList.contains('done') ? 'none' : '';
+    list.innerHTML = v.spans.map((s,i)=>
+      '<li><span>' + esc(tidy(s.text)) + '</span>'
+      + '<button type="button" class="quiet x" data-act="drop" data-i="' + i + '">'
+      + 'Remove</button></li>').join('');
+    el.querySelector('.morebox').checked = !!v.more;
+    const n = v.spans.length;
+    tag.textContent = n === 1 ? '\u201C' + tidy(v.spans[0].text).slice(0,52) + '\u201D'
+                              : n + ' marked' + (v.more ? ', more not marked' : '');
+  } else {
+    grab.classList.remove('on'); list.innerHTML = '';
+    moreBox.classList.remove('on'); doneBtn.style.display = 'none';
+    tag.textContent = v.answer === 'not_stated' ? 'Not stated' : 'Unclear';
+  }
+  el.classList.toggle('done', !!v.done);
+}
+function mark(el){
+  const box = document.getElementById('m_' + el.dataset.pmcid);
+  const sel = getSel(box);
+  if (!sel){ flash('Select the words in the Methods text first, then press this.'); return; }
+  const q = el.dataset.q;
+  const v = ANS[q] && ANS[q].answer === 'marked'
+    ? ANS[q] : (ANS[q] = {answer:'marked', spans:[], more:false, done:false});
+  v.answer = 'marked'; v.done = false;
+  const key = tidy(sel.text).toLowerCase();
+  if (!v.spans.some(s=>tidy(s.text).toLowerCase() === key)){
+    v.spans.push({text:sel.text, start:sel.start, end:sel.end});
+  } else {
+    flash('You already marked that one.');
+  }
+  window.getSelection().removeAllRanges();
+  paint(el); refresh();
+}
+function dropSpan(el, i){
+  const v = ANS[el.dataset.q];
+  if (!v) return;
+  v.spans.splice(i, 1);
+  if (!v.spans.length) delete ANS[el.dataset.q];
+  paint(el); refresh();
+}
+function finish(el){
+  const v = ANS[el.dataset.q];
+  if (!v || !v.spans.length) return;
+  v.more = el.querySelector('.morebox').checked;
+  v.done = true;
+  paint(el); refresh(); nextOpen(el);
+}
+function plain(el, a){
+  ANS[el.dataset.q] = {answer:a, spans:[], more:false, done:true};
+  paint(el); refresh(); nextOpen(el);
+}
+function reopen(el){
+  const v = ANS[el.dataset.q];
+  if (v && v.answer === 'marked') v.done = false; else delete ANS[el.dataset.q];
+  paint(el); activate(el); refresh();
+  el.scrollIntoView({block:'center', behavior:'smooth'});
+}
+function nextOpen(from){
+  const all = [...document.querySelectorAll('[data-q]')];
+  for (let k = all.indexOf(from)+1; k < all.length; k++){
+    if (!ANS[all[k].dataset.q]){
+      activate(all[k]);
+      all[k].scrollIntoView({block:'center', behavior:'smooth'});
+      return;
+    }
+  }
+}
+function guide(on, item){
+  document.getElementById('guide').classList.toggle('on', on);
+  document.getElementById('scrim').classList.toggle('on', on);
+  if (on){
+    const el = activeEl();
+    const sel = document.getElementById('ask_item');
+    if (sel) sel.value = item || (el ? el.dataset.item : sel.value);
+  }
+}
+
+/* ---- rules assistant -------------------------------------------------------
+   Definitions only. The paper text is never sent, and a question carrying a long
+   verbatim run from the Methods pane is refused here rather than upstream, because
+   the cheapest place to keep the gold standard clean is before the request leaves
+   the browser. */
+function pastedFromPaper(q){
+  const boxes = [...document.querySelectorAll('.methods')];
+  const s = q.replace(/\s+/g,' ').trim();
+  if (s.length < 60) return false;
+  for (const b of boxes){
+    const hay = (b.dataset.raw || '').replace(/\s+/g,' ');
+    for (let i = 0; i + 60 <= s.length; i += 10){
+      if (hay.indexOf(s.slice(i, i+60)) >= 0) return true;
+    }
+  }
+  return false;
+}
+async function ask(){
+  const out = document.getElementById('ask_out');
+  const q = document.getElementById('ask_q').value.trim();
+  const item = document.getElementById('ask_item').value;
+  if (!q){ out.textContent = 'Type a question about the rule first.'; return; }
+  if (pastedFromPaper(q)){
+    out.textContent = 'That looks like text from the paper. This assistant only '
+      + 'explains the rules, and deciding what a paper says is the job the study is '
+      + 'measuring. Ask what the rule means instead.';
+    return;
+  }
+  if (!ENDPOINT){ out.textContent = 'No endpoint configured, so the assistant is off. '
+      + 'The rules above are the reference.'; return; }
+  const d = DEFS[item] || ['','',''];
+  // Send the whole rule set, not just the selected item. It is about 1,500 tokens
+  // and it is what lets the assistant answer the questions reviewers actually ask,
+  // which are comparative: how is acquisition software different from
+  // quantification software, does a lot number count as a catalogue number.
+  const all = Object.entries(DEFS)
+    .map(([k,v])=> v[0] + ' :: ' + v[1] + ' :: mark: ' + v[2]).join('\n');
+  out.textContent = 'Thinking...';
+  try{
+    const r = await fetch(ENDPOINT, {method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({action:'assist', batch:BATCH.batch,
+        reviewer: document.getElementById('rev').value.trim(),
+        item, item_label:d[0], definition:d[1], rule:d[2],
+        all_rules: all, question:q})});
+    const t = (await r.text()).trim();
+    if (t.indexOf('ASSIST_OK') === 0) out.textContent = t.slice(9).trim();
+    else if (t.indexOf('ASSIST_OFF') === 0) out.textContent =
+      'The assistant is switched off for this study. The rules above are the reference.';
+    else out.textContent = 'The assistant is unavailable. The rules above are the reference.';
+  }catch(e){
+    out.textContent = 'The assistant is unavailable. The rules above are the reference.';
+  }
+}
+let flashT = null;
+function flash(msg){
+  const h = document.getElementById('hint');
+  h.textContent = msg; h.classList.add('on');
+  clearTimeout(flashT);
+  flashT = setTimeout(()=>h.classList.remove('on'), 2600);
+}
+
+/* ---- submit --------------------------------------------------------------- */
+/* One row per span, so a question answered with eight RRIDs is eight rows sharing a
+   judgement_id. n_spans is carried on every row so the scorer can tell a truncated
+   submission from a complete one without regrouping first. */
+function collect(){
+  const rows = [];
+  document.querySelectorAll('[data-q]').forEach(el=>{
+    const v = ANS[el.dataset.q];
+    const base = {judgement_id: el.dataset.q, pmcid: el.dataset.pmcid,
+                  item: el.dataset.item};
+    if (!v || v.answer !== 'marked'){
+      rows.push(Object.assign({}, base, {answer: v ? v.answer : '', span_index: 0,
+        span_text: '', span_start: -1, span_end: -1, span_len: 0,
+        n_spans: 0, more_unmarked: ''}));
+      return;
+    }
+    v.spans.forEach((s,i)=>{
+      rows.push(Object.assign({}, base, {answer:'marked', span_index: i,
+        span_text: s.text, span_start: s.start, span_end: s.end,
+        span_len: (s.text||'').length, n_spans: v.spans.length,
+        more_unmarked: v.more ? 1 : 0}));
+    });
+  });
+  return {batch: BATCH.batch, reviewer: document.getElementById('rev').value.trim(),
+          submitted_at: new Date().toISOString(),
+          minutes: Math.round((Date.now()-T0)/60000), rows};
+}
+function download(){
+  const p = collect();
+  const head = 'batch,reviewer,submitted_at,judgement_id,pmcid,item,answer,span_index,'
+             + 'span_text,span_start,span_end,span_len,n_spans,more_unmarked\n';
+  const q = s => '"' + String(s==null?'':s).replace(/"/g,'""') + '"';
+  const body = p.rows.map(r=>[p.batch,p.reviewer,p.submitted_at,r.judgement_id,r.pmcid,
+      r.item,r.answer,r.span_index,r.span_text,r.span_start,r.span_end,r.span_len,
+      r.n_spans,r.more_unmarked]
+      .map(q).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([head+body], {type:'text/csv'}));
+  a.download = 'A6_' + p.batch + '_' + (p.reviewer||'anon').replace(/\W+/g,'_') + '.csv';
+  a.click();
+}
+async function send(){
+  const st = document.getElementById('status');
+  if (!ENDPOINT){ st.innerHTML = '<b>No endpoint set.</b> Use Download CSV.'; return; }
+  st.textContent = 'Sending...';
+  try{
+    const r = await fetch(ENDPOINT, {method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(collect())});
+    const t = await r.text();
+    if (t.indexOf('OK') >= 0){
+      st.innerHTML = '<b>Submitted.</b> Thank you, you can close this tab.';
+      document.getElementById('send').disabled = true;
+      try{ localStorage.removeItem(KEY); }catch(e){}
+    } else {
+      st.innerHTML = '<b>Rejected.</b> ' + esc(t.slice(0,140)) + ' Use Download CSV.';
+    }
+  }catch(e){
+    st.innerHTML = '<b>Send failed.</b> Use Download CSV and email the file.';
+  }
+}
+
+/* ---- wiring --------------------------------------------------------------- */
+document.addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-act]');
+  if (btn){
+    const el = btn.closest('[data-q]');
+    const a = btn.dataset.act;
+    if (a === 'mark') mark(el);
+    else if (a === 'done') finish(el);
+    else if (a === 'drop') dropSpan(el, parseInt(btn.dataset.i, 10));
+    else if (a === 'reopen') reopen(el);
+    else plain(el, a);
+    return;
+  }
+  const head = e.target.closest('.q.done .qname');
+  if (head){ reopen(head.closest('[data-q]')); return; }
+  const q = e.target.closest('[data-q]');
+  if (q && !q.classList.contains('done')) activate(q);
+});
+document.addEventListener('input', e=>{ if (e.target.id === 'rev') refresh(); });
+document.addEventListener('keydown', e=>{ if (e.key === 'Escape') guide(false); });
+document.addEventListener('mouseup', ()=>{
+  const el = activeEl();
+  if (!el) return;
+  const box = document.getElementById('m_' + el.dataset.pmcid);
+  if (box && getSel(box)) flash('Press "Use highlighted text" on the open question.');
+});
+window.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.methods').forEach(b=>{ b.dataset.raw = b.textContent; });
+  const n = restore();
+  const first = [...document.querySelectorAll('[data-q]')].find(el=>!ANS[el.dataset.q]);
+  activate(first || document.querySelector('[data-q]'));
+  refresh();
+  if (n) document.getElementById('status').innerHTML =
+    '<b>Restored ' + n + ' saved answer' + (n>1?'s':'') + '</b> from this browser.';
+});
+window.addEventListener('beforeunload', e=>{
+  if (answered() > 0 && !document.getElementById('send').disabled){
+    e.preventDefault(); e.returnValue = '';
+  }
+});
+</script></body></html>

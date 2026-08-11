@@ -1,0 +1,2749 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Track F methods review, batch_39</title><style>
+:root{
+--primary:#533afd; --primary-deep:#4434d4; --primary-press:#2e2b8c;
+--primary-soft:#665efd; --primary-subdued:#b9b9f9; --brand-dark-900:#1c1e54;
+--canvas:#ffffff; --canvas-soft:#f6f9fc; --canvas-cream:#f5e9d4;
+--hairline:#e3e8ee; --hairline-input:#a8c3de;
+--ink:#0d253d; --ink-secondary:#273951; --ink-mute:#64748d; --on-primary:#ffffff;
+--r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-pill:9999px;
+--sh1:rgba(0,55,112,.08) 0 1px 3px;
+--sh2:rgba(0,55,112,.08) 0 8px 24px, rgba(0,55,112,.04) 0 2px 6px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);
+font-family:Inter,"SF Pro Display",system-ui,-apple-system,"Segoe UI",sans-serif;
+font-weight:300;font-size:15px;line-height:1.4;
+font-feature-settings:"ss01";-webkit-font-smoothing:antialiased}
+.mesh{position:absolute;inset:0 0 auto;height:280px;z-index:0;pointer-events:none;
+background:
+ radial-gradient(60% 120% at 8% 40%, #f5e9d4 0%, rgba(245,233,212,0) 60%),
+ radial-gradient(50% 120% at 30% 30%, #ffd9b0 0%, rgba(255,217,176,0) 62%),
+ radial-gradient(55% 130% at 55% 45%, #cdc4fb 0%, rgba(205,196,251,0) 62%),
+ radial-gradient(50% 120% at 76% 30%, #533afd 0%, rgba(83,58,253,0) 60%),
+ radial-gradient(55% 120% at 96% 55%, #ea2261 0%, rgba(234,34,97,0) 62%);
+opacity:.30;filter:blur(18px)}
+.wrap{max-width:1200px;margin:0 auto;padding:40px 24px 104px;position:relative;z-index:1}
+h1{font-size:32px;font-weight:300;letter-spacing:-.64px;line-height:1.1;margin:0 0 6px}
+h2{font-size:10px;font-weight:400;letter-spacing:.1px;text-transform:uppercase;
+color:var(--ink-mute);margin:0}
+.sub{color:var(--ink-secondary);font-size:15px;margin:0 0 24px;max-width:62ch}
+.card{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);
+padding:24px;margin-bottom:14px;box-shadow:var(--sh1)}
+.card.cream{background:var(--canvas-cream);border-color:transparent;box-shadow:none}
+.card h3{font-size:18px;font-weight:300;letter-spacing:0;margin:0 0 10px}
+.note{color:var(--ink-secondary);font-size:15px}
+.note b{font-weight:400}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.num{font-feature-settings:"tnum","ss01";letter-spacing:-.42px}
+.pill{display:inline-block;background:var(--primary-subdued);color:var(--primary-deep);
+font-size:10px;font-weight:400;letter-spacing:.1px;text-transform:uppercase;
+padding:4px 8px;border-radius:var(--r-pill)}
+.paper-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+flex-wrap:wrap;margin-bottom:4px}
+.split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;
+align-items:start}
+/* clears the sticky action bar, which is about 60px tall */
+.col-text{position:sticky;top:80px}
+@media (max-width:1023px){.split{grid-template-columns:1fr}.col-text{position:static}}
+.methods{background:var(--canvas-soft);border:1px solid var(--hairline);
+border-radius:var(--r-md);padding:18px 20px;min-height:320px;
+overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.7;
+color:var(--ink-secondary);margin:10px 0 0;user-select:text;cursor:text;
+height:calc(100vh - 296px)}
+@media (max-width:1023px){.methods{height:46vh}}
+.methods mark{background:var(--canvas-cream);color:inherit;border-radius:var(--r-xs);
+padding:1px 0}
+.methods mark.cur{background:var(--primary-subdued)}
+.methods ::selection{background:var(--primary-soft);color:#fff}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;
+font-size:13px;color:var(--ink-mute);letter-spacing:-.39px}
+.tools .aid{margin-left:auto;font-size:11px;font-weight:300}
+button{font-family:inherit;font-size:14px;font-weight:400;line-height:1;
+padding:8px 16px;border-radius:var(--r-pill);border:1px solid var(--primary);
+background:var(--primary);color:var(--on-primary);cursor:pointer}
+button:hover{background:var(--primary-deep);border-color:var(--primary-deep)}
+button:active{background:var(--primary-press);border-color:var(--primary-press)}
+button.sec{background:var(--canvas);color:var(--primary);border-color:var(--primary)}
+button.sec:hover{background:var(--canvas-soft)}
+button.quiet{background:transparent;color:var(--ink-mute);border-color:var(--hairline)}
+button.quiet:hover{background:var(--canvas-soft);color:var(--ink)}
+button:disabled{opacity:.4;cursor:not-allowed}
+input[type=text]{width:100%;background:var(--canvas);color:var(--ink);
+font-family:inherit;font-size:15px;font-weight:300;padding:8px 12px;
+border-radius:var(--r-sm);border:1px solid var(--hairline-input)}
+input[type=text]:focus{outline:none;border-color:var(--primary)}
+.q{border:1px solid var(--hairline);border-radius:var(--r-lg);padding:18px 20px;
+margin-bottom:10px;background:var(--canvas)}
+.q.active{border-color:var(--primary);box-shadow:var(--sh1)}
+.q.done{padding:12px 16px;background:var(--canvas-soft);box-shadow:none}
+.q.done .qdef,.q.done .qhow,.q.done .acts,.q.done .grab{display:none}
+.q.done .qname{cursor:pointer;margin:0}
+.qname{display:flex;justify-content:space-between;gap:12px;align-items:baseline;
+font-size:18px;font-weight:300;letter-spacing:0;margin-bottom:6px}
+.q.done .qname{font-size:15px;color:var(--ink-secondary)}
+.qname .ans{font-size:13px;color:var(--ink-mute);letter-spacing:-.39px;
+white-space:nowrap;max-width:52%;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.qdef{color:var(--ink-secondary);font-size:15px;margin-bottom:10px}
+.qhow{background:var(--canvas-soft);border-radius:var(--r-md);padding:10px 12px;
+font-size:13px;color:var(--ink-secondary);letter-spacing:-.39px;margin-bottom:12px}
+.qhow b{font-weight:400;color:var(--ink)}
+.qhow .eg{display:block;margin-top:5px;color:var(--ink-mute)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.grab{margin-top:11px;display:none}
+.grab.on{display:block}
+.grab .cap{font-size:10px;text-transform:uppercase;letter-spacing:.1px;
+color:var(--ink-mute);margin-bottom:5px}
+.grab blockquote{margin:0;background:var(--canvas-cream);border-radius:var(--r-md);
+padding:10px 12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+font-size:13px;color:var(--ink);line-height:1.6}
+/* one row per marked span; an antibody table can produce eight */
+.spans{list-style:decimal;margin:0;padding:0 0 0 22px}
+.spans li{background:var(--canvas-cream);border-radius:var(--r-md);
+padding:7px 10px;margin-bottom:5px;display:flex;gap:10px;align-items:baseline;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+color:var(--ink);line-height:1.55}
+.spans li span{flex:1;overflow-wrap:anywhere}
+.spans li .x{padding:2px 9px;font-size:11px;flex:none;font-family:inherit}
+.morewrap{display:none;align-items:center;gap:8px;margin-top:8px;
+font-size:13px;color:var(--ink-secondary);letter-spacing:-.39px;cursor:pointer}
+.morewrap.on{display:flex}
+.morewrap input{accent-color:var(--primary);width:16px;height:16px;cursor:pointer}
+.q.done .spans li .x{display:none}
+/* Action bar pinned to the TOP. Submit lives here rather than at the foot of a
+   30-minute page, so it is reachable without scrolling once a batch is finished. */
+.bar{position:sticky;top:0;z-index:6;background:var(--canvas);
+border-bottom:1px solid var(--hairline);box-shadow:var(--sh1);
+margin:0 -24px 20px;padding:12px 24px;
+display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.bar .grow{flex:1 1 220px;min-width:140px}
+.prog{height:4px;border-radius:var(--r-pill);background:var(--hairline);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--primary);width:0;transition:width .2s}
+.count{font-size:14px;color:var(--ink-secondary);font-feature-settings:"tnum";
+letter-spacing:-.42px;white-space:nowrap}
+.status{font-size:13px;color:var(--ink-mute);letter-spacing:-.39px;flex-basis:100%}
+.status b{color:var(--ink);font-weight:400}
+.hint{position:fixed;z-index:12;background:var(--brand-dark-900);color:#fff;
+font-size:13px;padding:8px 14px;border-radius:var(--r-pill);box-shadow:var(--sh2);
+left:50%;transform:translateX(-50%);bottom:28px;
+pointer-events:none;opacity:0;transition:opacity .15s}
+.hint.on{opacity:1}
+
+/* Guide. The rules are needed on question 40 as much as on question 1, so they
+   live behind a button that is always in reach rather than scrolled past once. */
+.scrim{position:fixed;inset:0;z-index:10;background:rgba(13,37,61,.34);
+display:none}
+.scrim.on{display:block}
+.guide{position:fixed;top:0;right:0;bottom:0;z-index:11;width:min(560px,100%);
+background:var(--canvas);box-shadow:var(--sh2);overflow:auto;
+padding:28px 28px 64px;transform:translateX(100%);transition:transform .18s ease-out}
+.guide.on{transform:none}
+.guide h2{margin-bottom:14px}
+.guide h3{font-size:20px;font-weight:300;letter-spacing:-.2px;margin:26px 0 8px}
+.guide h3:first-of-type{margin-top:10px}
+.guide p{color:var(--ink-secondary);margin:0 0 10px}
+.guide .close{position:absolute;top:20px;right:24px}
+.guide table{border-collapse:collapse;width:100%;margin-top:6px}
+.guide td{border-bottom:1px solid var(--hairline);padding:8px 10px 8px 0;
+vertical-align:top;font-size:13px;color:var(--ink-secondary)}
+.guide td:first-child{color:var(--ink);white-space:nowrap;padding-right:16px}
+.guide blockquote{margin:8px 0 0;padding:10px 12px;background:var(--canvas-cream);
+border-radius:var(--r-md);font-size:13px;color:var(--ink)}
+</style></head><body><div class='mesh'></div><div class='wrap'><div class='bar'><span class='count' id='count'>0 answered</span><span class='grow'><span class='prog'><i id='bar'></i></span></span><button type='button' class='quiet' onclick='guide(true)'>Guide</button><button class='sec' onclick='download()'>Download CSV</button><button id='send' onclick='send()' disabled>Submit</button><span class='status' id='status'></span></div><h1>Western blot methods review</h1><p class='sub'><span class='num'>6</span> papers, <span class='num'>29</span> questions, about <span class='num'>30</span> minutes. For each paper you read one Methods section, then say whether that text states each of a short list of details. You never type a value: you select the words in the text. Press <b>Guide</b> at any point for the rules.</p><div class='card'><h2>Your name or initials</h2><p class='note' style='margin:6px 0 10px'>Only used to tell reviewers apart when two people code the same batch.</p><input type='text' id='rev' placeholder='for example BH' autocomplete='off'></div><div class='card cream'><h3>The three answers</h3><div class='note'><b>Select the words in the Methods text, then press Use highlighted text.</b> The exact words you selected are what gets recorded. If the paper gives several, mark each one and they stack up in a list; press <b>Done, next</b> when the list is complete.<br><b>Not stated.</b> The Methods text does not give this detail.<br><b>Unclear.</b> You cannot tell either way. These are set aside rather than counted, so it is a safe answer when you are stuck.<br><br>Every question carries its own <b>What to mark</b> rule with a worked example. Follow it rather than your instinct: consistency between reviewers matters more here than any single choice. Full rules under <b>Guide</b>.</div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>1</span> of <span class='num'>6</span></h2><span class='pill'>PMC9284872</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Stem Cell Research &amp; Therapy · <span class='num'>2022</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC9284872'>
+Cell culture
+The Ethics Committee of Nanjing Medical University 
+School of Stomatology gave clearance to this study. After 
+obtaining the patient’s informed consent in the Depart-
+ment of Oral Surgery of Jiangsu Provincial Stomatological 
+Hospital, we collected orthodontic reduction premolars 
+from healthy donors under 16 years old. The pulp tissue 
+was carefully isolated from immature roots, rinsed in 
+phosphate-buffered saline (PBS; Gibco, Life Technolo-
+gies, USA), sliced, and then incubated at 37 °C in a 5% 
+­CO2 incubator with 3 mg/ml collagenase type I (Sigma, 
+St. Louis, MO, USA). The tissue block and separated cells 
+were collected after 30 min of digestion by centrifugation 
+at 1000 r/min for 5 min. They were inoculated at 37 °C 
+in a 5% ­CO2 incubator with the complete alpha mini-
+mum essential medium (α-MEM; Gibco, Life Technolo-
+gies, USA) containing 100 U/mL penicillin and 100 mg/
+mL streptomycin (Gibco, Life Technologies, USA), and 
+10% fetal bovine serum (FBS; ScienCell Research Labo-
+ratories, California, USA). Every three days, the medium 
+was changed. When the cells have reached 70-80% con-
+fluence, they are trypsin digested and passaged at a 1:3 
+ratio. Cells from stage 3 to passage 5 were utilized in the 
+subsequent experiments.
+Flow cytometry
+In order to identify the phenotype of hDPSCs, flow 
+cytometry was applied to detect MSCs’ surface markers. 
+According to the instructions, the cells at passage 3 were 
+incubated with anti-human CD90, CD73, CD29, CD34, 
+and CD45 fluorescent antibodies (BD Pharmingen, San 
+Diego, CA, USA).
+Alkaline phosphatase (ALP) activity and staining
+Transfected hDPSCs were planted in a 12-well plate and 
+grown for 7 days in mineralization induction medium. 
+The quantitative analysis of ALP activity was performed 
+using an alkaline phosphatase detection kit (Jiancheng, 
+Nanjing, China) in accordance with the instructions. 
+After 30 min of fixation with 4% paraformaldehyde, ALP 
+staining was conducted with the BCIP/NBT staining kit 
+(Beyotime, Shanghai, China).
+Alizarin red S staining (ARS) and quantification
+The transfected hDPSCs grown for 14 days in miner-
+alization induction media, with the medium chang-
+ing every three days. Before being stained with Alizarin 
+Red S (Leagene Biotechnology, Beijing, China), the cells 
+were fixed in 4% paraformaldehyde. The mineralized 
+nodules were seen and photographed using an inverted 
+microscope. The staining profile was scanned using the 
+scanner. To quantify ARS, 10 percent cetylpyridinium 
+chloride was utilized, and the OD value was measured at 
+562 nm absorbance. Calcium levels were normalized to 
+total protein levels in each group.
+Stem cell multidirectional differentiation
+hDPSCs were inoculated onto 6-well plates and grown 
+in full medium to 80 percent confluence and above for 
+ Page 3 of 13
+Fu et al. Stem Cell Research &amp; Therapy (2022) 13:311 
+ 
+odontogenic and adipogenic differentiation. 2 weeks after 
+induction with odontogenic differentiation induction 
+medium (10 mM β-glycerophosphate (Sigma, St. Louis, 
+MO, USA), 50 μg/mL ascorbic acid (Sigma, St. Louis, 
+MO, USA) and 10 nM dexamethasone (Sigma, St. Louis, 
+MO, United States) diluted in 10% FBS α-MEM), the cells 
+were identified with ARS. After 21-30 days of cell cul-
+ture using OriCell® hDPSCs Adipogenic Differentiation 
+Kit (Cyagen Biosciences, Guangzhou, China), Oil Red 
+O staining was for cell identification. For chondrogenic 
+differentiation, the right amounts of cells were cultured 
+in a 15 ml conical centrifuge tube with OriCell® Human 
+BMMSCs Chondrogenic Differentiation Kit (Cyagen Bio-
+sciences, Guangzhou, China) for 1-2 days to form carti-
+lage ball. The cartilage ball was carefully inoculated into a 
+48-well plate for 21 days after induction, then fixed with 
+4% paraformaldehyde, frozen sectioned and identified by 
+Alcian blue staining.
+Quantitative reverse transcription -polymerase chain 
+reaction (qRT-PCR)
+Total cell RNA was extracted with Trizol reagent (Inv-
+itrogen, New York, NY, USA), and concentration quan-
+tification and purity detection were performed with a 
+Nanodrop spectrophotometer. Then HiScript II Q RT 
+SuperMix for qPCR (Vazyme, Nanjing, China) was used 
+to synthesize cDNA. Finally, ChamQ Universal SYBR 
+qPCR Master Mix (Vazyme, Nanjing, China) was used 
+for quantification. Table 1 lists the primer sequences that 
+were employed. For miRNA, cDNA was reverse tran-
+scribed by stem-loop primers and miRNA 1st Strand 
+cDNA Synthesis Kit (Vazyme, Nanjing, China). U6 was 
+used for miRNA standardization, whereas GAPDH was 
+utilized to normalize mRNA and lncRNA expression. The 
+relative expression levels were determined using the ­2-
+ΔΔCT method. In comparison with the control condition, 
+the findings were reported as fold changes.
+Cell transfection
+SNHG1 overexpressed virus and specific siRNA, has-
+miR-328-3p mimics and inhibitor are all prepared by 
+GenePharma (Shanghai, China) (Sequences in Additional 
+file 1). hDPSCs were inoculated overnight and infected 
+with lentivirus in the presence of polybrene (5 μg/mL) for 
+16-24 h. siRNA, mimics and inhibitors were transiently 
+transfected with Lipofectamine 2000 (Invitrogen, New 
+York, NY, USA) in serum-free medium for 6 h and then 
+replaced with complete medium.
+Cell counting kit-8 (CCK-8) assay
+The proliferation activity of hDPSCs was detected with 
+CCK-8 (Dojindo, Tokyo, Japan). The transfected cells 
+were planted at a density of 2000 cells per well on a 
+96-well culture plate. At particular time points (day 0, 1, 
+3, 5 and 7), 1:9 ratios of CCK-8 reagent and α-MEM were 
+injected into each well. OD value was determined using 
+a microplate reader at 450 nm absorbance after 2 h of 
+incubation.
+Western blot
+The total protein was extracted from the cells by pro-
+tein lysate. On 10% SDS-PAGE gels, equal quantities of 
+proteins were isolated and then transferred to 0.22 m 
+polyvinylidene fluoride membranes (Millipore Corpo-
+ration, Billerica, MA, USA). After being blocked with 
+5% skim milk for 1 h, the membranes were incubated 
+with the following antibodies overnight at 4 °C: GAPDH 
+(Proteintech, 10,494-1-AP), DSPP (Bioword, BS71212), 
+DMP-1 (Affinity, DF8825, RRID: AB_2842022), ALP 
+(Abcam, ab95462), Axin1 (Cell Signaling Technology, 
+#2087), β-catenin (Cell Signaling Technology, #8480), 
+Active β-catenin (Cell Signaling Technology, #19,807). 
+The membranes were incubated secondary antibody for 
+1 h at room temperature and then exposed using the 
+Immobilon Western Chemiluminescent HRP substrate 
+(Millipore Corporation, Billerica, MA, USA). The pro-
+tein bands were subsequently quantified with Image J 
+software.
+Immunofluorescence staining
+The transfected hDPSCs were grown to an adequate den-
+sity on glass coverslips in 12-well plate. The cells were 
+rinsed in PBS and fixed with 4% paraformaldehyde. After 
+washing with PBS, the cells were perforated with 0.25% 
+Triton-100 (Beyotime, Shanghai, China) for 12 min and 
+Table 1 Primer sequences
+Genes
+Primes
+Sequences (5′-3′)
+GAPDH
+Forward
+GGA​GCG​AGA​TCC​CTC​CAA​AAT​
+Reverse
+GGC​TGT​TGT​CAT​ACT​TCT​CATGG​
+SNHG1
+Forward
+GGA​ACA​GAC​ACG​AAG​TGG​A
+Reverse
+AGA​ACC​CAA​ACT​CAG​GCA​
+ALP
+Forward
+GAG​ATG​TTG​TCC​TGA​CAC​TTGTG​
+Reverse
+AGG​CTT​CCT​CCT​TGT​TGG​GT
+DMP-1
+Forward
+AGG​AAG​TCT​CGC​ATC​TCA​GAG​
+Reverse
+TGG​AGT​TGC​TGT​TTT​CTG​TAGAG​
+DSPP
+Forward
+ATA​TTG​AGG​GCT​GGA​ATG​GGGA​
+Reverse
+TTT​GTG​GCT​CCA​GCA​TTG​TCA​
+U6
+Forward
+CTC​GCT​TCG​GCA​GCACA​
+Reverse
+AAC​GCT​TCA​CGA​ATT​TGC​GT
+miR-328-3p
+Forward
+GCT​GGC​CCT​CTC​TGCCC​
+Reverse
+AGT​GCA​GGG​TCC​GAG​GTA​TT
+Axin1
+Forward
+GAC​CTG​GGG​TAT​GAG​CCT​GA
+Reverse
+GGC​TTA​TCC​CAT​CTT​GGT​CATC​
+ Page 4 of 13
+Fu et al. Stem Cell Research &amp; Therapy (2022) 13:311 
+blocked with goat serum at 4 °C overnight. Then, the cov-
+erslips were incubated with DSPP and DMP-1 primary 
+antibodies at 4 °C overnight. The coverslips were over-
+laid with the fluorescent dye-labeled secondary antibody 
+and kept in dark at room temperature for 1 h. Finally, the 
+glass coverslips were covered with the anti-fluorescence 
+quencher agent containing 4′,6-diamidino-2-phenylin-
+dole (DAPI; Beyotime, Shanghai, China) and then pho-
+tographed under an inverted fluorescence microscope. 
+ImageJ software was used for semi-quantitative analysis.
+Dual-Luciferase reporter assay
+293 T cells were seeded to 70 percent to 80 percent 
+confluence in a 24-well plate. Wild-type or mutant 
+SNHG1 luciferase plasmids, as well as negative control 
+or miR-328-3p mimics, were co-transfected into 293 T. 
+Luciferase activity of Renilla and firefly was measured 
+24 h after transfection, depending on Dual-Luciferase 
+Reporter Assay System (Promega, Madison, United 
+States). The light intensity from firefly luciferase is nor-
+malized by Renilla luciferase.
+Statistical analysis
+Data from three independent experiments were ana-
+lyzed by GraphPad Prism software (version 8.0; Graph-
+Pad Software, San Diego, CA) and represented the mean 
+and standard deviation (mean ± SD). The Social Science 
+Statistical Package (SPSS) software (version 26.0) was 
+used for statistical analysis. To compare the differences 
+between groups, the Student’s t test was implemented. 
+P &lt; 0.05 indicates statistical significance.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC9284872' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC9284872|primary_ab_rrid' data-pmcid='PMC9284872' data-item='primary_ab_rrid'><div class='qname'><span>RRID or antibody identifier</span><span class='ans'></span></div><div class='qdef'>An RRID for an antibody, such as RRID:AB_2160010, or a bare AB_ accession number. A catalogue number on its own is not an RRID.</div><div class='qhow'><b>What to mark.</b> Mark every distinct identifier, one at a time. If they sit in a table or a run-on list, marking the whole block once is fine and faster.<span class='eg'>In <i>(anti-GAPDH, RRID:AB_2160010)</i> mark <b>RRID:AB_2160010</b>. A paper listing eight antibodies has eight of these; mark them all, or select the block.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|ecl_reagent' data-pmcid='PMC9284872' data-item='ecl_reagent'><div class='qname'><span>ECL reagent, named</span><span class='ans'></span></div><div class='qdef'>A named ECL or substrate product. The word ECL on its own, with no product name, does not count.</div><div class='qhow'><b>What to mark.</b> Mark the product name. Leave out the manufacturer unless the name alone would not identify it.<span class='eg'>In <i>SuperSignal West Pico (Thermo)</i> mark <b>SuperSignal West Pico</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|gel_percentage' data-pmcid='PMC9284872' data-item='gel_percentage'><div class='qname'><span>Gel percentage</span><span class='ans'></span></div><div class='qdef'>The acrylamide percentage of the separating gel.</div><div class='qhow'><b>What to mark.</b> Mark the percentage. For a gradient, mark the whole range.<span class='eg'>In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|quantification_software' data-pmcid='PMC9284872' data-item='quantification_software'><div class='qname'><span>Quantification software, named</span><span class='ans'></span></div><div class='qdef'>A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark the package name only. Leave out the version and the supplier.<span class='eg'>In <i>quantified in ImageJ (v1.53, NIH)</i> mark <b>ImageJ</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|replicate_n' data-pmcid='PMC9284872' data-item='replicate_n'><div class='qname'><span>Replicate count</span><span class='ans'></span></div><div class='qdef'>A number of replicates. You are not being asked whether they are biological or technical.</div><div class='qhow'><b>What to mark.</b> Mark the number together with the words that make it a replicate count.<span class='eg'>In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|ab_catalog_any' data-pmcid='PMC9284872' data-item='ab_catalog_any'><div class='qname'><span>Antibody catalogue number</span><span class='ans'></span></div><div class='qdef'>A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block.<span class='eg'>In <i>(Abcam, ab1234)</i> mark <b>ab1234</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|protein_quant_method' data-pmcid='PMC9284872' data-item='protein_quant_method'><div class='qname'><span>Protein quantification method</span><span class='ans'></span></div><div class='qdef'>How total protein was measured before loading.</div><div class='qhow'><b>What to mark.</b> Mark the assay name only.<span class='eg'>In <i>quantified by BCA assay (Pierce)</i> mark <b>BCA</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|blocking_percent' data-pmcid='PMC9284872' data-item='blocking_percent'><div class='qname'><span>Blocking agent concentration</span><span class='ans'></span></div><div class='qdef'>A percentage attached to the blocking step. A blocking agent with no percentage does not count.</div><div class='qhow'><b>What to mark.</b> Mark the percentage only.<span class='eg'>In <i>blocked in 5% non-fat dry milk</i> mark <b>5%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|secondary_ab_conjugate' data-pmcid='PMC9284872' data-item='secondary_ab_conjugate'><div class='qname'><span>Secondary antibody conjugate</span><span class='ans'></span></div><div class='qdef'>What the secondary antibody is conjugated to.</div><div class='qhow'><b>What to mark.</b> Mark each distinct conjugate once.<span class='eg'>In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|reducing_denaturing' data-pmcid='PMC9284872' data-item='reducing_denaturing'><div class='qname'><span>Reducing or denaturing conditions</span><span class='ans'></span></div><div class='qdef'>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.</div><div class='qhow'><b>What to mark.</b> Mark the phrase or the reagent that states it.<span class='eg'>In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9284872|membrane_type' data-pmcid='PMC9284872' data-item='membrane_type'><div class='qname'><span>Membrane type</span><span class='ans'></span></div><div class='qdef'>PVDF or nitrocellulose, or another named membrane chemistry.</div><div class='qhow'><b>What to mark.</b> Mark the membrane name only.<span class='eg'>In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>2</span> of <span class='num'>6</span></h2><span class='pill'>PMC9311596</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Antioxidants · <span class='num'>2022</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC9311596'>
+2.1. Chemicals and Reagents
+Folin-Ciocalteau’s reagent, bovine serum albumin, ABTS, acarbose, sodium dodecyl
+sulfate, EDTA, sodium bicarbonate, α-glucosidase, iNOS, TNF-α, IL-6, acetylcholinesterase,
+lipopolysaccharide, acetylcholine iodide, DTNB, TPTZ, chlorogenic acid, DMSO, and Trolox
+were purchased from Sigma-Aldrich (St. Louis, MO, USA). Glycine was purchased from
+J.T.Baker (Phillipsburg, NJ, USA). DPPH, phenazine methosulphate, and nitroblue tetra-
+zolium were supplied from Tokyo Chemical Industry Co., Ltd. (Tokyo, Japan). Thiazolyl
+blue tetrazolium bromide was purchased from MedChemExpress (Monmouth Junction,
+NJ, USA). Butyl hydroxytoluene, nicotinamide adenine dinucleotide, sodium acetate, and
+potassium acetate were supplied from Acros Organics (Geel, Belgium). Ammonium per-
+sulfate and TEMED were purchased from Bio-Rad (Hercules, CA, USA). Tween20 was
+purchased from Merck (Darmstadt, Germany). Acetic acid was supplied from Macron
+Fine Chemicals (Center Valley, PA, USA). Iron (III) chloride, aluminum chloride, as well
+as p-Nitro-phenyl-α-D-glucopyranoside were purchased from Alfa Aesar (Lancashire,
+UK). Disodium hydrogenphosphate, sodium carbonate, potassium peroxodisulfate, and
+potassium dihydrogenphosphate were obtained from SHOWA Chemical Co. (Sun Valley,
+CA, USA).
+2.2. Preparation of P. sibiricum Extracts
+The rhizomes of P. sibiricum were purchased from Nantou, Taiwan, in January 2022,
+and the processed rhizomes of P. sibiricum were supplied from Changsheng Chinese
+medicine shop, Taipei city, Taiwan, in August 2021 and identified by Prof. J.-J. Chen.
+The voucher specimens were stored in the Department of Pharmacy, National Yang Ming
+Chiao Tung University, Taipei, Taiwan. First, the rhizomes of P. sibiricum (15 g) were soaked
+in 150 mL of different solvents (water, MeOH, EtOH, acetone, EtOAc, and dichloromethane)
+and shaken on an orbital shaker for 24 h at room temperature. Subsequently, the extracts
+were filtered through filter paper (Whatman No. 1) and concentrated using a rotary evapo-
+rator at 38 ◦C. Finally, all extracts were stored at -20 ◦C until further experiments.
+2.3. Preparation of Bioactive Components
+The dried rhizomes (1.0 kg) of Polygonatum sibiricum were extracted 3 times for 3 days
+with MeOH (5.0 L). The MeOH extract was concentrated under reduced pressure at 37 ◦C to
+obtain MeOH extract (120 g). The MeOH extract (fraction A, 120 g) was purified by column
+chromatography (CC) (5.4 kg of reversed-phase C18 silica gel, 200-400 mesh; H2O/MeOH
+90:1-0:1, 1800 mL) to afford 12 fractions: A1-A12. Fraction A2 (6.8 g) was subjected to CC
+(305 g of C18 silica gel, 230-400 mesh (40-63 μm); H2O/MeOH 19:1-1:1, 900 mL fractions)
+to give 11 subfractions: A2-1-A2-11. Fraction A2-3 (335 mg) was purified by HPLC (ODS
+column, H2O/MeOH 1:1, 2.0 mL min-1) to obtain rutin (31.3 mg) (tR 2.8 min).
+ Antioxidants 2022, 11, 1383
+4 of 25
+Fraction A3 (5.6 g) was chromatographed on C18 silica gel (230-400 mesh, 250 g),
+eluting with H2O/MeOH (9:1-3:7) to give 8 fractions (each 700 mL, A3-1-A3-9). Fraction
+A3-6 (347 mg) was purified by HPLC (ODS column, H2O/acetonitrile, 84:16, 1.0 mL min-1)
+to afford hyperoside (41.6 mg) (tR 9.0 min) and isoquercetin (25.4 mg) (tR 9.5 min). Frac-
+tion A5 (5.3 g) was chromatographed on C18 silica gel (230-400 mesh, 240 g) and eluted
+with H2O/MeOH (7:3-2:8) to give 10 fractions (each 650 mL, A5-1-A5-10). Fraction A5-6
+(326 mg) was purified by HPLC (ODS column, H2O/MeOH, 3:1, 1.0 mL min-1) to afford
+scopoletin (26.2 mg) (tR 12.8 min). Fraction A8 (6.8 g) was separated by column chromatog-
+raphy over Sephadex LH-20 and eluted with 100% MeOH to yield 8 fractions (A8-1-A8-8).
+Fraction A8-3 (530 mg) was purified by HPLC (ODS column, H2O/MeOH, 19:1,
+1.0 mL min-1) to afford 5-HMF (32.3 mg) (tR 3.2 min). The structures of rutin, hyper-
+oside, isoquercetin, scopoletin and 5-HMF were identified by nuclear magnetic resonance
+(NMR) spectra acquired using a Bruker Avance 600 MHz spectrometer (Bruker, Bremen,
+Germany) (Figures S1-S5).
+2.4. Reverse-Phase HPLC
+The reversed-phase HPLC assay for the measurement of the seven components was
+performed as previously described, with minor modifications [28,29]. Reversed-phase
+separations were executed using a LiChrospher 100 RP-18 Endcapped (5 μm; column of
+dimensions 4.6 × 250 mm). A reversed-phase HPLC separation was conducted using
+a mobile phase of 0.2% acetic acid in water (v/v) (solvent A) and acetonitrile (solvent
+B) as follows: 0-8 min, isocratic elution with 95% A; 8-15 min, isocratic elution with
+8% B; 15-35 min, isocratic elution with 10% B; 35-45 min, isocratic elution with 12% B;
+45-55 min, isocratic elution with 15% B; 55-65 min, isocratic elution with 25% B; 65-75 min,
+isocratic elution with 45% B; 75-95 min, isocratic elution with 55% B; 95-105 min, isocratic
+elution with 65% B; 105-130 min, gradient elution from 65 to 100% B; 130-140 min, back
+to initial 95% A. The flow rate was 1.0 mL/min, and the injection volume was 500 μL at
+room temperature. Peaks were detected at 280 nm. Different compounds were identified
+by retention time.
+2.5. Measurement of Total Phenolic Content (TPC)
+The TPC of different solvent extracts was measured using a previously reported
+method [30].
+2.6. Measurement of Total Flavonoid Content (TFC)
+The TFC of different solvent extracts was determined using a previously reported
+method [31].
+2.7. DPPH Radical Scavenging Assay
+This assay was determined using the procedure previously reported [32].
+2.8. ABTS Radical Scavenging Assay
+This assay was determined using the procedure previously reported [33].
+2.9. Superoxide Radical Scavenging Assay
+This assay was determined using the method previously reported [32].
+2.10. Ferric Reducing Antioxidant Power (FRAP) Assay
+The FRAP assay was determined using the method previously reported [34].
+2.11. α-Glucosidase Inhibitory Assay
+This assay was performed according to the previous method [35].
+ Antioxidants 2022, 11, 1383
+5 of 25
+2.12. Acetylcholinesterase Inhibitory Assay
+The AChE inhibitory assay was performed according to the previous method, with
+slight modifications [36]. First, 1 mL of DTNB (15 mM) solution, 1 mL of AChI (15 mM)
+solution, 1 mL of AChE (0.2 U/mL), and various concentrations of PS (50-400 μg/mL)
+were prepared using sodium phosphate buffer (0.1 M, pH 8.0). The reaction was started
+by adding 140 μL PBS, 10 μL DTNB solution, 15 μL AChE solution and 20 μL sample.
+The reaction mixture was incubated at 20 ◦C in the dark for 10 min, and 10 μL of AChI
+solution was added. Finally, the reaction mixture was incubated at 20 ◦C for 10 min, and
+the absorbance was measured at 405 nm.
+2.13. Cell Culture
+Murine RAW264.7 macrophages were cultured in DMEM medium containing
+10% fetal bovine serum (FBS) and 1% penicillin at 37 ◦C, 5% CO2 [37].
+2.14. Nitric Oxide Inhibitory Assay
+The NO inhibitory assay was performed based on the reference method [37].
+2.15. MTT Assay
+The MTT assay was carried out according to the previous method [37].
+2.16. Western Blot Analysis
+The Western blot analysis was performed using the reference method with slight
+modifications [37]. RAW264.7 cells were seeded in 6 cm dishes for 24 h. The cells were
+treated with sample (12.5, 25, and 50 μM) and LPS (100 ng/mL). After treatment with drugs,
+cells were washed with cold PBS, and proteins were collected with lysis buffer containing
+protein inhibitors. After quantification, equal amounts of protein samples were separated
+using 5-8% SDS-polyacrylamide gels. The proteins were transferred to the membrane
+by electrophoresis. The membranes were soaked in 2% BSA blocking buffer for 2 h and
+then washed 2-3 times with TBST. Next, the membranes were visualized with primary
+antibody (iNOS, TNF-α, and IL-6) and soaked for 1 day. The next day, membranes were
+washed again with TBST 2-3 times and then soaked with secondary antibody for 2 h.
+Finally, immuno-reactivity was detected with ECL reagents, exposed with a luminometer
+photometer, and quantified with Image J.
+2.17. Molecular Modeling Docking Study
+The in silico evaluation was performed with AutoDock Vina (ADT ver. 4.0.1) soft-
+ware [38]. Crystal structures of AChE were retrieved from the Protein Data Bank (PDB:
+1C2B), and hydrogen atoms were added to prepare the docked receptors. The 3D structures
+of the ligands were constructed in the Chem3D program. The addition of hydrogen, the
+Gasteiger charge measurement of the protein atoms and the selection of the flexible twist
+of the ligand were performed by AutodockTools (ADT ver. 1.5.6). The grid dimensions
+were designed as 15 Å × 15 Å × 15 Å for isoquercetin, 14 Å × 14 Å × 14 Å for scopoletin,
+10 Å × 10 Å × 10 Å for ru-tin, and 20 Å × 20 Å × 20 Å for chlorogenic acid. Finally, the
+crystal structure of iNOS was retrieved from the Protein Data Bank (PDB: 1M9T). The
+grid dimensions were designed as 17Å × 17Å × 17Å for rutin, 15Å × 15Å × 16Å for
+isoquercetin, 20Å × 16Å × 14Å for hyperoside, and 16Å × 16Å × 16Å for quercetin. The
+binding affinity energy was provided as a docking fraction and measured in kcal/mol.
+The best interactions were only considered to be the highest fraction of the gestalt. The
+visualization of the best docking interactions was analyzed in Biovia Discovery Studio
+Client 2021 [39].
+ Antioxidants 2022, 11, 1383
+6 of 25
+2.18. Statistical Analysis
+Statistical analysis was carried out using the t-test, and all assays were performed at
+least three times and expressed as mean ± standard error of the mean (SEM). Less than
+0.05 was considered statisti-cally significant.
+3. Results and Discussion
+3.1. Measurement of TPC, TFC and Yield in Various Solvent Extracts
+We studied the TPC, TFC and yields in different solvent extracts of Polygonatum sibir-
+icum (PS) and processed Polygonatum sibiricum (PPS). Table 1 displays TPC, TFC, and
+extraction yield of CH2Cl2, EtOAc, acetone, MeOH, EtOH, and water extracts from PS and
+PPS. The yields of various solvent extracts were ranged from 13.49 ± 1.53% (methanol
+extract) to 0.35 ± 0.12% (dichloromethane extract) of PS, and 15.90 ± 2.64% (water ex-
+tract) to 1.25 ± 0.03% (dichloromethane extract) of PPS. The dichloromethane extract
+of PS and ethyl acetate extract of PPS showed the highest TPC with 77.50 ± 7.34 and
+60.47 ± 1.91 mg/g, respectively. The highest TFC (86.02 ± 1.54 and 98.30 ± 0.47 mg/g)
+were found in the ethyl acetate extracts of PS and PPS, respectively, among all solvent
+extracts (Table 1).
+Table 1. Total phenol contents (TPC), total flavonoid contents (TFC) and extraction yields of different
+solvent extracts from Polygonatum sibiricum.
+Extracting
+Solvents
+TPC (mg/g) a
+(GAE)
+TFC (mg/g) b
+(QCE)
+Yields (%) c
+PS
+PPS
+PS
+PPS
+PS
+PPS
+Dichloromethane
+77.50 ± 7.34 *
+52.52 ± 0.47 **
+65.15 ± 6.51 ***
+26.86 ± 5.81 **
+0.35 ± 0.12
+1.25 ± 0.03
+Ethyl acetate
+54.84 ± 4.56 *
+60.47 ± 1.91 *
+86.02 ± 1.54 ***
+98.30 ± 0.47 ***
+1.23 ± 0.50
+2.25 ± 0.01
+Acetone
+75.61 ± 7.51 *
+53.11 ± 2.26 **
+25.21 ± 5.84 ***
+20.70 ± 4.56 **
+0.54 ± 0.06
+3.75 ± 0.15
+Ethanol
+50.82 ± 7.56 *
+26.52 ± 1.62 *
+14.51 ± 3.27 *
+19.66 ± 4.38 **
+5.32 ± 0.58
+5.60 ± 0.89
+Methanol
+46.37 ± 5.44 *
+28.92 ± 2.46 **
+9.94 ± 1.34 ***
+22.02 ± 4.44 **
+13.49 ± 1.53
+10.45 ± 1.57
+Water
+36.87 ± 3.86 **
+32.55 ± 2.34 **
+12.22 ± 3.47 ***
+21.13 ± 2.51 ***
+5.36 ± 0.97
+15.90 ± 2.64
+a TPC was displayed in mg of gallic acid equivalents (GAE) per gram of fresh extract. b TFC was displayed
+in mg of quercetin equivalents (QCE) per gram of fresh extract. c Yield was calculated as % yield = (weight of
+fresh extract/initial weight of dry sample) × 100. Values are expressed as means ± SD (n = 3). *** p &lt; 0.001,
+** p &lt; 0.01, and * p &lt; 0.05 compared with the control. PS means Polygonatum sibiricum. PPS means processed
+Polygonatum sibiricum.
+3.2. DPPH Free-Radical Scavenging Effect of Various Solvent Extracts
+The DPPH radical scavenging ability of different solvent extracts is displayed in
+Table 2. BHT was used as a positive control. From the results, the dichloromethane
+(SC50 = 236.14 ± 3.89 μg/mL) and acetone extracts (SC50 = 278.31 ± 3.26 μg/mL) of PS
+showed relatively strong antioxidant effects by DPPH radical scavenging assay among
+all extracts.
+3.3. ABTS Free-Radical Scavenging Effect of Various Solvent Extracts
+The ABTS radical scavenging ability of different solvent extracts is displayed in Table 2.
+The acetone extract (SC50 = 229.37 ± 5.59 μg/mL) of PS showed the greatest ABTS radical
+scavenging effect, followed by dichloromethane extract (SC50 = 240.49 ± 5.68 μg/mL), ethanol
+extract (SC50 = 245.48 ± 3.59 μg/mL), and methanol extract (SC50 = 364.48 ± 3.21 μg/mL).
+3.4. Superoxide Radical Scavenging Effect of Various Solvent Extracts
+The results are shown in Table 2. All extracts had no scavenging activity against superox-
+ide radicals (SC50 &gt; 400 g/mL), except for the EtOAc extract (SC50 = 190.23 ± 1.09 μg/mL)
+and water extract (SC50 = 294.54 ± 7.28 μg/mL) of PS.
+ Antioxidants 2022, 11, 1383
+7 of 25
+Table 2. Antioxidant effects of different solvent extracts from Polygonatum sibiricum measured by
+DPPH, ABTS, superoxide, and FRAP assays.
+Extracting
+Solvents
+SC50 (μg/mL) a
+TE (mM/g) c
+DPPH
+ABTS
+Superoxide
+FRAP
+PS
+PPS
+PS
+PPS
+PS
+PPS
+PS
+PPS
+Dichloromethane
+236.14 ± 3.89 ***
+&gt;400
+240.49 ± 5.68 ***
+&gt;400
+&gt;400
+&gt;400
+667.08 ± 18.56 **
+322.26 ± 5.46 *
+Ethyl acetate
+&gt;400
+&gt;400
+&gt;400
+&gt;400
+190.23 ± 1.09 ***
+&gt;400
+651.03 ± 20.56 **
+604.38 ± 3.73 *
+Acetone
+278.31 ± 3.26 ***
+&gt;400
+229.37 ± 5.59 ***
+&gt;400
+&gt;400
+&gt;400
+515.84 ± 24.86 **
+362.87 ± 7.48 *
+Ethanol
+&gt;400
+&gt;400
+245.48 ± 3.59 ***
+&gt;400
+&gt;400
+&gt;400
+431.13 ± 18.70 **
+234.39 ± 1.75 **
+Methanol
+&gt;400
+&gt;400
+346.48 ± 3.21 ***
+&gt;400
+&gt;400
+&gt;400
+414.40 ± 17.74 **
+203.03 ± 4.08 *
+Water
+&gt;400
+&gt;400
+&gt;400
+&gt;400
+294.54 ± 7.28 **
+&gt;400
+296.71 ± 16.46 *
+116.01 ± 2.11 *
+BHT b
+35.54 ± 0.64 **
+20.57 ± 0.22 **
+N.A. d
+3005.93 ± 13.10 ***
+a SC50 value was defined as the concentration of the samples causing 50% free radical scavenging and was
+displayed as mean ± SD (n = 3). b Butylated hydroxytoluene (BHT) was used as a positive control. c Ferric
+reducing antioxidant power (FRAP) assay was displayed as millimolar (mM) of Trolox equivalents (TE) per gram
+of fresh extract. d N.A. indicates not available (poor solubility). *** p &lt; 0.001, ** p &lt; 0.01, and * p &lt; 0.05 compared
+with the control. PS means Polygonatum sibiricum. PPS means processed Polygonatum sibiricum.
+3.5. Ferric Reducing Antioxidant Power (FRAP) Effect of Various Solvent Extracts
+The FRAP activities of all extracts are shown in Table 2, and BHT was used as a positive
+control. The FRAP assay is expressed as millimoles (mM) of Trolox equivalents (TE) per
+gram of extract. The dichloromethane extract (667.08 ± 18.56 mM TE/g), ethyl acetate
+extract (651.03 ± 20.56 mM TE/g) and acetone extract (515.84 ± 24.86 mM TE/g) of PS and
+ethyl acetate extract (604.38 ± 3.73 mM TE/g) of PPS showed relatively high antioxidant
+capacity. Based on the aforementioned antioxidant data (DPPH and FRAP assays), the
+dichloromethane extracts of PS showed relatively high antioxidant effects among all the
+extracts. As for the ethyl acetate extract of PS, it showed a higher antioxidant effect by the
+superoxide radical scavenging test.
+3.6. Anti-α-Glucosidase Effect of Various Solvent Extracts
+As presented in Table 3, the ethyl acetate extract of P. sibiricum had the strongest
+anti-α-glucosidase activity (IC50 = 22.34 ± 1.66 μg/mL), followed by acetone extract
+(IC50 = 26.13 ± 2.48 μg/mL) and dichloromethane extract (IC50 = 34.29 ± 6.26 μg/mL).
+Table 3. Anti-α-glucosidase and acetylcholinesterase inhibitory effects of different solvent extracts.
+Extracting
+Solvents
+α-Glucosidase
+IC50 (μg/mL) a
+AChE
+IC50 (μg/mL) a
+PS
+PPS
+PS
+PPS
+Dichloromethane
+34.29 ± 6.26 *
+&gt;600
+60.90 ± 6.18 **
+56.27 ± 7.11 ***
+Ethyl acetate
+22.34 ± 1.66 **
+&gt;600
+86.91 ± 3.25 **
+32.60 ± 5.27 *
+Acetone
+26.13 ± 2.48 ***
+&gt;600
+65.54 ± 10.70 **
+68.45 ± 4.95 ***
+Ethanol
+&gt;600
+&gt;600
+63.41 ± 7.58 **
+&gt;400
+Methanol
+&gt;600
+&gt;600
+65.59 ± 5.83 **
+&gt;400
+Water
+&gt;600
+&gt;600
+94.07 ± 5.00
+&gt;400
+Acarbose b
+379.07 ± 4.23 *
+-
+Chlorogenic acid b
+-
+23.27 ± 0.10 *
+a The IC50 value was defined as half-maximal inhibitory concentration, and was expressed as mean ± SD
+(n = 3). b Acarbose and chlorogenic acid were applied as positive controls. *** p &lt; 0.001, ** p &lt; 0.01, and * p &lt; 0.05
+compared with the control. PS means Polygonatum sibiricum. PPS means processed Polygonatum sibiricum.
+The dichloromethane, ethyl acetate and acetone extracts of PS were more effective
+than the positive control, acarbose (IC50 = 379.07 ± 4.23 μg/mL). These results suggest
+that the low-polarity solvent extracts of PS had a higher α-glucosidase inhibitory effect
+(Table 3).
+ Antioxidants 2022, 11, 1383
+8 of 25
+3.7. Acetylcholinesterase (AChE) Inhibitory Effect of Various Solvent Extracts
+Alzheimer’s disease (AD) is a progressive, neurodegenerative disease characterized by
+a decline in cognitive and memory functions. Acetylcholinesterase (AChE) inhibitors block
+the AChE enzyme, thus revitalizing cholinergic action to improve memory and cognitive
+function. The AChE inhibitory effect of each extract is presented in Table 3, and the AChE
+inhibitor, chlorogenic acid, is used as a positive control [40]. From our test results, the
+dichloromethane extract (IC50 = 60.90 ± 6.18 μg/mL) of PS and the ethyl acetate extract
+(IC50 = 32.60 ± 5.27 μg/mL) and dichloromethane extract (IC50 = 56.27 ± 7.11 μg/mL) of
+PPS showed the most effective AChE-inhibitory effect among all extracts.
+3.8. Nitric Oxide Inhibitory (NO) Effect of Various Solvent Extracts
+The NO inhibitory assay of each extract is displayed in Table 4 and Figure 2. Quercetin
+is used as a positive control.
+From our test results, the dichloromethane extract
+(IC50 = 18.84 ± 1.80 μg/mL) of PS and dichloromethane extract (IC50 = 27.48 ± 6.99 μg/mL)
+of PPS show the greatest NO inhibitory effect among all solvent extracts.
+Table 4. Nitric oxide inhibitory effects of various solvent extracts.
+Extracting Solvents
+Nitric Oxide
+IC50 (μg/mL) a
+PS
+PPS
+Dichloromethane
+18.84 ± 1.80 **
+27.48 ± 6.99 **
+Ethyl acetate
+45.22 ± 6.80 **
+61.08 ± 2.88 **
+Acetone
+40.68 ± 6.13 **
+105.94 ± 8.63 *
+Ethanol
+81.23 ± 2.26 *
+181.80 ± 7.63 *
+Methanol
+91.14 ± 8.18 *
+157.43 ± 9.56 *
+Water
+176.82 ± 8.64 *
+202.85 ± 19.41 *
+Quercetin b
+7.52 ± 0.25 *
+a The IC50 value was defined as half-maximal inhibitory concentration, and was expressed as mean ± SD
+(n = 3). b Quercetin was applied as positive control. ** p &lt; 0.01, and * p &lt; 0.05 compared with the control. PS
+means Polygonatum sibiricum. PPS means processed Polygonatum sibiricum.
+3.9. MTT Assay of Various Solvent Extracts
+The MTT assay is mainly used to detect the cytotoxicity of tested samples. From the
+MTT assay (Figure 2), the cell survival rate of various extracts of PS and PPS is higher than
+80%, and this suggests that the inhibitory activity of these extracts against LPS-induced
+NO production does not result from their cytotoxicities.
+3.10. Quantitation of Bioactive Components in Various Solvent Extracts
+Figures S1-S18 showed the quantification of bioactive compounds in various sol-
+vent extracts of Polygonatum sibiricum by reversed-phase HPLC analysis and the 1H-NMR
+spectra of bioactive compounds. Table S1 displayed retention time, limit of detection
+(LOD), limit of quantification (LOQ), and regression analysis for five components of
+P. sibiricum in reversed phase HPLC. The amounts of the five bioactive compounds in
+different solvent extracts are illustrated in Table 5. The content of five bioactive compounds
+in different solvent extracts of PS ranged from the highest value of 17.25 ± 1.68 mg/g
+(dichloromethane extract) to the lowest value of 6.77 ± 0.50 mg/g (water extract), in order
+of dichloromethane &gt; ethanol &gt; ethyl acetate &gt; methanol &gt; acetone &gt; water extract. In addi-
+tion, the sum of the five bioactive compounds in different solvent extracts of PPS ranged
+from a maximum value of 27.49 ± 2.31 mg/g (dichloromethane extract) to a minimum value of
+17.19 ± 2.66 mg/g (water extract), in order of dichloromethane &gt; acetone &gt; ethanol &gt; methanol
+&gt; ethyl acetate &gt; water extract. Both PS and PPS showed the presence of 5-HMF in different
+solvent extracts, but the content of PPS was much higher than that of PS. However, scopo-
+letin was only present in PS and not in PPS (Table 5). The five major bioactive compounds
+ Antioxidants 2022, 11, 1383
+9 of 25
+are 5-hydroxymethylfurfural (5-HMF) (1), scopoletin (2), isoquercetin (3), hyperoside (4),
+and rutin (5) (Figure 3).
+Figure 2. Nitric oxide inhibitory and MTT assays of various solvent extracts of PS (A) and PPS (B).
+The data are displayed as mean ± SD (n = 3); Quercetin is used as a positive control; PS means
+Polygonatum sibiricum. PPS means processed Polygonatum sibiricum. a p &lt; 0.001, b p &lt; 0.01, and
+c p &lt; 0.05 compared to control.
+ Antioxidants 2022, 11, 1383
+10 of 25
+Table 5. Quantification of the major bioactive compounds from Polygonatum sibiricum in various
+solvent extracts.
+Extracting
+Solvents
+5-HMF
+(mg/g)
+Scopoletin
+(mg/g)
+Rutin
+(mg/g)
+Hyperoside
+(mg/g)
+Isoquercetin
+(mg/g)
+Total Amount
+(mg/g)
+Water (PS)
+3.73 ± 0.22
+N.D. a
+1.80 ± 0.18
+N.D. a
+1.24 ± 0.10
+6.77 ± 0.50
+Methanol (PS)
+5.73 ± 0.36
+1.17 ± 0.08
+1.60 ± 0.11
+2.14 ± 0.22
+2.66 ± 0.13
+13.30 ± 0.90
+Ethanol (PS)
+6.43 ± 0.48
+2.85 ± 0.19
+1.51 ± 0.10
+1.44 ± 0.09
+1.26 ± 0.13
+13.49 ± 0.99
+Acetone (PS)
+5.23 ± 0.61
+2.33 ± 0.22
+1.24 ± 0.09
+1.21 ± 0.16
+1.02 ± 0.06
+11.03 ± 1.14
+Ethyl acetate (PS)
+3.84 ± 0.22
+4.69 ± 0.35
+1.32 ± 0.07
+2.34 ± 0.28
+1.22 ± 0.08
+13.41 ± 1.00
+Dichloromethane (PS)
+5.63 ± 0.48
+2.12 ± 0.34
+3.21 ± 0.33
+1.93 ± 0.09
+4.36 ± 0.44
+17.25 ± 1.68
+Water (PPS)
+12.81 ± 2.38
+N.D. a
+1.30 ± 0.07
+1.24 ± 0.09
+1.84 ± 0.12
+17.19 ± 2.66
+Methanol (PPS)
+20.83 ± 1.84
+N.D. a
+1.82 ± 0.11
+1.24 ± 0.13
+1.74 ± 0.18
+25.63 ± 2.26
+Ethanol (PPS)
+22.43 ± 2.12
+N.D. a
+N.D. a
+3.64 ± 0.32
+N.D. a
+26.07 ± 2.44
+Acetone (PPS)
+24.63 ± 1.92
+N.D. a
+N.D. a
+2.26 ± 0.13
+N.D. a
+26.89 ± 2.05
+Ethyl acetate (PPS)
+21.86 ± 2.13
+N.D. a
+N.D. a
+3.44 ± 0.31
+N.D. a
+25.03 ± 2.44
+Dichloromethane (PPS)
+23.86 ± 1.88
+N.D. a
+N.D. a
+3.63 ± 0.43
+N.D. a
+27.49 ± 2.31
+Results are displayed as milligrams of each component in gram of extract. a N.D. is characterized as not detected
+(less than LOD); PS means Polygonatum sibiricum, and PPS means processed Polygonatum sibiricum.
+ 
+Figure 3. Chemical structures of 5-hydroxymethylfurfural (1), scopoletin (2), isoquercetin (3), hypero-
+side (4), and rutin (5) from Polygonatum sibiricum.
+3.11. Antioxidant Effects of Isolated Components
+Antioxidant assay results of isolated components (1-5) are displayed in Table 6. Rutin
+(5) (SC50 = 5.60 ± 0.34 μM) showed the strongest DPPH radical scavenging
+effect, followed by hyperoside (4) (SC50 = 12.46 ± 4.02 μM), and isoquercetin (3)
+(SC50 = 12.64 ± 3.21 μM). Rutin (5) (SC50 = 15.43 ± 0.25 μM) also showed the most potent
+ABTS scavenging effect, followed by isoquercetin (3) (SC50 = 22.73 ± 1.17 μM) and hyper-
+oside (4) (SC50 = 29.26 ± 0.51 μM). Compounds 3, 4 and 5 displayed higher superoxide
+radical scavenging effects than 1 and 2. In addition, compounds 3 and 4 showed a more
+effective antioxidant effect than BHT by FRAP assay (Table 6).
+ Antioxidants 2022, 11, 1383
+11 of 25
+Table 6. Antioxidant effects of isolated components from Polygonatum sibiricum measured by DPPH,
+ABTS, superoxide, and FRAP assays.
+Compounds
+SC50 (μM) a
+(mM/g) (TE) c
+DPPH
+ABTS
+Superoxide
+FRAP
+5-HMF (1)
+&gt;400
+&gt;400
+&gt;400
+26.70 ± 0.97 *
+Scopoletin (2)
+&gt;400
+91.27 ± 3.36 *
+&gt;400
+2892.97 ± 19.18 ***
+Isoquercetin (3)
+12.64 ± 3.21 *
+22.73 ± 1.17 *
+179.62 ± 4.43 **
+3898.88 ± 23.23 ***
+Hyperoside (4)
+12.46 ± 4.02 *
+29.26 ± 0.51 *
+172.50 ± 3.80 **
+3246.93 ± 31.92 ***
+Rutin (5)
+5.60 ± 0.34 ***
+15.43 ± 0.25 **
+174.82 ± 3.02 **
+2221.33 ± 5.02 ***
+BHT b
+192.28 ± 8.94 *
+100.35 ± 7.26 *
+N.A. d
+2896.93 ± 21.19 ***
+a SC50 value was defined as the concentration of the samples causing 50% free radical scavenging and was
+displayed as mean ± SD (n = 3). b Butylated hydroxytoluene (BHT) was used as a positive control. c Ferric
+reducing antioxidant power (FRAP) assay was displayed as millimolar (mM) of Trolox equivalents (TE) per gram
+of extract. d N.A. indicates not available (poor solubility). *** p &lt; 0.001, ** p &lt; 0.01, and * p &lt; 0.05 compared with
+the control.
+3.12. Anti-α-Glucosidase Effects of Isolated Components
+As displayed in Table 7, scopoletin (2) (IC50 = 23.63 ± 7.22 μM) showed the most effec-
+tive anti-α-glucosidase effect, followed by isoquercetin (3) (IC50 = 159.73 ± 3.12 μM), hy-
+peroside (4) (IC50 = 208.14 ± 5.70 μM), and rutin (5) (IC50 = 331.15 ± 3.81 μM). Compounds
+2-5 showed more potent anti-α-glucosidase effect than the positive control, acarbose
+(IC50 = 550.15 ± 7.65 μM) (Table 7).
+Table 7. Anti-α-glucosidase and anti-acetylcholinesterase effects of isolated compounds.
+Compounds
+α-Glucosidase
+AChE
+IC50 (μM) a
+5-HMF (1)
+&gt;600
+81.46 ± 11.05 **
+Scopoletin (2)
+23.63 ± 7.22 ***
+32.35 ± 2.05 **
+Isoquercetin (3)
+159.73 ± 3.12 ***
+23.13 ± 3.15 ***
+Hyperoside (4)
+208.14 ± 5.70 ***
+121.10 ± 10.70 **
+Rutin (5)
+331.15 ± 3.81 **
+33.09 ± 5.43 **
+Acarbose b
+550.15 ± 7.65 *
+-
+Chlorogenic acid b
+-
+68.23 ± 2.90 *
+a The IC50 value was defined as half-maximal inhibitory concentration, and was expressed as mean ± SD
+(n = 3). b Acarbose and chlorogenic acid were used as positive controls for anti-α-glucosidase and anti-AChE
+assays, respectively. *** p &lt; 0.001, ** p &lt; 0.01, and * p &lt; 0.05 compared with the control.
+3.13. Acetylcholinesterase (AChE) Inhibitory Effects of Isolated Compounds
+As shown in Table 7, isoquercetin (3) (IC50 = 23.13 ± 3.15 μM) exhibited the
+strongest anti-AChE effect, followed by scopoletin (IC50 = 32.35 ± 2.05 μM), rutin (5)
+(IC50 = 33.09 ± 5.43 μM), 5-HMF (IC50 = 81.46 ± 11.05 μM), and hyperoside (4)
+(IC50 = 121.10 ± 10.70 μM). Compounds 2, 3 and 5 showed more effective anti-AChE
+activities than the positive control, chlorogenic acid (68.23 ± 2.90 μM).
+3.14. Nitric Oxide (NO) Inhibitory Effect of Isolated Components
+As showed in Table 8 and Figure 4, rutin (5) (IC50 = 9.89 ± 1.36 μM) showed the strongest
+nitric oxide inhibitory effect, followed by isoquercetin (3) (IC50 = 17.03 ± 1.28 μM), hypero-
+side (4) (IC50 = 18.87 ± 1.68 μM), 5-HMF (1) (IC50 = 34.90 ± 8.80 μM) and scopoletin (2)
+(IC50 = 36.26 ± 4.65 μM). Compounds 3 and 5 exhibited more effective anti-NO activities
+than the positive control, quercetin (18.26 ± 0.54 μM).
+ Antioxidants 2022, 11, 1383
+12 of 25
+Table 8. Nitric oxide inhibitory assay of isolated compounds.
+Compounds
+Nitric Oxide
+IC50 (μM) a
+5-HMF (1)
+34.90 ± 8.80 *
+Scopoletin (2)
+36.26 ± 4.65 *
+Isoquercetin (3)
+17.03 ± 1.28 **
+Hyperoside (4)
+18.87 ± 1.68 *
+Rutin (5)
+9.89 ± 1.36 **
+Quercetin b
+18.26 ± 0.54 *
+a The IC50 value was defined as half-maximal inhibitory concentration, and was expressed as mean ± SD (n = 3).
+b Quercetin was applied as a positive control. ** p &lt; 0.01, and * p &lt; 0.05 compared with the control.
+Figure 4. Nitric oxide inhibitory and MTT assays of isolated compounds. The data are displayed
+as mean ± SD (n = 3). Quercetin is used as a positive control; a p &lt; 0.001, b p &lt; 0.01, and c p &lt; 0.05
+compared to control.
+3.15. MTT Assay of Isolated Components
+As shown in Figure 4, the cell survival rate of all isolated compounds at 100 μM was
+higher than 80%, and this suggested that the inhibitory activity of these isolated compounds
+against LPS-induced NO production does not result from their cytotoxicities.
+3.16. Western Blot Analysis of Isolated Components
+Rutin (5), isoquercetin (3), and hyperoside (4), with their better inhibitory activity
+against NO production, were selected for further analysis of their inhibitory effect on iNOS.
+As shown in Figure 5, compounds 3, 4, and 5 significantly inhibited iNOS production
+in a concentration-dependent manner. Therefore, the reason for their inhibition of NO
+production can be verified.
+ Antioxidants 2022, 11, 1383
+13 of 25
+Figure 5. Western blot analysis of iNOS protein of rutin (5), isoquercetin (3), and hyperoside (4).
+Quantification data of iNOS/β-actin are expressed as mean ± SEM. Quercetin was used as positive
+control. * p &lt; 0.05 vs. control group, # p &lt; 0.05 vs. LPS group.
+In addition, compounds 3, 4, and 5 were further tested for their activity in inhibiting
+the production of TNF-α and IL-6. As displayed in Figure 6, compounds 3, 4, and 5 also
+significantly inhibited the production of TNF-α and IL-6 in a concentration-dependent
+manner. This verifies that these compounds possess potent anti-inflammatory activity.
+3.17. Molecular Docking Study
+To further investigate the interaction between biologically active compounds and
+acetylcholinesterase and try to explain how these compounds exert their antagonistic
+effects, docking models of compounds were generated using the Discovery Studio 2021
+(Accelrys, San Diego, CA, USA) modeling program. The crystal structure (PDB: 1C2B) of
+acetylcholinesterase from Electrophorus electricus was also used in this study [41].
+The molecular docking simulations were performed along with the binding affinity
+calculations for PDB: 1C2B (acetylcholinesterase) and active compounds. The interactions
+between active compounds and PDB: 1C2B were displayed in the best-docked poses for the
+calculations. These results demonstrate the high accuracy of the existing simulation system,
+thereby supporting further calculations. The lowest binding energy for each ligand was
+considered the optimal conformation, and the binding affinities are shown in Table 9. In this
+study, chlorogenic acid was used as a positive control. The binding energies of isoquercetin
+(3) (-7.5 kcal/mol), scopoletin (2) (-7.0 kcal/mol), and rutin (5) (-6.8 kcal/mol) were
+ Antioxidants 2022, 11, 1383
+14 of 25
+lower than those of chlorogenic acid (-5.3 kcal/mol), suggesting that these compounds
+can have better docking ability with the crystal structure of PDB: 1C2B.
+Figure 6. Western blot analysis of TNF-α and IL-6 proteins of rutin (2), isoquercetin (3), and hyper-
+oside (5). Quantification data of TNF-α/β-actin and IL-6/β-actin are expressed as mean ± SEM;
+Quercetin was applied as positive control. * p &lt; 0.05 vs. control group, # p &lt; 0.05 vs. LPS group.
+ Antioxidants 2022, 11, 1383
+15 of 25
+Table 9. Binding energies of active compounds and chlorogenic acid with AChE calculated in silico.
+Compounds
+Affinity (kcal/mol)
+5-HMF (1)
+-4.8
+Scopoletin (2)
+-7.0
+Isoquercetin (3)
+-7.5
+Hyperoside (4)
+-3.2
+Rutin (5)
+-6.8
+Chlorogenic acid a
+-5.3
+a Chlorogenic acid was used as a positive control.
+Interactions of isoquercetin (3) with the active sites of E. electricus acetylcholinesterase
+(AChE) are shown in Figure 7. Isoquercetin is bound to GLU 202, TYR 124, ASP 74,
+ASN 87 and GLY 120 via conventional hydrogen bonding, with unfavorable donor-donor
+interactions found on ARG 296. There are other interactions with isoquercetin, such as
+π-cation, π-lone pair and π-π T-shaped interactions, which can mainly form stable com-
+plexes of isoquercetin and protein.
+ 
+Figure 7. Interactions of isoquercetin (3) with active sites of E. electricus AChE.
+Molecular docking of scoloptein (2) and E. electricus acetylcholinesterase is shown
+in Figure 8. Scoloptein binds to GLY 448 via carbon-hydrogen bonding and to TRP 86
+via conventional hydrogen bonding. In addition, there is a π-π stacked interaction with
+scoloptein to make a stable complex of scoloptein and AChE.
+ Antioxidants 2022, 11, 1383
+16 of 25
+ 
+Figure 8. Interactions of scopoletin (2) with active sites of E. electricus AChE.
+Interactions of rutin (5) with the active sites of E. electricus AChE are shown in
+Figure S19. Rutin (5) binds to TYR 124 and GLN 71 via conventional hydrogen bond-
+ing and to TRP 286, PRO 88, and SER 125 via carbon-hydrogen bonding. Unfavorable
+donor-donor and unfavorable acceptor-acceptor interactions were found on PHE 295,
+TYR 341, and TYR 337. There are other interactions with rutin, such as π-π T-shaped, alkyl,
+and π-π stacked interactions to make a stable complex of rutin and AChE.
+From the above results, it can be concluded that the binding energies of compounds 2,
+3, and 5 are better than that of chlorogenic acid, as shown in Table 9. Likewise, the anti-
+AChE effects of compounds 2, 3, and 5 were confirmed to be superior to that of chlorogenic
+acid (Figure 9).
+According to the results of the NO production inhibition test (Table 8) and the Western
+blotting results of a related protein, inducible nitric oxide synthase (iNOS) (Figure 6),
+the three active compounds, rutin (5), isoquercetin (3), and hyperoside (4), all have anti-
+inflammatory potential. Therefore, these three compounds were used in a molecular
+docking model to see their binding abilities to iNOS. The 3D structure (PDB: 1M9T) of
+iNOS used as a docking model is from Mus musculus, and the active site consists of four
+pockets, where the substrate-binding S pocket contains heme [42].
+ Antioxidants 2022, 11, 1383
+17 of 25
+ 
+Figure 9. Interactions of chlorogenic acid with active sites of E. electricus AChE.
+Interactions of rutin (5) with the active sites of Mus musculus iNOS are shown in
+Figure 10. Rutin mainly forms a conventional hydrogen bond with GLY 365, and even with
+GLN 257, ARG 382 and GLU 371, and it also forms π-alkyl interactions with VAL 346 and
+PRO 344. Rutin forms multiple interactions with HEM 901, such as π-cations, π-π stacked,
+π-donor hydrogen bonds, carbon-hydrogen bonds, and conventional hydrogen bonds,
+which increases the parallelism between rutin and HEM 901 and increases the affinity of
+rutin and iNOS.
+The next compound is isoquercetin (3), which mainly forms conventional hydrogen
+bonds with TRP 366 and even with GLU 371, ASP 376 and ARG 382, and also forms π-alkyl
+interactions with PRO 344 and VAL 346. Carbon hydrogen bonds are observed between
+isoquercetin and GLN 371 and GLN 257. Most importantly, isoquercetin forms π-π-carbon
+and π-π stacked interactions with HEM 901 to remain parallel to HEM 901 and increase the
+affinity of isoquercetin and iNOS. (Figure 11).
+The last is hyperoside (4), which mainly forms conventional hydrogen bonds with
+TRP 366 as well as with GLU 371, ASP 376, GLN 257, SER 256 and ARG 382. Hyperoside
+also forms π-alkyl interactions with PRO 344 and VAL 346. In addition, hyperoside forms
+π-cation, π-π stacked, and conventional hydrogen bond interactions with HEM 901 to
+increase their affinity (Figure 12).
+ Antioxidants 2022, 11, 1383
+18 of 25
+ 
+Figure 10. Interactions of rutin (5) with active sites of M. musculus iNOS.
+ 
+Figure 11. Interactions of isoquercetin (3) with active sites of M. musculus iNOS.
+ Antioxidants 2022, 11, 1383
+19 of 25
+ 
+Figure 12. Interactions of hyperoside (4) with active sites of M. musculus iNOS.
+According to the binding energy data presented in Table 10, the binding affinity of
+rutin (5) was significantly higher than compounds 1-4 and the positive control quercetin
+(Figure 13). This indicated that rutin (5) has the greatest binding affinity with iNOS, which
+is consistent with the strongest anti-NO activity of rutin (5) presented in Table 8.
+Table 10. Binding energies of active compounds and quercetin with iNOS calculated in silico.
+Compounds
+Affinity (kcal/mol)
+5-HMF (1)
+-5.8
+Scopoletin (2)
+-5.5
+Isoquercetin (3)
+-7.3
+Hyperoside (4)
+-6.8
+Rutin (5)
+-9.5
+Quercetin a
+-7.9
+a Quercetin was used as a positive control.
+ Antioxidants 2022, 11, 1383
+20 of 25
+ 
+Figure 13. Interactions of quercetin with active sites of M. musculus iNOS.
+4. Discussion
+Various approaches have been devoted to extracting natural products (i.e., herbs,
+plants and fungi) to replace modern medicines. For many years, the most common extrac-
+tion methods were boiling or decoction, both of which were considered cost-effective and
+easy to perform. Researching and finding natural ingredients with health benefits from
+medicinal plants is a hot trend these days. In recent studies, organic solvents have been
+used to obtain extracts of natural products, including various metabolites, depending on the
+polarity and properties of these specific compounds [43]. Other exogenous factors may also
+affect natural product extraction, including the type of solvent used, the temperature altered
+during extraction, and the property of the plant material [44]. Changes in solvent polarity
+can lead to differences in phytochemical composition and biological activity. Therefore, the
+rhizomes of Polygonum sibiricum were extracted using solvents of different polarities, and
+the biological activities of the extracts and isolated compounds were evaluated. The results
+show that by using solvents of different polarities, different extracts and components with
+different contents can be obtained and show different biological activities.
+The ABTS and DPPH assays are mainly used to evaluate the antioxidant effects of
+natural compounds, which are usually related to the proton radical scavenging or hydro-
+gen donating capacity of the compounds [45]. The superoxide radical scavenging effect
+is assessed by superoxide anion derived from dissolved oxygen by phenazine methosul-
+phate/nicotinamide adenine dinucleotide (PMS/NADH) coupling reaction, which reduces
+nitroblue tetrazolium (NBT) [46]. The FRAP assay is evaluated by the antioxidant poten-
+tial of various extracts and samples by reducing iron (Fe3+) complexes to ferrous (Fe2+)
+complexes [47]. In our study, dichloromethane and acetone extracts of PS show higher
+antioxidant effects than other extracts in DPPH and ABTS assays, which correlates with
+their higher TPC than other extracts.
+ Antioxidants 2022, 11, 1383
+21 of 25
+A comparative assessment of the TPC, TFC, and antioxidant effects (DPPH, ABTS,
+superoxide, and FRAP) of various solvent extracts (CH2Cl2, EtOAc, acetone, EtOH, MeOH,
+and water) of PS and PPS was demonstrated for the first time in this study. This may give
+a direction for the choice of suitable solvents for TFC, TPC, and antioxidant extraction
+applications. According to the antioxidant assay result, rutin (5) (SC50 = 5.60 ± 0.34 μM)
+showed the strongest DPPH radical scavenging effect. Compounds 3, 4 and 5 displayed
+higher superoxide radical scavenging effects than 1 and 2. In addition, compounds 3 and 4
+showed a more effective antioxidant effect than BHT by FRAP assay.
+Among all antidiabetic drugs used to treat type 2 diabetes, α-glucosidase inhibitors are
+considered to be the most effective drugs for reducing postprandial hyperglycemia. Currently,
+acarbose, voglibose, and miglitol are effective enzyme inhibitors for the treatment of postprandial
+hyperglycemia, but these inhibitors have side effects on the gastrointestinal tract; therefore, they
+are not suitable for long-term use [48]. Scopoletin (2) (IC50 = 23.63 ± 7.22 μM), isoquercetin
+(3) (IC50 = 159.73 ± 3.12 μM) and hyperoside (4) (IC50 = 208.14 ± 5.70 μM) showed more
+potent anti-α-glucosidase activity than acarbose (IC50 = 550.15 ± 7.65 μM). Compound 2 is
+about 10 times more potent than acarbose against α-glucosidase.
+Alzheimer’s disease (AD) is a progressive degenerative brain disease in which cognitive
+and memory functions deteriorate. It is primarily treated by AChE inhibitors that increase
+the cholinergic effects of the brain. In contrast, chlorogenic acid, a phenolic acid derived from
+food (fruits and vegetables), has been shown to have neuroprotective properties associated
+with Alzheimer’s disease [24,49]. From the previous research data, isoquercetin (3) has
+attracted the attention of many researchers because of its potential to improve brain memory
+function through different mechanisms, so it is believed to have a certain role in delaying the
+progression of AD memory loss [50]. In our study, isoquercetin (3) (IC50 = 23.13 ± 3.15 μM),
+scopoletin (2) (IC50 = 32.35 ± 2.05 μM) and rutin (5) (IC50 = 33.09 ± 5.43 μM) also show potent
+anti-AChE effects and deserve further investigation.
+Based on the results of the anti-AChE assay, compound 3 exhibited the most significant
+inhibitory effect among all isolated compounds; therefore, the interaction between AChE
+and 3 was assessed by molecular docking. Compound 3 showed the best binding energy
+(-7.5 kcal/mol) compared to chlorogenic acid (-5.3 kcal/mol). This revealed that 3 could
+dock into the pocket of the crystal structure of AChE from E. electricus more efficiently than
+chlorogenic acid.
+The inflammatory response is a defense mechanism of the body. A general inflam-
+matory response leads to tissue protection and regeneration after injury and, in this way,
+responds to injury and infection. Under inflammatory conditions, activated macrophages
+can exhibit detrimental effects involving the overproduction of inflammatory cytokines such
+as NO, TNF-α and IL-6. Therefore, inhibiting the aberrant activation of macrophages may
+have therapeutic potential in the treatment of inflammation-related degenerative diseases.
+In our study, compounds 3 (IC50 = 17.03 ± 1.28 μM) and 5 (IC50 = 9.89 ± 1.36 μM) exhibited
+more effective anti-NO activities than the positive control, quercetin (IC50 = 18.26 ± 0.54 μM).
+Compounds 3, 4, and 5 also significantly inhibited the production of iNOS, TNF-α and IL-6
+in a concentration-dependent manner.
+Based on Western blot analysis of iNOS expression, compound 5 showed the strongest
+inhibitory effect among all isolated compounds. Therefore, the interaction between iNOS
+and compound 5 was assessed by molecular docking. Compound 5 showed the best
+binding energy (-9.5 kcal/mol) compared to quercetin (-7.9 kcal/mol). This revealed
+that 5 could dock into the pocket of the crystal structure of iNOS from M. musculus more
+efficiently than quercetin. In addition, our study performed molecular docking for the first
+time to calculate the binding energy of 5 with M. musculus iNOS.
+5. Conclusions
+Different solvent extracts of P. sibiricum (PS) and processed P. sibiricum (PPS) were investi-
+gated with anti-AChE, anti-α-glucosidase, anti-inflammatory and antioxidant assays. In this
+study, the CH2Cl2 extract of PS revealed the strongest antioxidant activity among all solvent
+ Antioxidants 2022, 11, 1383
+22 of 25
+extracts by ABTS, DPPH and FRAP assays. The EtOAc extract (IC50 = 22.34 ± 1.66 μg/mL) of
+PS displayed the highest anti-α-glucosidase effect compared with all other solvent extracts.
+The CH2Cl2 extract (IC50 = 18.84 ± 1.80 μg/mL) of PS showed the strongest anti-NO effect.
+The EtOAc extract (IC50 = 32.60 ± 5.27 μg/mL) of PPS revealed the most potent anti-AChE
+activity. Five isolated components from P. sibiricum were quantified by HPLC and identified
+as 5-hydroxymethylfurfural (1), scopoletin (2), isoquercetin (3), hyperoside (4), and rutin
+(5). Furthermore, a comparative assessment for the quantification of these major active
+compounds (1-5) of various solvent extracts (CH2Cl2, acetone, water, MeOH, EtOH, and
+EtOAc) from P. sibiricum (PS) and processed P. sibiricum (PPS) by HPLC analyses was first
+carried out in this research.
+Bioactivity assays indicated that 5 exhibited the most potent antioxidant effects as
+measured by DPPH and ABTS assays. In the FRAP experiment, 3 showed the most potent
+antioxidant effect (3898.88 ± 23.23 mM TE/g). Compounds 2-4 had a stronger anti-α-
+glucosidase effect than acarbose, and compounds 2, 3, and 5 showed better anti-AChE
+activity than chlorogenic acid. In addition, compounds 3, 4, and 5 obviously inhibited
+iNOS and NO production in a concentration-dependent manner. Compounds 3, 4, and 5
+also significantly inhibited the production of TNF-α and IL-6 in a concentration-dependent
+manner. This verifies that these compounds possess potent anti-inflammatory activity.
+Further molecular docking computing results supported that the binding affinity of rutin
+(5) was significantly higher than compounds 1-4 and the positive control quercetin. This
+revealed that 5 has the strongest binding affinity with iNOS, which is consistent with the
+highest anti-NO activity of 5.
+The above active extracts and active compounds (especially 3-5) can be applied as
+herbal antioxidants against oxidative damage, and scopoletin (2) may be used as a natural
+anti-α-glucosidase agent. Furthermore, rutin (5) and isoquercetin (3) also can be used as
+natural anti-inflammatory and anti-AChE agents.
+Supplementary Materials: The following are available online at https://www.mdpi.com/article/10
+.3390/antiox11071383/s1, Table S1: Retention time, LODs, LOQs, and regression analysis for five
+components of Polygonum sibiricum in reversed-phase HPLC. Figure S1: The 1H-NMR spectrum
+of 5-HMF (1). Figure S2: The 1H-NMR spectrum of scopoletin (2). Figure S3: The 1H-NMR spec-
+trum of isoquercetin (3). Figure S4: 1H-NMR spectrum of hyperoside (4). Figure S5: 1H-NMR
+spectrum of rutin (5). Figure S6: Reversed-phase HPLC chromatogram of isolated pure compounds.
+Figure S7: Reversed-phase HPLC chromatogram of water extract in PS. Figure S8: Reversed-phase
+HPLC chromatogram of methanol extract in PS. Figure S9: Reversed-phase HPLC chromatogram
+of ethanol extract in PS. Figure S10: Reversed-phase HPLC chromatogram of acetone extract in PS.
+Figure S11: Reversed-phase HPLC chromatogram of ethyl acetate extract in PS. Figure S12: Reversed-
+phase HPLC chromatogram of dichloromethane extract in PS. Figure S13: Reversed-phase HPLC
+chromatogram of water extract in PPS. Figure S14: Reversed-phase HPLC chromatogram of methanol
+extract in PPS. Figure S15: Reversed-phase HPLC chromatogram of ethanol extract in PPS. Figure S16:
+Reversed-phase HPLC chromatogram of acetone extract in PPS. Figure S17: Reversed-phase HPLC
+chromatogram of ethyl acetate extract in PPS. Figure S18: Reversed-phase HPLC chromatogram of
+dichloromethane extract in PPS. Figure S19: Interactions of rutin (5) with active sites of E. electri-
+cus AChE.
+Author Contributions: S.-C.C. and J.-J.C. performed the bioassay, analyzed the data, conducted the
+molecular docking, and carried out the manuscript writing. S.-C.C. and J.-J.C. conducted the isolation
+and structure elucidation of the constituents. C.-S.Y. performed quantification of components and
+manuscript writing. J.-J.C. analyzed bioassay data. J.-J.C. planned, designed and organized all of the
+research of this study and the preparation of the manuscript. All authors have read and agreed to the
+published version of the manuscript.
+Funding: This research was supported by a grant from the Ministry of Science and Technology
+(MOST), Taiwan (No. MOST 109-2320-B-010-029-MY3), awarded to J.-J.C.
+Institutional Review Board Statement: Not applicable.
+Informed Consent Statement: Not applicable.
+ Antioxidants 2022, 11, 1383
+23 of 25
+Data Availability Statement: The data presented in this study are available in the main text and the
+Supplementary Materials of this article.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC9311596' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC9311596|membrane_pore_um' data-pmcid='PMC9311596' data-item='membrane_pore_um'><div class='qname'><span>Membrane pore size</span><span class='ans'></span></div><div class='qdef'>A membrane pore size in micrometres.</div><div class='qhow'><b>What to mark.</b> Mark the number and its unit.<span class='eg'>In <i>a 0.45 um PVDF membrane</i> mark <b>0.45 um</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9311596|quantification_software' data-pmcid='PMC9311596' data-item='quantification_software'><div class='qname'><span>Quantification software, named</span><span class='ans'></span></div><div class='qdef'>A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark the package name only. Leave out the version and the supplier.<span class='eg'>In <i>quantified in ImageJ (v1.53, NIH)</i> mark <b>ImageJ</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9311596|replicate_n' data-pmcid='PMC9311596' data-item='replicate_n'><div class='qname'><span>Replicate count</span><span class='ans'></span></div><div class='qdef'>A number of replicates. You are not being asked whether they are biological or technical.</div><div class='qhow'><b>What to mark.</b> Mark the number together with the words that make it a replicate count.<span class='eg'>In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9311596|blocking_percent' data-pmcid='PMC9311596' data-item='blocking_percent'><div class='qname'><span>Blocking agent concentration</span><span class='ans'></span></div><div class='qdef'>A percentage attached to the blocking step. A blocking agent with no percentage does not count.</div><div class='qhow'><b>What to mark.</b> Mark the percentage only.<span class='eg'>In <i>blocked in 5% non-fat dry milk</i> mark <b>5%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9311596|reducing_denaturing' data-pmcid='PMC9311596' data-item='reducing_denaturing'><div class='qname'><span>Reducing or denaturing conditions</span><span class='ans'></span></div><div class='qdef'>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.</div><div class='qhow'><b>What to mark.</b> Mark the phrase or the reagent that states it.<span class='eg'>In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9311596|blocking_agent' data-pmcid='PMC9311596' data-item='blocking_agent'><div class='qname'><span>Blocking agent</span><span class='ans'></span></div><div class='qdef'>What the membrane was blocked in.</div><div class='qhow'><b>What to mark.</b> Mark the agent only. Leave the percentage out, it is a separate question.<span class='eg'>In <i>blocked in 5% non-fat dry milk</i> mark <b>non-fat dry milk</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9311596|detection_chemistry' data-pmcid='PMC9311596' data-item='detection_chemistry'><div class='qname'><span>Detection chemistry</span><span class='ans'></span></div><div class='qdef'>How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.</div><div class='qhow'><b>What to mark.</b> Mark the words naming the detection method.<span class='eg'>In <i>visualised by enhanced chemiluminescence</i> mark <b>enhanced chemiluminescence</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9311596|loading_control_identity' data-pmcid='PMC9311596' data-item='loading_control_identity'><div class='qname'><span>Loading control, named</span><span class='ans'></span></div><div class='qdef'>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two.<span class='eg'>In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9311596|protein_per_lane_ug' data-pmcid='PMC9311596' data-item='protein_per_lane_ug'><div class='qname'><span>Protein loaded per lane</span><span class='ans'></span></div><div class='qdef'>A mass of protein loaded per lane. A volume on its own does not count.</div><div class='qhow'><b>What to mark.</b> Mark the mass and its unit.<span class='eg'>In <i>30 ug of protein was loaded per lane</i> mark <b>30 ug</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC9311596|primary_ab_vendor' data-pmcid='PMC9311596' data-item='primary_ab_vendor'><div class='qname'><span>Primary antibody vendor</span><span class='ans'></span></div><div class='qdef'>The company that supplied a primary antibody.</div><div class='qhow'><b>What to mark.</b> Mark every distinct company name. Leave out the city and country. A table can be marked as one block.<span class='eg'>In <i>(Cell Signaling Technology, Danvers, MA)</i> mark <b>Cell Signaling Technology</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>3</span> of <span class='num'>6</span></h2><span class='pill'>PMC10227070</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Scientific Reports · <span class='num'>2023</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC10227070'>” 
+to obtain SPOPP-3 (1) (Fig. 1). Surprisingly, we also obtained a small quantity of spiro[2′,5′]-bis(acenaphthene-
+1′-one)perhydrodipyrrolo-[1,2-a:1,2-d]-pyrazine (referred to here as SPOPP-5, 2) (Fig. 1 and Supplementary 
+Figs. S2, S3, S6-S11), an isomer which has not been previously isolated due to its predicted unfavorable for-
+mation ­pathway15,16. Herein, we report for the first time, the purity (Supplementary Fig. S2) and structure of 
+SPOPP-5 (2) as determined by FTIR (Supplementary Fig. S3), NMR (Supplementary Figs. S6-S10) and X-ray 
+diffraction analyses (Supplementary Fig. S11).
+SPOPP-3 (1) reduced cell viability in human cancer cell lines. 
+To our knowledge, no bioactivity 
+has been reported for SPOPP-3 (1). Herein, we show for the first time that SPOPP-3 (1) significantly reduced 
+cell viability in human colon cancer cells (Fig. 2). For SPOPP-3 (1), the ­IC50 was 5.06 ± 1.43 μM, 5.42 ± 0.96 μM 
+and 2.44 ± 0.83 μM in SW480, HT29 and HCT116 human colon cancer cells respectively (Table 1). In contrast, 
+its isomer SPOPP-5 (2) had no significant effect, with ­IC50 &gt; 100 μM (Fig. 2; Table 1). To determine whether 
+SPOPP-3 (1) and SPOPP-5 (2) have different effects on different types of cancer cells, we assessed them on an 
+additional 15 human cancer cell lines comprising another 8 different types of human cancers. Doxorubicin was 
+used as a positive control on the cell lines and the summary is shown in Table 1. SPOPP-3 (1) remains inhibitory 
+with ­IC50 values ranging from 0.63 ± 0.17 μM in human T lymphoblastoid cell line CEM to 13.0 ± 1.96 μM in 
+human hepatoma cell line HepG2. Again, SPOPP-5 (2) showed insignificant activity in four additional cancer 
+cell lines (MiaPaca-2, Panc-1, SKOV3 and MDA-MB-231) (Table 1). Based on the results that SPOPP-5 (2) had 
+no significant anti-cell viability effect on 7 cancer cell lines, it was not further assessed on the other cell lines. 
+The anti-proliferative effect of SPOPP-3 (1) was greatest against human leukemia cells lines ­(IC50 from 0.63 to 
+3.60 μM), human glioblastoma cell lines ­(IC50 from 2.95 to 6.30 μM), human colon cancer cell lines ­(IC50 from 
+2.44 to 5.42 μM), human cervical cancer cell lines ­(IC50 of 4.23 μM), human ovarian cancer cell lines ­(IC50 of 
+6.30 μM) and human breast cancer cell lines ­(IC50 from 4.00 to 6.17 μM). SPOPP-3 (1) has slightly weaker anti-
+proliferative activity against human liver cancer cell line ­(IC50 of 13.03 μM), human pancreatic cancer cell lines 
+­(IC50 from 8.62 to 9.17 μM) and human prostate cancer cell line ­(IC50 of 9.80 μM). Overall, the results showed 
+that SPOPP-3 (1) has a relatively strong anti-proliferative effect on a panel of human cancer cell lines. To under-
+stand the mechanism whereby SPOPP-3 (1) exerts its anti-proliferative effect on cells, the following studies were 
+conducted.
+SPOPP-3 (1) arrested cell cycle at G2/M phase. 
+To determine the mechanism whereby SPOPP-3 (1) 
+decreases cell viability, flow cytometry was performed for cell cycle analysis. As shown in Fig. 3, treatment with 
+20 μM SPOPP-3 (1) caused cell cycle arrest in the G2/M phase (Fig. 3b). No activity was observed for SPOPP-5 
+(2). To further investigate whether SPOPP-3 (1) induces arrest at G2 or M phase, we performed Western blot 
+analysis to detect phospho-histone H3, an established sensitive mitotic ­marker17. Indeed, phospho-histone H3 
+level was clearly increased in SW480 cells treated with SPOPP-3 (1) but not SPOPP-5 (2) (Fig. 4), indicating that 
+SPOPP-3 (1) arrests SW480 cells at the M phase of the cell cycle. To further investigate the effects of SPOPP-3 
+(1) on the cell cycle, we performed immunofluorescence experiments to study cyclin B1 activation. Cyclin B1 
+is one of the key factors in controlling entry into ­mitosis18,19 with its expression rapidly increased in G2 phase 
+and peaking at late G2 or early M ­phase20,21. As shown in Fig. 5, the population of tetraploid cells in SPOPP-3 
+(1)-treated cells as indicated by cells having doubled DAPI signal, was significantly increased when compared 
+with DMSO control. This confirms flow cytometry results that SPOPP-3 (1) caused cell cycle arrest in the G2/M 
+phase where the cells failed to divide into daughter cells. In control cells, most of the tetraploid cells had sig-
+nificantly higher cyclin B1 staining compared to SPOPP-3-treated tetraploid cells (Fig. 5b). Thus, our results 
+indicate that SPOPP-3 (1) treatment is associated with defective cyclin B1 activation.
+Figure 1. Synthesis of dispiropiperazine derivatives SPOPP-3 (1) and SPOPP-5 (2).
+ 3
+Vol.:(0123456789)
+Scientific Reports | (2023) 13:8674 | 
+https://doi.org/10.1038/s41598-023-35927-6
+www.nature.com/scientificreports/
+SPOPP-3 (1), but not SPOPP-5 (2), induced cell apoptosis and necrosis. 
+To determine the pos-
+sible effect of SPOPP-3 (1) on cell death that led to the observed decrease in cell viability, we used flow cytometry 
+Figure 2. SPOPP-3 (1) inhibited human colon cancer cell viability. Cell viability in SW480, HT29 and HCT116 
+human colon cancer cells was assessed using the MTT assay. Cells were treated with different concentrations of 
+SPOPP-3 (1) or SPOPP-5 (2) for 48 h. Results shown are representative from three separate experiments. Error 
+bars are SEM.
+ 4
+Vol:.(1234567890)
+Scientific Reports | (2023) 13:8674 | 
+https://doi.org/10.1038/s41598-023-35927-6
+www.nature.com/scientificreports/
+Table 1. IC50 of SPOPP-3 (1), SPOPP-5 (2) and doxorubicin against human cancer cell lines. The ­IC50 the data 
+shown is an average taken from three independent experiments. ND not determined.
+Cell lines
+Types
+IC50 (μM) of compounds
+SPOPP-3 (1)
+SPOPP-5 (2)
+Doxorubicin
+SW480
+Human colon cancer
+5.06 ± 1.43
+ &gt; 100
+0.22 ± 0.16
+HT29
+Human colon cancer
+5.42 ± 0.96
+ &gt; 100
+0.26 ± 0.02
+HCT116
+Human colon cancer
+2.44 ± 0.83
+ &gt; 100
+0.10 ± 0.05
+MiaPaca2
+Human pancreatic cancer
+8.62 ± 3.18
+ &gt; 100
+0.25 ± 0.24
+Panc1
+Human pancreatic cancer
+9.17 ± 2.67
+ &gt; 100
+0.43 ± 0.14
+SKOV3
+Human ovarian cancer
+6.30 ± 1.35
+ &gt; 100
+0.04 ± 0.01
+MDA-MB-231
+Human breast cancer
+6.17 ± 1.84
+ &gt; 100
+1.06 ± 0.03
+MCF-7
+Human breast cancer
+5.76 ± 0.10
+ND
+0.03 ± 0.02
+MCF-7-Adr
+Human breast cancer
+4.00 ± 0.85
+ND
+ND
+T47D
+Human breast cancer
+4.76 ± 1.24
+ND
+ND
+HepG2
+Human liver cancer
+13.03 ± 1.96
+ND
+0.36 ± 0.12
+HeLa
+Human cervical cancer
+4.23 ± 1.29
+ND
+0.26 ± 0.12
+DU145
+Human prostate cancer
+9.80 ± 1.94
+ND
+0.02 ± 0.01
+K562
+Human leukemia
+3.60 ± 1.13
+ND
+ND
+KG1a
+Human leukemia
+1.76 ± 0.84
+ND
+ND
+CEM
+Human leukemia
+0.63 ± 0.17
+ND
+ND
+U251
+Human glioblastoma
+2.95 ± 0.09
+ND
+0.01 ± 0.004
+U87
+Human glioblastoma
+6.30 ± 1.72
+ND
+0.01 ± 0.002
+Figure 3. SPOPP-3 (1) arrested cell cycle at G2/M phase in SW480 cells. (a) SW480 cells were treated with 2% 
+DMSO, 20 μM SPOPP-3 (1), or 20 μM SPOPP-5 (2) for 24 h after which cells were harvested and subjected to 
+cell cycle analysis using flow cytometry. (b) The results from (a) and two another additional biological replicates 
+(n = 3) were combined and expressed as shown. The cell cycle percentages were calculated based on the Watson 
+Pragmatic model. Two-way ANOVA was performed: *p &lt; 0.0001.
+ 5
+Vol.:(0123456789)
+Scientific Reports | (2023) 13:8674 | 
+https://doi.org/10.1038/s41598-023-35927-6
+www.nature.com/scientificreports/
+to analyse apoptosis and necrosis. The commonly used stains to detect necrosis and apoptosis are 7-AAD and 
+Annexin V-PE, respectively. After treatment with SPOPP-3 (1), SPOPP-5 (2) or 2% DMSO for 24 h, cells were 
+double stained with 7-AAD and Annexin V-PE. As shown in Fig. 6a, cells treated with SPOPP-3 (1) changed to 
+a more necrotic state (Q1; 32.64%) as compared to the DMSO-treated cells (Q1; 0.5%), and this is statistically 
+significant (Fig. 6b). SPOPP-3 (1) also significantly induced apoptosis (Q2 + Q4) in SW480 cells (Fig. 6). On the 
+other hand, SPOPP-5 (2) had no significant effect on apoptosis or necrosis as compared to the control.
+Effect of SPOPP-3 (1) on mitotic spindle formation. 
+Immunofluorescence studies were carried out to 
+investigate the potential function of SPOPP-3 (1) as a microtubule toxin. Two drugs, vinblastine and colchicine 
+which are well known to disrupt microtubules, were used as positive controls. Vinblastine, which belongs to 
+the family of vinca alkaloids, binds to tubulin at a specific site and inhibits mitotic spindle formation leading to 
+cell cycle ­disruption22,23. When used at high concentrations, vinblastine is known to cause paracrystal forma-
+tion due to tightly packed tubulin ­aggregates24. Indeed, when SW480 cells were treated with 50 nM vinblastine, 
+paracrystals were observed (Fig. 7). Colchicine, on the other hand, disrupted microtubules and caused diffuse 
+α-tubulin staining throughout the cells (Fig. 7). In contrast, mitotic spindles could be observed in cells treated 
+with SPOPP-3 (1). However, the positions of the mitotic spindles appeared to be disrupted when compared with 
+control cells treated with DMSO (Fig. 7). Displacement of the mitotic spindles was also associated with the lack 
+of chromosome alignment at the equator of the cell (Fig. 7). In summary, these results suggest that although 
+SPOPP-3 (1) does not disrupt microtubule formation, mitotic spindle positioning appears to be affected.
+SPOPP-3 (1) induced DNA damage. 
+Based on the findings that SPOPP-3 (1) causes G2/M arrest asso-
+ciated with cyclin B1 down regulation and mitotic spindle displacement, it may be possible that the activity of 
+SPOPP-3 (1) is via DNA ­damage19,25. To investigate this possibility, we used the qPCR-based method (LORD-Q) 
+to detect DNA ­lesions26. Since this method can detect DNA damage regardless of the type of DNA lesion, we 
+reason that this is the most appropriate method. As shown in Fig. 8, although the data did not reach statistical 
+Figure 4. SPOPP-3 (1) induced phospho-histone H3 in SW480 cells. (a) Immunoblots showing phospho-
+histone H3 and GAPDH expression upon treatment with 2% DMSO, 20 μM SPOPP-3 (1) or 20 μM SPOPP-5 
+(2) for 24 h. (b) The results from (A) and another two biological replicate (n = 3) were averaged and expressed as 
+shown. t-test was used: *p &lt; 0.05.
+ 6
+Vol:.(1234567890)
+Scientific Reports | (2023) 13:8674 | 
+https://doi.org/10.1038/s41598-023-35927-6
+www.nature.com/scientificreports/
+significance because of the large variation in data, the effect of SPOPP-3 (1) on DNA damage can be detected as 
+early as 1 h after treatment. However, such effect was much reduced after 20 h of treatment (Fig. 8).
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC10227070' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC10227070|membrane_pore_um' data-pmcid='PMC10227070' data-item='membrane_pore_um'><div class='qname'><span>Membrane pore size</span><span class='ans'></span></div><div class='qdef'>A membrane pore size in micrometres.</div><div class='qhow'><b>What to mark.</b> Mark the number and its unit.<span class='eg'>In <i>a 0.45 um PVDF membrane</i> mark <b>0.45 um</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC10227070|replicate_n' data-pmcid='PMC10227070' data-item='replicate_n'><div class='qname'><span>Replicate count</span><span class='ans'></span></div><div class='qdef'>A number of replicates. You are not being asked whether they are biological or technical.</div><div class='qhow'><b>What to mark.</b> Mark the number together with the words that make it a replicate count.<span class='eg'>In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC10227070|loading_control_identity' data-pmcid='PMC10227070' data-item='loading_control_identity'><div class='qname'><span>Loading control, named</span><span class='ans'></span></div><div class='qdef'>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.</div><div class='qhow'><b>What to mark.</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two.<span class='eg'>In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>4</span> of <span class='num'>6</span></h2><span class='pill'>PMC7041782</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Aging · <span class='num'>2020</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC7041782'> 
+ 
+Animals 
+ 
+Male adult C57BL/6 mice (8-16 weeks of age; weighing 
+around 20g) were used for establishing CRS model of 
+depression. Animals were housed under relative steady 
+conditions (12h light-dark cycle at a humidity of 55± 
+5% and constant temperature of 23± 2°C) with adequate 
+water and food. All animals were purchased from the 
+experimental animal center of Chongqing Medical 
+University 
+(Chongqing, 
+China). 
+All 
+animal 
+experimental procedures of this study were approved by 
+the Ethics Committee of the Chongqing Medical 
+University (Approval No. 20160331). Care and 
+treatment of animals were in accordance with the 
+requirements of the National Institutes of Health 
+Guidelines for Animal Research. 
+ 
+Chronic restraint stress 
+ 
+Animals were exposed to CRS by placing in 50ml-
+plastic tubes with a few holes to keep air flow for 4-8h 
+per day. The total process continued 14 consecutive 
+days beginning at 11:00am each day, while the control 
+group received the same time for food and water 
+depriving without restraint. Body weight of each mouse 
+was measured on the last day of chronic restraint. 
+ 
+Behavioral assays 
+ 
+Behavioral analysis was performed by testers blinded to 
+experimental conditions. Experiments were done during 
+the light phase of mice in a soundproof room. All the 
+animals&#x27; behaviors were videotaped and measured by 
+video tracking software (Smart). 
+ 
+Sucrose preference test 
+ 
+The sucrose preference test was described in our 
+previous research [28]. Mice were single housed and 
+habituated to 1% sucrose solution and water for 2 days 
+without any stress. Bottle positions were switched at the 
+24th hour. After that, mice were food and water 
+deprived for 12h. Mice were exposed simultaneously to 
+two bottles for 12h in the dark phase, one containing 
+with 1% sucrose solution and the other with tap water. 
+Total consumption of each fluid was measured and 
+sucrose preference ratio was calculated through dividing 
+the total consumption of sucrose by the total 
+consumption of both water and sucrose. 
+ 
+Forced swim test 
+ 
+Mice were placed separately in a transparent glass 
+cylinder filled with 20cm tap water (23 ± 1°C). The first 
+2 minutes was used for adaptation and the duration of 
+immobility was measured automatically in the next 4 
+minutes by video-tracking system. Tap water in cylinder 
+was changed after each trial. 
+ 
+Sample collection and pretreatment 
+ 
+After all behavioral tests completed, all mice were 
+anesthetized with 1% pentobarbital sodium and EC 
+ www.aging-us.com 
+3049 
+AGING 
+Table 2. Primer sequences used in RT-qPCR. 
+Gene 
+Forward Primer (From 5′to 3′) 
+Reverse Primer (From 5′to 3′) 
+GAD1 
+TCACCTCAGAACACAGTCACT 
+TTCCCCCTTTCATTGCACTTT 
+GLS 
+TTATGCCACTGTTTCTGCTG 
+GGTTATCAAGTCCCTGACGG 
+EAAT2 
+TGCCAACGGAGGATATCAGTCT 
+CTGCATTCGGTGTTGGGAGTC 
+VGLUT1 
+CGTGTCCATGGTCAACAACAG 
+ACAGTCTCTGGATCCCAGTTGAA 
+SNAT1 
+AACCCGGCCTTTTACCTTCC 
+CCCGGCAGTTAGATGTCCTT 
+GLUL 
+TGGTCTGAAGTGCATTGAGGAG 
+CGGCAGAAAAGTCGTTGATGTT 
+AADC 
+CAGTCCTCCTCTTCACCC 
+CCACATCCTGCTGTTCTT 
+TPH1 
+GGGCTTGACTTTGTCTCTGC 
+GTTTGAATCTGGCCTGGTGT 
+TPH2 
+CCTACACGCAGAGCATTGAA 
+CTAGGCATCAAATCCCCAGA 
+MAOA 
+GTATGGAAGGGTGATTCGGCA 
+ACTGCACCTTCCATGTAGCC 
+SERT 
+GCTGAGCTGACTTGGATA 
+ACAGACGTTCACAGACCTAA 
+NET 
+TGCACGAGAGCAGTGGGAT 
+CGACCATCAGGCAGAGCAG 
+COMT 
+ACCGCTACCTTCCAGACA 
+GCCGTCCACCACTTTCAT 
+β-actin 
+GCCACCAGTTCGCCATGGAT 
+TCTGGGCCTCGTCACCCACATA 
+GAPDH 
+ACCCAGAAGACTGTGGATGG 
+CACATTGGGGGTAGGAACAC 
+Abbreviations: GAD1: glutamate decarboxylase 1; GLS: glutaminase; EAAT2: excitatory amino acid transporter 2; VGLUT1: 
+vesicular glutamate transporter 1; SNAT1: sodium-coupled neutral amino acid transporter 1; GLUL: glutamine synthetase; 
+AADC: aromatic-L-amino-acid decarboxylase; TPH1/2: tryptophan 5-hydroxylase 1/2; MAOA: monoamine oxidase A; SERT: 
+sodium-dependent serotonin transporter; NET: norepinephrine transporter; COMT: catechol O-methyltransferase; GAPDH: 
+glyceraldehyde-3-phosphate dehydrogenase. 
+ 
+Table 3. Antibodies used in this study. 
+Antibody 
+Dilution 
+RRIDs 
+Catalogue numbers 
+Source 
+GAD1 
+1:2000 
+AB_10681171 
+ab97739 
+Abcam 
+EAAT2 
+1:1000 
+AB_2813769 
+ab178401 
+Abcam 
+AADC 
+1:500 
+AB_304145 
+ab3905 
+Abcam 
+MAOA 
+1:1000 
+AB_2137251 
+10539-1-AP 
+Proteintech 
+SERT 
+1:1000 
+AB_2813768 
+ab181034 
+Abcam 
+TH 
+1:200 
+AB_1310786 
+ab75875 
+Abcam 
+VMAT2 
+1:1000 
+AB_1952699 
+ab70808 
+Abcam 
+GLUL 
+1:500 
+AB_1127501 
+sc-74430 
+Santa Cruz 
+SNAT1 
+1:500 
+AB_2190396 
+sc-137032 
+Santa Cruz 
+β-actin 
+1:10000 
+AB_2289225 
+60008-1-Ig 
+Proteintech 
+GAPDH 
+1:10000 
+AB_2107436 
+60004-1-Ig 
+Proteintech 
+Abbreviations: RRIDs: research resource identifiers; TH: tyrosine 3-hydroxylase; VMAT2: vesicular monoamine transporter 2. 
+ 
+tissues were separated quickly with a brain matrix. 
+Samples were frozen in liquid nitrogen and stored at -80 
+°C before biochemical analysis. 
+ 
+LC-MS/MS 
+ 
+The process of LC-MS/MS analysis was conducted as 
+previously described [6]. In short, EC tissue samples 
+were diluted in 400 μL methanol-water mixed solution 
+(4/1, v/v, 0.1% formic acid) containing 75ng/ml L-Phe 
+(2Cl)-OH as an internal standard. About 300ul upper 
+solution was collected after centrifugation (14000 g, 10 
+min, 4°C). Then the residue solution was mixed with 
+200μl the same methanol-water mixed solution (1/1, 
+v/v, 0.1% formic acid) and upper solution was collected 
+after centrifugation (14000 g, 10 min, 4°C). The 
+extractions were then concentrated and resolved in 
+methanol-water mixed solution (1/1, v/v, 0.1% formic 
+acid) for LC-MS analysis. We used Waters Xevo® TQ-
+S mass spectrometry (MS) system with Waters ultra-
+performance liquid chromatography (UPLC) amino 
+column (2.1 mm × 100 mm, 1.7μm) to separate the 
+ www.aging-us.com 
+3050 
+AGING 
+metabolites (50°C, 1μL sample injection). The data 
+were finally analyzed by MassLynx4.1 software. 
+ 
+RT-qPCR 
+ 
+Total RNA of EC tissue was extracted via the 
+application of Trizol reagent (Invitrogen). cDNAs were 
+synthesized using PrimeScriptTM RT reagent Kit 
+(TAKARA). The RT-PCR reactions were conducted 
+with a SYBR green detection system (Promega). We 
+used β-actin and GAPDH as housekeeping genes to 
+normalize the data. All primers were exhibited in Table 
+2. 2-∆∆CT or Pfaffi methods were applied to analyze 
+these results [29]. 
+ 
+Western blot 
+ 
+The protein of EC was extracted as previously described 
+[10]. Tissues were homogenized in RIPA buffer 
+(Beyotime) containing protease inhibitor cocktail tablets 
+(Roche). After the measurement of the concentration of 
+protein by BCA assay, 10-20μg proteins of each lane 
+were separated on a 10% SDS-PAGE gel and then 
+transferred 
+to 
+polyvinylidene 
+fluoride 
+membrane 
+(Millipore). After blocking in 5% no-fat milk powder for 
+2h at room temperature, the membranes were then 
+incubated with primary antibodies (Table 3) overnight at 
+4°C. All primary antibodies used were diluted in primary 
+antibody dilution buffer (Beyotime). Then, these 
+membranes were washed with Tris-buffered saline 0.05% 
+Tween-20 (TBST) for three times and reacted with 
+secondary antibodies (Bio-Rad) at room temperature for 
+2 h. High-sensitivity ECL kit (Millipore) was used to 
+visualize the signal of protein bands. 
+ 
+Statistical analyses 
+ 
+All results were presented as means ± s.e.m. The 
+statistical analyses of all data were conducted with 
+SPSS 21.0 software. The differences between the two 
+groups were assessed using independent-sample t-tests 
+throughout the study. Significant level for all tests was 
+set at P&lt;0.05. All bands were analyzed with Image J. 
+GraphPad Prism 7.0 was used to plot the results of 
+statistical analyses. Key enzymes and transporters were 
+searched via Kyoto Encyclopedia of Genes and 
+Genomes (KEGG, http://www.genome.jp/kegg/). 
+ 
+Abbreviations 
+ 
+MDD: major depressive disorder; EC: entorhinal cortex; 
+LC-MS/MS: 
+liquid 
+chromatography-tandem 
+mass 
+spectrometry; CRS: chronic restraint stress; NMDA: N-
+methyl-d-aspartate; GABA: gamma-aminobutyric acid; 
+UPLC: ultra-performance liquid chromatography; Trp: 
+tryptophan; 
+5-HTP: 
+5-hydroxytryptophan; 
+NAS: 
+n-Acetyl-serotonin; Tra: tryptamine; Trpo: tryptophol; 
+5-HT: 
+5-hydroxytryptamine; 
+5-HIAA: 
+5-hydroxy 
+indoleacetic acid; KYNA: kynurenic acid; 3-HA: 3-
+hydroxyanthranilic 
+acid; 
+Ind-3-C: 
+indole-3-carbo-
+xaldehyde; Orn: ornithine; Gln: glutamine; GABA: γ-
+aminobutyric acid; α-KG: α-ketoglutaric acid; Glu: 
+glutamic acid; GSH: glutathione; SA: succinic acid; 
+Asp: aspartic acid; L-Phe: L-phenylalanine; PEA: 
+phenylethylamine; L-Tyr: L-tyrosine; Trya: tyramine; 
+L-DOPA: 
+L-3,4-dihydroxyphenylalanine; 
+DOPN: 
+dopamine; DOPAC: 3,4-dihydroxyphenylacetic acid; 
+VMA: vanillylmandelic acid; Norp: norepinephrine; 
+HAV: 
+Homovanillic 
+acid; 
+GAD1: 
+glutamate 
+decarboxylase 1; GLS: glutaminase; EAAT2: excitatory 
+amino acid transporter 2; VGLUT1: vesicular glutamate 
+transporter 1; SNAT1: sodium-coupled neutral amino 
+acid transporter 1; GLUL: glutamine synthetase; 
+AADC: aromatic-L-amino-acid decarboxylase; TPH1/2: 
+tryptophan 5-hydroxylase 1/2; MAOA: monoamine 
+oxidase 
+A; 
+SERT: 
+sodium-dependent 
+serotonin 
+transporter; 
+TH: 
+tyrosine 
+3-hydroxylase; 
+NET: 
+norepinephrine transporter; COMT: catechol O-methyl-
+transferase; 
+GAPDH: 
+glyceraldehyde-3-phosphate 
+dehydrogenase. 
+ 
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC7041782' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC7041782|primary_ab_rrid' data-pmcid='PMC7041782' data-item='primary_ab_rrid'><div class='qname'><span>RRID or antibody identifier</span><span class='ans'></span></div><div class='qdef'>An RRID for an antibody, such as RRID:AB_2160010, or a bare AB_ accession number. A catalogue number on its own is not an RRID.</div><div class='qhow'><b>What to mark.</b> Mark every distinct identifier, one at a time. If they sit in a table or a run-on list, marking the whole block once is fine and faster.<span class='eg'>In <i>(anti-GAPDH, RRID:AB_2160010)</i> mark <b>RRID:AB_2160010</b>. A paper listing eight antibodies has eight of these; mark them all, or select the block.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC7041782|gel_percentage' data-pmcid='PMC7041782' data-item='gel_percentage'><div class='qname'><span>Gel percentage</span><span class='ans'></span></div><div class='qdef'>The acrylamide percentage of the separating gel.</div><div class='qhow'><b>What to mark.</b> Mark the percentage. For a gradient, mark the whole range.<span class='eg'>In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>5</span> of <span class='num'>6</span></h2><span class='pill'>PMC5589213</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>PLoS ONE · <span class='num'>2017</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC5589213'>
+Ethics
+All experiments were carried out in strict accordance with the guidelines from the European
+Community Council directive (2010/63/EU) for Protection of Vertebrate Animals Used
+for Experimental and other Scientific Purposes and were approved by the Danish Animal
+Experiments Inspectorate (Permit Number: 2014-15-0201-00042). The study complies with
+the ARRIVE guidelines (Animal Research: Reporting In Vivo Experiments). All surgeries
+were performed under isoflurane anesthesia, and all efforts were made to minimize
+suffering.
+Animals
+12-week-old male SHRs (257-311g) and their normotensive control WKY male rats (299-
+340g) were obtained from Charles River (Charles River laboratories, Sulzfeld, Germany). The
+SHR is an animal model of essential hypertension [9] and develops hypertension at 4 weeks of
+age [10] why this animal model can provide useful information and implications of pathophys-
+iological processes in humans. The rats were housed with a 12 hours light/dark cycle and pro-
+vided with standard rat chow and tap water ad libitum.
+Gene expression in the middle cerebral arteries from hypertensive rats
+PLOS ONE | https://doi.org/10.1371/journal.pone.0184233
+September 7, 2017
+2 / 17
+ Blood pressure measurement and harvest of arteries
+The rats were anaesthetized with 2.5% isoflurane in N2O/O2 (70:30) followed by cannulation
+of the tail artery to record the MABP for five minutes. This is a direct measurement of the
+blood pressure [11]. The rats were sacrificed by decapitation, and the MCAs were carefully dis-
+sected from the brain and stripped of connective tissue and blood in ice-cold sodium Krebs
+buffer (NaCl 119mM, NaHCO3 15mM, KCl 4.6mM, MgCl2 1.2mM, NaH2PO4 1.2mM, CaCl2
+1.5mM and glucose 5.5mM) oxygenated with 5% CO2 in O2. The tissue was snap frozen on
+dry ice and kept at -80 ̊C until the preparation of RNA extraction.
+RNA preparation
+Total RNA extraction was prepared in the same way for the whole-genome microarray gene-
+expression profiling and quantitative PCR (qPCR). Tissue from one MCA was homogenized
+on dry ice 3x20sec in lysis buffer (ML buffer) from the NucleoSpin miRNA isolation kit
+(Macherey-Nagel, Germany) using a FastPrep-24TM5G instrument (MP Biomedicals, USA).
+Lysing matrix D tubes containing 1.4mm ceramic spheres (MP Biomedicals, USA) were
+used for tissue homogenization. Total RNA extraction was carried out using the NucleoSpin
+miRNA isolation kit according to the manufacturers’ protocol. The RNA was eluted in 30μl
+RNAse free water. Total RNA concentration was measured using the NanoDrop 2000 UV-Vis
+spectrophotometer (ThermoFisher Scientific, MA, USA), whereupon a ratio of sample absor-
+bance at 260nm and 280nm in the range of 1.7 to 2.1 was acceptable. The integrity of the RNA
+was measured using the Agilent 2100 Bioanalyzer (Agilent Technologies, CA, USA), where the
+acceptable RNA integrity number was 7.
+Whole-genome microarray gene-expression profiling
+Affymetrix whole-transcriptome expression profiling was processed by Swegene centre for
+integrative biology (SCIBLU) genomics, Affymetrix unit at Lund University, Sweden.
+A total of 100ng RNA was primed with primers containing a T7 promoter sequence to
+synthesize first-strand cDNA. The single-stranded cDNA was then converted to a double-
+stranded cDNA and used as a template for the in vitro transcription (IVT) to synthesize anti-
+sense RNA (also called complimentary RNA or cRNA) using a T7 RNA polymerase. This
+procedure is known as the Eberwine or RT-IVT method [12]. The cRNA was purified by
+removing enzymes, salts, inorganic phosphates and unincorporated nucleotides and quantified
+for the 2nd-cycle single-stranded cDNA synthesis, from where sense-strand cDNA (ss-cDNA)
+was synthesized. RNase H was used to hydrolyze the cRNA template leaving ss-cDNA. After
+hydrolysis, the ss-cDNA was purified to remove enzymes, salts and unincorporated dNTPs
+tfor fragmentation and labelling. ss-cDNA was fragmented by uracil-DNA glycosylase and
+apurinic/apyrimidinic endonuclease-1 at the unnatural dUTP residues that breaks the DNA
+strand. The fragmented ss-cDNA was labelled by terminal deoxynucleotidyl transferase using
+the Affymetrix proprietary DNA Labelling Reagent that is covalently linked to biotin allona-
+mide triphosphate. The fragmented and biotin-labelled ss-cDNA was added to a hybridization
+cocktail onto the Affymetrix GeneChip rat gene 2.0 ST arrays followed by hybridization for 16
+hours at 45 ̊C in an Affymetrix Gene Chip Hybridization 645 oven. The array was washed and
+stained on the GeneChip Fluidics Station 450 using the appropriate fluidics script before being
+inserted onto an Affymetrix autoloader carousel and scanned using the Affymetrix GeneChip
+scanner 3000 7G.
+Gene expression in the middle cerebral arteries from hypertensive rats
+PLOS ONE | https://doi.org/10.1371/journal.pone.0184233
+September 7, 2017
+3 / 17
+ cDNA synthesis and qPCR
+66ng RNA was synthesized to cDNA using the RT2 First Strand Kit (Qiagen, USA) according
+to the manufacturer’s protocol. qPCR was performed in a 10μl reaction volume containing
+TaqMan 2x universal PCR master mix (ThermoFisher Scientific, MA, USA), 20x TaqMan
+gene expression assay, RNAse free water and 2μl cDNA using the QuantStudio 12K Flex real-
+time PCR system (ThermoFisher Scientific, MA, USA) with ROX as a passive reference. A no-
+template control with RNAse free water instead of cDNA was used as negative control for all
+TaqMan gene expression assays. An inter-plate control for all TaqMan gene expression assays
+was used to control the thermal cycling between plates. All TaqMan gene expression assays
+were pipetted in triplicates for each sample. Taqman gene expression assays, for the following
+genes, were purchased from ThermoFisher Scientific, MA, USA: periostin, osteoblast specific
+factor (Postn) (Rn01494627_m1), oxidized low density lipoprotein (lectin-like) receptor 1
+(Olr1) (Rn00591116_m1), fas, TNF receptor superfamily member 6 (Fas) (Rn00685720_m1),
+very low density lipoprotein receptor (Vldlr) (Rn01498167_m1), matrix metallopeptidase 2
+(Mmp2) (Rn01538170_m1), tissue inhibitor of metallopeptidase 1 (Timp1) (Rn00587558_m1),
+serpin peptidase inhibitor, clade E (nexin, plasminogen activator inhibitor type 1, member 1
+(Serpine1) (Rn01481341_m1), cd34 molecule (Cd34) (Rn_03416140_m1), prostaglandin-
+endoperoxide synthase 1 (Ptgs1) (Rn00566881_m1), Ptgs2 (Rn01483828_m1), Mmp11
+(LOC103694874), glyceraldehyde-3-phosphate dehydrogenase (Gapdh) (Rn01749022_g1),
+actin beta (Actb) (Rn00667869_m1). Gapdh and Actb were used as reference genes to normal-
+ize the mRNA levels. The thermal cycling condition included an initial denaturation step at
+50 ̊C for 2min and 95 ̊C for 10min followed by 45 PCR cycles at 95 ̊C for 15sec and 60 ̊C for
+1min.
+Western blotting
+Cerebral arteries from two rats were pooled and sonicated 3x20 pulses (output 30) on ice
+in RIPA buffer containing phosphatase inhibitor (Sigma-Aldrich) and protease inhibitor
+(Sigma-Aldrich). For further denaturation the samples were kept at -80 ̊C for 30 min and
+then centrifuged at 14.000rpm for 10min at 4 ̊C. The protein concentration in the superna-
+tant was determined using the DC protein assay kit II (Bio-Rad) with a protein standard II
+(Bio-Rad) of bovine serum albumin as a standard curve. The samples were measured on the
+Infinite M200 (Tecan) with a wavelength of 750nm. 14μg protein was calculated according to
+the protein concentration, and LDS buffer (Expedeon), DTT (Expedeon) and milliQ water
+were added before the samples were boiled at 95 ̊C for 5 min. The samples were loaded on a
+4-20% SDS precast gel (Expedeon) and run at 180V for 70 min. The proteins were trans-
+ferred to a nitrocellulose membrane (GE Healthcare, Amersham 0.2 NC) at 150V and
+350mAmp for 70 min, whereupon the membrane was blocked for unspecific binding for one
+hour at room temperature in TBS-T buffer (TBS + 1% Tween 20) containing 2% ECL prime
+blocking agent (GE Healthcare, Amersham). The membrane was incubated over night at 4 ̊C
+with rabbit polyclonal anti-lectin-like oxidized low density lipoprotein receptor 1 (LOX1)
+antibody (Abcam, ab60178, Lot number GR159762-5, synthetic peptide near the N-terminus
+of human Lox-1, AB_943982) diluted 4:1000 (LOX1 is also known as OLR1). Jurkat cells
+(gift from senior researcher Birgitte Rahbek Kornum, Department of Clinical Biochemical,
+Glostrup Research Institute, Rigshospitalet Glostrup) were used as a running control, and
+monoclonal anti-β-Actin-Peroxidase produced in mouse (Sigma A3854, batch number
+026M4820V, N-terminal sequence: Ac-Asp-Asp-Asp-Ile-Ala-Ala-Leu-Val-Ile-Asp-Asn-Gly-
+Ser-Gly-Lys conjugated to KLH, AB_262011) diluted 1:50.000 was used as a reference
+antibody.
+Gene expression in the middle cerebral arteries from hypertensive rats
+PLOS ONE | https://doi.org/10.1371/journal.pone.0184233
+September 7, 2017
+4 / 17
+ The following day the membrane was incubated with a horseradish peroxidase (HRP)
+conjugated secondary antibody for one hour at room temperature; anti-rabbit IgG HRP (Cell
+Signaling #7074) diluted 1:2000. The membrane was stripped (ReBlot Plus Strong from Milli-
+pore) for 8min at room temperature, blocked and incubated one hour at 4 ̊C with the β-
+ACTIN antibody. This antibody was developed with no secondary antibody, since it already
+contains HRP.
+All antibodies were diluted in TBS-T buffer containing 2% ECL prime blocking agent.
+Proteins were detected using the ECL select western blotting detection reagent (GE Health-
+care, Amersham) and visualized in a Fujifilm LAS-4000 Luminiscent Image Analyser.
+Statistical methods
+Blood pressure and body weight.
+In total 35 rats (WKY, n = 17 and SHR, n = 18) were
+used for the whole-genome microarray gene-expression profiling, qPCR and western blotting.
+No power calculation was used to determine sample size. A two-tailed Mann-Whitney test was
+used for the statistical analysis of MABP and body weight using GraphPad Prism 5. Data is
+expressed as median ± interquartile range (IQR). P-value &lt;0.05 is considered statistical
+significant.
+Whole-genome microarray gene-expression profiling.
+In total 10 rats (WKY rat, n = 5
+and SHR, n = 5) were used for the whole-genome microarray gene-expression profiling. Basic
+Affymetrix GeneChip and experimental quality analyses were performed using the Expression
+Console Software v1.1.2, and the Robust Multi-array analysis method was used for probe sum-
+marization and data normalization (quantile normalization and log transformation) using
+v1.4.1.46. Data filtration was done for probe sets having a value less than the median values of
+the negative control in 80% of total samples. Significance analysis of microarrays (SAM) was
+performed using the TMEV v4.0 software to identify significantly differentially expressed
+genes between groups (q = 0, termed differentially expressed genes) [13]. The q-values repre-
+sent False Discovery Rate (FDR) adjusted p-values, for which q = 0 denotes the statistical sig-
+nificant level. The fold difference (FD) is a measure describing how much a quantity changes
+going from an initial to a final value. If the FC is positive, the gene expression is increased in
+the MCAs from SHRs compared to WKY rats, and if it is negative, the gene expression is
+decreased in the MCAs from SHRs compared to WKY rats.
+Gene ontology (GO) overrepresentation analysis.
+All differentially expressed genes
+(q = 0) in the MCAs from SHRs compared to WKY rats were included in the GO overrepre-
+sentation analysis. Information of genes annotated to the ontologies was extracted from the
+GO database using BiomaRt v2.26.1 [14,15]. GO terms with 5 annotated genes were
+excluded from the analysis. P-values for each GO term were calculated by a right-tailed Fisher’s
+exact tests for count data and adjusted for multiple testing. GO terms with FDR-adjusted
+p-values &lt;0.05 are considered statistical significant.
+qPCR.
+In total 13 rats (WKY rat, n = 6 and SHR, n = 7) were used for the qPCR experi-
+ments. These rats were not the same rats used in the whole-genome microarray gene-expres-
+sion profiling. The threshold cycle (Ct) values refer to the number of PCR cycles, where the
+hydrolysis probe begins to fluoresce. Ct values were determined using the QuantStudio 12K
+Flex software (ThermoFischer Scientific, MCA, USA), and the technical triplicates were
+averaged. Automatic background fluorescence, thresholds of the samples, no-template con-
+trol and inter-plate control were checked. Adjustment of the averaged Ct values of each Taq-
+Man gene expression assays were adjusted relative to its inter-plate control. ΔCt (Ct, sample -
+Ct, average of references) values are plotted on the y-axe in the graphs by a logarithmic scale. The
+figures are presented as a scatter plot expressed as median ± IQR, and n represents to the
+Gene expression in the middle cerebral arteries from hypertensive rats
+PLOS ONE | https://doi.org/10.1371/journal.pone.0184233
+September 7, 2017
+5 / 17
+ number of rats. A two-tailed Mann-Whitney test was used for the statistical analysis using
+GrapPad Prism 5. P-value &lt;0.05 is considered statistical significant.
+Western blotting.
+In total 12 rats were used for the western blotting experiments. The
+cerebral arteries from two rats were pooled into one sample (WKY rat, n = 3 and SHR, n = 3).
+The samples were run twice at different days and normalized to Jurkat cells and β-ACTIN. A
+two-tailed Mann-Whitney test was used for the statistical analysis using GraphPad Prism 5.
+Data is expressed as median ± IQR, and n represents the number of rats. P-value &lt;0.05 is con-
+sidered statistical significant.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC5589213' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC5589213|primary_ab_rrid' data-pmcid='PMC5589213' data-item='primary_ab_rrid'><div class='qname'><span>RRID or antibody identifier</span><span class='ans'></span></div><div class='qdef'>An RRID for an antibody, such as RRID:AB_2160010, or a bare AB_ accession number. A catalogue number on its own is not an RRID.</div><div class='qhow'><b>What to mark.</b> Mark every distinct identifier, one at a time. If they sit in a table or a run-on list, marking the whole block once is fine and faster.<span class='eg'>In <i>(anti-GAPDH, RRID:AB_2160010)</i> mark <b>RRID:AB_2160010</b>. A paper listing eight antibodies has eight of these; mark them all, or select the block.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div><div class='q' data-q='PMC5589213|ecl_reagent' data-pmcid='PMC5589213' data-item='ecl_reagent'><div class='qname'><span>ECL reagent, named</span><span class='ans'></span></div><div class='qdef'>A named ECL or substrate product. The word ECL on its own, with no product name, does not count.</div><div class='qhow'><b>What to mark.</b> Mark the product name. Leave out the manufacturer unless the name alone would not identify it.<span class='eg'>In <i>SuperSignal West Pico (Thermo)</i> mark <b>SuperSignal West Pico</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div><div class='card'><div class='paper-h'><h2>Paper <span class='num'>6</span> of <span class='num'>6</span></h2><span class='pill'>PMC9276017</span></div><div class='note' style='font-size:13px;color:var(--ink-mute);margin-bottom:6px'>Bioengineered · <span class='num'>2022</span></div><div class='split'><div class='col-text'><div class='methods' id='m_PMC9276017'>
+PD mice establishment
+All the experiments were carried out basing on the 
+regulations of Care and Use of Laboratory 
+Animals and have obtained approval from the 
+Ethics Committee of our hospital. The laboratory 
+animals were 6-week-old male C57BL/6 mice, 
+which were from Chinese Academy of Medical 
+Sciences Laboratory Animal Center (Beijing, 
+China), and a total of 40 mice were casually 
+divided into the control and the PD. Midbrains 
+of PD mice were injected with si-NEAT1-1 and si- 
+NEAT1-2 (20 nM) to interfere with NEAT1 
+expressions 2 days before the PD mice construc­
+tion. Intraperitoneal injection of 20 mg/kg MPTP 
+(Sigma, USA) with the PD mice was conducted in 
+a dose-dependent manner according to body 
+weight (three times/day, at an 8 h interval) for 
+three successive weeks. The control was given an 
+appropriate quantity of 0.9% normal saline. The 
+midbrain was harvested immediately after the ani­
+mals were sacrificed at the last injection of MPTP 
+on day 21st. The collected tissues were kept at 
+-80°C for further usage. The si-negative control 
+(NC; 20 nM) was deemed as internal control. 
+Nucleotide synthesis was subsequently performed 
+which was provided by RIOBIO (Guangzhou, 
+China) [7].
+Pole test
+Pole tests were conducted to assess changes in 
+coordination and balance ability of mice during 
+the processes of the experiment. The pole used in 
+the test was 1 cm in diameter and 50 cm in length. 
+At the top of the pole, a spherical protrusion was 
+tightly wrapped in gauze to avoid slippage. 
+Following 2 days of MPTP induction, all mice 
+were settled at the top of the pole, and the timer 
+was set ready to record both time points. One was 
+the T-turn time indicating the time from the 
+beginning of a movement to the turn of the mice 
+to head down, and the other was the T-descend 
+time indicating the time from the mouse head 
+turned downward till the pole end. All mice 
+accepted trial pole-climb training for 5 days prior 
+to the start of formal tests. Each was given two 
+chances of pole climb test [8].
+Rotarod test
+Before the experiment, all mice were pretrained for 
+3 d to adapt to the rotating rotarod cylinder. The 
+12262
+L. DONG ET AL.
+ specific steps were performed as follows: The ani­
+mals were placed on the rotating pole and dura­
+tion of the mice remaining on the rotarod was 
+measured and recorded. In the first five days of 
+adaption training, the speed was initially set as 
+20 r/min and subsequently adjusted to 30 r/min 
+for the final test [9].
+Cell culture
+Human dopaminergic neuronal SH-SY5Y cell line 
+(less than ten passages) was purchased from the 
+Chinese Academy of Medical Sciences (Shanghai, 
+China), cultured using 10% fetal bovine serum of 
+DMEM (Gibco, USA) at 37°C 5% CO2, and sub- 
+cultured following the cell density reached 90% 
+confluence. To figure out the effect of NEAT1 on 
+PD, a model of PD mice in vitro was construed by 
+administering varying concentrations of MPP+ 
+treated SH-SY5Y cells and cultivating (0, 100, 
+200, 400, and 800 μmol/L) for 24 h [10].
+Cell transfection
+SH-SY5Y cells treated with MPP+ were cultured in 
+96-well plates at 37°C for 24 h. Features of NEAT1 
+and miR-107-5p in the described cells were verified 
+using lncRNA and miRNA overexpression and 
+interference detection. Forty-eight hours before the 
+incubation, cell transfection was carried out using 
+NEAT1-siRNAs, miR-107-5p inhibitor, miR-107-5p 
+mimics, and negative control (GenePharma Co., 
+Ltd., Shanghai, China) using Lipofectamine® 3000 
+Reagent (Invitrogen, USA), respectively. NEAT1- 
+siRNAs and the negative control were provided by 
+Sangon Biotech Co., Ltd. (Shanghai, China). 
+Following cell collection, an assessment of transfec­
+tion efficiency was subjected to qRT-PCR.
+Cell viability and apoptosis assay
+We subsequently conducted MTT assays to identify 
+cell viability. Following transfection, SH-SY5Y cells 
+were cultured in 96-well plates, and each well was 
+supplemented with 20 μL MTT (5 mg/mL) at 0, 24, 
+48, and 72 h, respectively. The cells were kept away 
+from the light for 4 h and followed by the measure­
+ment of absorbance at a wavelength of 450 nm. 
+Detection of cell apoptosis was performed using 
+Annexin V-FITC kit (Invitrogen, USA). Forty-eight 
+hours following the transfection, the cells in a density 
+of 1 - 5 × 10 were harvested and resuspended, kept 
+in darkness, and blended using propidium iodide- 
+Annexin V-FITC mixture. Ten minutes later, the 
+cellular apoptotic rate was determined by flow cyto­
+metry (Becton Dickinson, USA) [11,12].
+Cell autophagy assay
+GFP-LC3 was firstly transfected into SH-SY5Y 
+cells. After transfection 48 h, the cells were fol­
+lowed by a cycle of washing with PBS and detected 
+fluorescence intensity via a fluorescence micro­
+scope purchased from Olympus Corporation 
+(USA). The GFP-LC3 was purchased from 
+Thermo Fisher (USA) [13].
+Luciferase activity assay
+The targeted interactions of NEAT1 and miR- 
+107-5p were predicted via StarBase3.0. To build 
+a pmirGLO-wild type-NEAT1-3ʹ-UTR (NEAT1- 
+Wt), a fragment of NEAT1 containing putative 
+binding sites of miR-107-5p was inserted into 
+luciferase vector pmirGLO from Promega 
+(Madison, WI, USA). A mutant fragment of 
+NEAT1 was inserted into the pmirGLO vector 
+for the establishment of a pmirGLO-mutant- 
+NEAT1-3ʹ-UTR (NEAT1-Mut). This section of 
+the 
+experiment 
+co-transfected 
+NEAT1-Wt 
+/NEAT1-Mut with miR-107-5p mimics negative 
+control and miR-107-5p mimics into SH-SY5Y 
+cells in respective. The luciferase activity was 
+subsequently determined by measuring the 
+fluorescence intensity by using the Dual- 
+Luciferase System (Promega, USA) [14].
+RNA pull-down assay
+Following the biotinylated miR-107-5p-Wt, miR- 
+NC (GenePharma) and miR-107-5p-Mut were 
+transfected into SH-SY5Y cells, subsequently classi­
+fied into three groups: Bio-NC, Bio-miR-107-5p- 
+Mut, and Bio-miR-107-5p-Wt. The treated cells 
+were lysed at 48 h after transfection, cultivated by 
+supplementing 
+Streptavidin 
+agarose 
+beads 
+(ThermoFisher, USA) at 37°C for 1 h, and finally 
+identified RNA levels using qRT-PCR [15].
+BIOENGINEERED
+12263
+ HPLC
+The chromatographic temperature was adjusted at 
+30°C, with flow velocity at 1 mL/min and OD 
+value at 354 nm. An addition of prototypes was 
+conducted as per instructions and columns were 
+balanced with initial conditions for 10 min. 
+Finally, the excitation/emission wavelength was 
+subjected to fluorescence [16].
+Immunohistochemistry
+Following being fixed in a 4% formaldehyde solution 
+overnight at 4°C, the samples of midbrain were initi­
+ally incubated using 50 μL primary antibodies (rabbit 
+anti-mouse TH antibody 1:1 000, ab112, Abcam) 
+overnight and subsequently cultured using biotiny­
+lated secondary antibodies at 37°C for 2 h. After 
+three cycles of washing with PBS, the sample slides 
+were performed with Diaminobenzidine (DAB) stain­
+ing and hematoxylin counterstaining, dehydrated, and 
+finally covered in neutral gum. The brown positive 
+cells were counted after staining. Optical microscopy 
+photographs were obtained with an inverted micro­
+scope (Olympus Ckx53, Tokyo, Japan) with 
+a magnification of 400 times [17,18].
+Transmission electron microscopy (TEM)
+Following 2.5% glutaraldehyde fixation, the mid­
+brain tissues were immersed with 2% osmium 
+tetroxide, dehydrated and infiltrated with propy­
+lene oxide, and embedded in the epoxy resin. On 
+the copper grids, the ultrathin slices were dyed 
+with 0.4% uranyl acetate and 2% lead acetate. 
+The prototype was observed by using a TEM 
+(H-7650, Hitachi, Japan) [17].
+Quantitative real-time polymerase chain reaction 
+(qRT-PCR)
+The extracted total RNA was reversely transcribed 
+into cDNA. qRT-PCR analysis applied SYBR Green 
+PCR kit (TaKaRa, China). The present work 
+employed the following listed primers: NEAT1 F: 5ʹ- 
+CATCCGAG GACAAGGTGGCTTG-3ʹ, R: 5ʹ- 
+GCCGAACTTTCTGGTCCTCATC-3ʹ; miR- 125b- 
+5p F: 5ʹ-TCCCTGAGACCCTAACTTGT-3ʹ, R: 5ʹ- 
+ATCACATTGCCA GGGATTAC-3ʹ; U6 F: 5ʹ- 
+CTCGCTTCGGCAGCACA-3ʹ, R: 5ʹ-AACGCTTC 
+ACGAATTTGCGT-3ʹ; 
+p62 
+F: 
+5ʹ-TCTTTGGA 
+CCCCCGTGTGA-3ʹ, R: 5ʹ-TCTCACAGATACC 
+CCACGAC-3ʹ; LC (forward): 5ʹ-TCCGACCGGCCT 
+TTCAAGCAG-3ʹ, 
+R: 
+5ʹ-GAGAACCTGACCAG 
+AACTCCCAG-3ʹ; LC F: 5ʹ-AAACGCATTTGC 
+CATCACAGT-3ʹ, R: 5ʹ-GTGAGGACTTTGGGTG 
+TGGTTC-3ʹ; and β-actin F: 5ʹ-ACACCTTCTACAA 
+TGAGCTG-3ʹ, and R: 5ʹ-CTGCTTGCTGATCCAC 
+ATCT-3ʹ. Normalization of NEAT1 to GAPDH and 
+miR- 125b-5p to U6 were conducted. A 2-ΔΔCt 
+method was applied for relative expression analysis.
+Western blot
+A RIPA lysis buffer (Beyotime, China) was 
+employed to extract total proteins, which were 
+supplemented at 50 μg aided with 10% SDS- 
+PAGE, and delivered onto a nitrocellulose mem­
+brane. The membrane was incubated by adding 
+the corresponding primary antibodies (Bax, 1:1 
+000, ab32503, Bcl-2, 1:1 000, ab196495, LC3, 1:1 
+000, ab51520, P62, Caspase 3, 1:1 000, ab2302, 1:1 
+000, ab56416, Abcam, USA; and GAPDH, 1:1 000, 
+#5174, Cell Signal, USA) and secondary antibodies 
+anti-rabbit at 1:5 000 (Cell Signal, USA) after 
+blocking with 5% skimmed milk. Finally, protein 
+bands were visualized using an ECL system 
+(Thermo, USA) and analyzed by Image LabTM 
+Software (Bio-Rad, USA).
+Statistical analysis
+The data collected were presented as mean ± SD. 
+Multiple group comparison was performed to analyze 
+the significance of differences using one-way ANOVA 
+with Tukey’s post hoc tests. Pairwise comparison was 
+also conducted employing Student’s t-test via SPSS 
+22.0 software. p &lt; 0.05 was statistically significant.
+</div><div class='tools'><button type='button' class='quiet' onclick='jump(-1)'>Prev</button><button type='button' class='quiet' onclick='jump(1)'>Next</button><span id='hits_PMC9276017' class='num'></span><span class='aid'>shading is a search aid, not an answer</span></div></div><div class='col-q'><div class='q' data-q='PMC9276017|acquisition_software' data-pmcid='PMC9276017' data-item='acquisition_software'><div class='qname'><span>Acquisition software</span><span class='ans'></span></div><div class='qdef'>Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.</div><div class='qhow'><b>What to mark.</b> Mark the software name only.<span class='eg'>In <i>images captured with Image Lab software</i> mark <b>Image Lab</b>.</span></div><div class='acts'><button type='button' data-act='mark'>Use highlighted text</button><button type='button' class='sec' data-act='done' style='display:none'>Done, next</button><button type='button' class='sec' data-act='not_stated'>Not stated</button><button type='button' class='quiet' data-act='unclear'>Unclear</button></div><div class='grab'><div class='cap'>Marked so far, add as many as the paper has</div><ol class='spans'></ol><label class='morewrap'><input type='checkbox' class='morebox'>There are more of these than I marked</label></div></div></div></div></div></div><div class='scrim' id='scrim' onclick='guide(false)'></div><aside class='guide' id='guide'><button type='button' class='quiet close' onclick='guide(false)'>Close</button><h2>Guide</h2><h3>You do not type anything</h3><p>Select the words in the Methods text, then press <b>Use highlighted text</b>. The exact words you selected are what gets recorded.</p><p>Typing is what this design removes. Given a sentence like the one below, one person types RIPA, another types the whole parenthesis, a third types the clause. All three read the paper correctly and disagree in the data. Selecting removes that entirely.</p><blockquote>The cell total protein was isolated using RIPA (Applygen Technologies Inc., Beijing, China). Protease inhibitor (CWBIO, Shanghai, China) was added into the RIPA at a ratio of 1:100.</blockquote><p style='margin-top:10px'>For lysis buffer there, mark just <b>RIPA</b>, the first time it appears.</p><h3>How much to select</h3><p><b>The shortest phrase that states the detail.</b> Not the whole sentence when three words will do, and not the vendor, city or catalogue number unless the question asks for them.</p><p>Every question shows a worked example under <b>What to mark</b>. Follow it rather than your instinct.</p><h3>When a paper gives several</h3><p>Many papers list a table of antibodies with eight RRIDs, eight catalogue numbers and several vendors. <b>Mark them all.</b> Press <b>Use highlighted text</b> once per value and they stack up in a numbered list. Press <b>Done, next</b> when the list is complete.</p><p>If they sit in a contiguous table or a run-on list, selecting the whole block in one go is fine and much faster. You are marking where the evidence is, not counting.</p><p>The same value repeated does not need marking twice. A paper that uses 1:1000 for six antibodies has one dilution, not six.</p><p><b>If you stop before you have them all, tick 'There are more of these than I marked'.</b> That box matters more than it looks: without it, someone who stopped at five of eight cannot be told apart from someone who found everything, and the three they skipped would count against the extractor as mistakes it did not make.</p><h3>What counts</h3><p><b>Judge only what is written.</b> Not what the authors almost certainly did, and not what is standard practice in the field.</p><p><b>Only the Methods section is shown, and that is deliberate.</b> If a detail appears solely in a figure legend or a supplementary file, it is not in the text you are given, so the answer is <b>Not stated</b>.</p><p><b>Unclear</b> is a real answer. It is set aside rather than counted either way, so use it when you are genuinely stuck rather than guessing.</p><h3>The shaded sentences</h3><p>Opening a question shades the sentences most likely to hold the answer, and <b>Prev</b> and <b>Next</b> step between them.</p><p>They are a search aid and nothing more. A crude keyword rule picks them, it knows nothing about the answer, it sometimes shades irrelevant sentences and sometimes misses the right one. Read around them. When nothing is shaded, read the section normally.</p><h3>Getting through a batch</h3><p>The Methods text stays pinned on the left while questions scroll on the right. Answers collapse to one line and the next question opens automatically. Click any collapsed line to change it.</p><p>Your work is saved in this browser as you go, so closing the tab loses nothing. <b>Submit</b> is at the top of the page and turns on once every question is answered and your initials are filled in.</p><h3>Every question, in one place</h3><table><tr><td>RRID or antibody identifier</td><td>An RRID for an antibody, such as RRID:AB_2160010, or a bare AB_ accession number. A catalogue number on its own is not an RRID.<br><b>Mark:</b> Mark every distinct identifier, one at a time. If they sit in a table or a run-on list, marking the whole block once is fine and faster. In <i>(anti-GAPDH, RRID:AB_2160010)</i> mark <b>RRID:AB_2160010</b>. A paper listing eight antibodies has eight of these; mark them all, or select the block.</td></tr><tr><td>ECL reagent, named</td><td>A named ECL or substrate product. The word ECL on its own, with no product name, does not count.<br><b>Mark:</b> Mark the product name. Leave out the manufacturer unless the name alone would not identify it. In <i>SuperSignal West Pico (Thermo)</i> mark <b>SuperSignal West Pico</b>.</td></tr><tr><td>Gel percentage</td><td>The acrylamide percentage of the separating gel.<br><b>Mark:</b> Mark the percentage. For a gradient, mark the whole range. In <i>separated on 10% SDS-PAGE</i> mark <b>10%</b>. In <i>a 4-12% gradient gel</i> mark <b>4-12%</b>.</td></tr><tr><td>Quantification software, named</td><td>A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.<br><b>Mark:</b> Mark the package name only. Leave out the version and the supplier. In <i>quantified in ImageJ (v1.53, NIH)</i> mark <b>ImageJ</b>.</td></tr><tr><td>Replicate count</td><td>A number of replicates. You are not being asked whether they are biological or technical.<br><b>Mark:</b> Mark the number together with the words that make it a replicate count. In <i>data are from three independent experiments</i> mark <b>three independent experiments</b>. In <i>(n = 3)</i> mark <b>n = 3</b>.</td></tr><tr><td>Antibody catalogue number</td><td>A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.<br><b>Mark:</b> Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block. In <i>(Abcam, ab1234)</i> mark <b>ab1234</b>.</td></tr><tr><td>Protein quantification method</td><td>How total protein was measured before loading.<br><b>Mark:</b> Mark the assay name only. In <i>quantified by BCA assay (Pierce)</i> mark <b>BCA</b>.</td></tr><tr><td>Blocking agent concentration</td><td>A percentage attached to the blocking step. A blocking agent with no percentage does not count.<br><b>Mark:</b> Mark the percentage only. In <i>blocked in 5% non-fat dry milk</i> mark <b>5%</b>.</td></tr><tr><td>Secondary antibody conjugate</td><td>What the secondary antibody is conjugated to.<br><b>Mark:</b> Mark each distinct conjugate once. In <i>HRP-conjugated goat anti-rabbit</i> mark <b>HRP</b>.</td></tr><tr><td>Reducing or denaturing conditions</td><td>An explicit statement of reducing or denaturing conditions, whether by name or by reagent.<br><b>Mark:</b> Mark the phrase or the reagent that states it. In <i>boiled in Laemmli buffer containing DTT</i> mark <b>DTT</b>, or <b>boiled in Laemmli buffer</b> if no reagent is named.</td></tr><tr><td>Membrane type</td><td>PVDF or nitrocellulose, or another named membrane chemistry.<br><b>Mark:</b> Mark the membrane name only. In <i>transferred to a 0.45 um PVDF membrane</i> mark <b>PVDF</b>.</td></tr><tr><td>Membrane pore size</td><td>A membrane pore size in micrometres.<br><b>Mark:</b> Mark the number and its unit. In <i>a 0.45 um PVDF membrane</i> mark <b>0.45 um</b>.</td></tr><tr><td>Blocking agent</td><td>What the membrane was blocked in.<br><b>Mark:</b> Mark the agent only. Leave the percentage out, it is a separate question. In <i>blocked in 5% non-fat dry milk</i> mark <b>non-fat dry milk</b>.</td></tr><tr><td>Detection chemistry</td><td>How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.<br><b>Mark:</b> Mark the words naming the detection method. In <i>visualised by enhanced chemiluminescence</i> mark <b>enhanced chemiluminescence</b>.</td></tr><tr><td>Loading control, named</td><td>A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.<br><b>Mark:</b> Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two. In <i>normalised to GAPDH</i> mark <b>GAPDH</b>.</td></tr><tr><td>Protein loaded per lane</td><td>A mass of protein loaded per lane. A volume on its own does not count.<br><b>Mark:</b> Mark the mass and its unit. In <i>30 ug of protein was loaded per lane</i> mark <b>30 ug</b>.</td></tr><tr><td>Primary antibody vendor</td><td>The company that supplied a primary antibody.<br><b>Mark:</b> Mark every distinct company name. Leave out the city and country. A table can be marked as one block. In <i>(Cell Signaling Technology, Danvers, MA)</i> mark <b>Cell Signaling Technology</b>.</td></tr><tr><td>Acquisition software</td><td>Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.<br><b>Mark:</b> Mark the software name only. In <i>images captured with Image Lab software</i> mark <b>Image Lab</b>.</td></tr></table><h3>Ask about a rule</h3><p>This answers questions about <b>what a rule means</b>, nothing else. It is never given the paper, it cannot see what you are reading, and it will refuse if you paste text and ask what the answer is. Deciding what a paper says is the whole job being measured here, so it has to stay yours.</p><p>Questions are logged with your initials, so ask freely and openly.</p><select id='ask_item' style='width:100%;margin-bottom:8px;padding:8px 12px;border-radius:var(--r-sm);border:1px solid var(--hairline-input);font-family:inherit;font-size:15px;font-weight:300;background:var(--canvas);color:var(--ink)'><option value='primary_ab_rrid'>RRID or antibody identifier</option><option value='ecl_reagent'>ECL reagent, named</option><option value='gel_percentage'>Gel percentage</option><option value='quantification_software'>Quantification software, named</option><option value='replicate_n'>Replicate count</option><option value='ab_catalog_any'>Antibody catalogue number</option><option value='protein_quant_method'>Protein quantification method</option><option value='blocking_percent'>Blocking agent concentration</option><option value='secondary_ab_conjugate'>Secondary antibody conjugate</option><option value='reducing_denaturing'>Reducing or denaturing conditions</option><option value='membrane_type'>Membrane type</option><option value='membrane_pore_um'>Membrane pore size</option><option value='blocking_agent'>Blocking agent</option><option value='detection_chemistry'>Detection chemistry</option><option value='loading_control_identity'>Loading control, named</option><option value='protein_per_lane_ug'>Protein loaded per lane</option><option value='primary_ab_vendor'>Primary antibody vendor</option><option value='acquisition_software'>Acquisition software</option></select><input type='text' id='ask_q' placeholder='for example: does a lot number count as a catalogue number?' autocomplete='off'><div style='margin-top:8px'><button type='button' class='sec' onclick='ask()'>Ask</button></div><blockquote id='ask_out' style='margin-top:10px'>The rules above are the reference. This is only for when one of them is unclear.</blockquote></aside><div class='hint' id='hint'></div><script>
+const BATCH = {"batch": "batch_39", "papers": [{"pmcid": "PMC9284872", "items": ["primary_ab_rrid", "ecl_reagent", "gel_percentage", "quantification_software", "replicate_n", "ab_catalog_any", "protein_quant_method", "blocking_percent", "secondary_ab_conjugate", "reducing_denaturing", "membrane_type"]}, {"pmcid": "PMC9311596", "items": ["membrane_pore_um", "quantification_software", "replicate_n", "blocking_percent", "reducing_denaturing", "blocking_agent", "detection_chemistry", "loading_control_identity", "protein_per_lane_ug", "primary_ab_vendor"]}, {"pmcid": "PMC10227070", "items": ["membrane_pore_um", "replicate_n", "loading_control_identity"]}, {"pmcid": "PMC7041782", "items": ["primary_ab_rrid", "gel_percentage"]}, {"pmcid": "PMC5589213", "items": ["primary_ab_rrid", "ecl_reagent"]}, {"pmcid": "PMC9276017", "items": ["acquisition_software"]}]};
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwoTYSFc73PzL9mXwm77vwmTtvDEef65ackGHNtOhhxiAQMRGf8RhQtjjeKCoIaC0dE/exec";
+const CUES = {"primary_ab_rrid": ["rrid|research resource|\\bab_\\d|identifier", "ab_\\d{4,}|rrid"], "ab_catalog_any": ["antibod|cat(alog(ue)?)?\\s*\\.?\\s*(no|num|#)|product\\s*(no|#)|from\\s+\\w+\\s*\\(", "#\\s*\\d|\\b[a-z]{2,4}-?\\d{3,6}\\b|clone"], "primary_ab_vendor": ["antibod|purchased|obtained|supplied|from\\s+\\w+\\s*\\(", "abcam|cell signal|santa cruz|sigma|thermo|invitrogen|millipore|proteintech|r&d|bd bio|novus|genetex"], "primary_ab_host": ["antibod|anti-", "rabbit|mouse|goat|rat\\b|donkey|monoclonal|polyclonal"], "ab_dilution_any": ["antibod|incubat|dilut|probe", "1\\s*[:/]\\s*\\d"], "secondary_ab_conjugate": ["secondary|conjugat", "hrp|horseradish|alkaline phosphat|irdye|alexa|biotin"], "detection_chemistry": ["detect|visuali[sz]|develop|expos", "chemilumin|\\becl\\b|fluoresc|colorimetric|autoradiograph|film"], "ecl_reagent": ["\\becl\\b|chemilumin|substrate|detect", "supersignal|clarity|luminata|immobilon|femto|pico|dura|amersham|pierce"], "blocking_agent": ["block", "milk|\\bbsa\\b|casein|serum|albumin"], "blocking_percent": ["block", "\\d+\\s*%"], "membrane_type": ["membrane|transfer|blott", "pvdf|nitrocellulose|immobilon"], "membrane_pore_um": ["membrane|pvdf|nitrocellulose|pore", "0?\\.\\d+\\s*[u\u00b5\u03bc]?m|micron|\\d\\.\\d+"], "gel_percentage": ["gel|sds-?page|acrylamide|electrophore|separat|resolv", "\\d+\\s*%|gradient|\\d+\\s*-\\s*\\d+"], "transfer_method": ["transfer|blott", "semi-?dry|wet|tank|iblot|trans-?blot|electro|\\bmini\\b"], "reducing_denaturing": ["boil|heat|denatur|reduc|sample buffer|loading buffer|laemmli", "\\bdtt\\b|mercaptoethanol|[\u03b2b]-?me\\b|95\\s*\u00b0|100\\s*\u00b0|5\\s*min"], "protein_per_lane_ug": ["load|per lane|separat|resolv|subjected", "\\d+\\s*[u\u00b5\u03bc]g|microgram"], "protein_quant_method": ["protein|concentration|quantif|determin", "\\bbca\\b|bradford|lowry|nanodrop|\\bdc\\b|coomassie"], "lysis_buffer": ["lys(is|ed|e )|extract|homogeni|solubili|harvest|isolat|scrap|resuspend|prepar|collect", "ripa|np-?40|triton|laemmli|\\btris\\b|\\bsds\\b|buffer"], "total_protein_stain": ["stain|normali[sz]|total protein", "ponceau|stain-?free|revert|coomassie|amido"], "loading_control_identity": ["loading control|normali[sz]|internal control|reprob|antibod|probe|blot", "gapdh|actin|tubulin|vinculin|hsp\\s?90|lamin|histone|vdac|calnexin"], "quantification_software": ["quantif|densitom|analy[sz]|band intensit|measur", "imagej|fiji|image ?lab|image ?studio|quantity one|imagepro|alphaview|empiria|software"], "acquisition_software": ["captur|acqui|imag(ed|ing)|software", "image ?lab|image ?studio|cs analyzer|software|version"], "imager_instrument": ["imag(ed|ing|er)|captur|develop|expos|scan", "chemidoc|odyssey|amersham|\\blas-?\\d|x-?ray|film|fusion|azure|ibright"], "replicate_n": ["experiment|replicat|independent|repeated|\\bn\\s*=|triplicate|duplicate", "\\bn\\s*=\\s*\\d|three|four|five|six|triplicate|duplicate|\\d+\\s*times"]};
+const DEFS = {"protein_quant_method": ["Protein quantification method", "How total protein was measured before loading.", "Mark the assay name only."], "reducing_denaturing": ["Reducing or denaturing conditions", "An explicit statement of reducing or denaturing conditions, whether by name or by reagent.", "Mark the phrase or the reagent that states it."], "replicate_n": ["Replicate count", "A number of replicates. You are not being asked whether they are biological or technical.", "Mark the number together with the words that make it a replicate count."], "detection_chemistry": ["Detection chemistry", "How bands were detected: chemiluminescence or ECL, fluorescence, colorimetric, or radiographic film.", "Mark the words naming the detection method."], "quantification_software": ["Quantification software, named", "A named software package used to quantify bands. The phrase 'densitometry was performed', with no package named, does not count.", "Mark the package name only. Leave out the version and the supplier."], "secondary_ab_conjugate": ["Secondary antibody conjugate", "What the secondary antibody is conjugated to.", "Mark each distinct conjugate once."], "ab_catalog_any": ["Antibody catalogue number", "A vendor catalogue or product number for any antibody, such as ab1234, #9662, or sc-25778. A lot number on its own does not count.", "Mark every distinct catalogue number, not the vendor or the antibody name. A table of antibodies can be marked as one block."], "membrane_type": ["Membrane type", "PVDF or nitrocellulose, or another named membrane chemistry.", "Mark the membrane name only."], "blocking_agent": ["Blocking agent", "What the membrane was blocked in.", "Mark the agent only. Leave the percentage out, it is a separate question."], "primary_ab_vendor": ["Primary antibody vendor", "The company that supplied a primary antibody.", "Mark every distinct company name. Leave out the city and country. A table can be marked as one block."], "gel_percentage": ["Gel percentage", "The acrylamide percentage of the separating gel.", "Mark the percentage. For a gradient, mark the whole range."], "loading_control_identity": ["Loading control, named", "A named loading control protein. The phrase 'a loading control was used', with no protein named, does not count.", "Mark each distinct protein name. A paper using GAPDH for one blot and tubulin for another has two."], "protein_per_lane_ug": ["Protein loaded per lane", "A mass of protein loaded per lane. A volume on its own does not count.", "Mark the mass and its unit."], "primary_ab_rrid": ["RRID or antibody identifier", "An RRID for an antibody, such as RRID:AB_2160010, or a bare AB_ accession number. A catalogue number on its own is not an RRID.", "Mark every distinct identifier, one at a time. If they sit in a table or a run-on list, marking the whole block once is fine and faster."], "acquisition_software": ["Acquisition software", "Software that ran the imager while the blot was being captured. This is separate from the package used afterwards to quantify bands.", "Mark the software name only."], "ecl_reagent": ["ECL reagent, named", "A named ECL or substrate product. The word ECL on its own, with no product name, does not count.", "Mark the product name. Leave out the manufacturer unless the name alone would not identify it."], "membrane_pore_um": ["Membrane pore size", "A membrane pore size in micrometres.", "Mark the number and its unit."], "blocking_percent": ["Blocking agent concentration", "A percentage attached to the blocking step. A blocking agent with no percentage does not count.", "Mark the percentage only."]};
+const KEY = 'trackF_A6_' + BATCH.batch;
+const T0 = Date.now();
+
+function total(){ return BATCH.papers.reduce((a,p)=>a+p.items.length,0); }
+function esc(s){ return s.replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+/* ---- state ----------------------------------------------------------------
+   ANS[judgement_id] = {answer, spans:[{text,start,end}], more:bool, done:bool}
+
+   Several items are set-valued in the papers themselves. An antibody table gives
+   eight RRIDs, eight catalogue numbers and several vendors, and stage 2 emits all
+   of them pipe-joined. A single span could never validate that, so a question
+   accepts as many spans as the paper needs.
+
+   `more` records "there are more of these than I marked". Without it, a reviewer
+   who stopped after five of eight is indistinguishable from a reviewer who found
+   everything, and the three unmarked values would score as extractor errors. */
+const ANS = {};
+
+function answered(){
+  return Object.values(ANS).filter(v=>v.done).length;
+}
+function refresh(){
+  const a = answered(), t = total();
+  document.getElementById('count').textContent = a + ' of ' + t + ' answered';
+  document.getElementById('bar').style.width = (100*a/t) + '%';
+  document.getElementById('send').disabled =
+    (a < t) || !document.getElementById('rev').value.trim();
+  try{
+    localStorage.setItem(KEY, JSON.stringify(
+      {rev: document.getElementById('rev').value, a: ANS}));
+  }catch(e){}
+}
+function restore(){
+  let s; try{ s = JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+  if (!s) return 0;
+  document.getElementById('rev').value = s.rev || '';
+  let n = 0;
+  Object.entries(s.a||{}).forEach(([q,v])=>{
+    const el = document.querySelector('[data-q="'+CSS.escape(q)+'"]');
+    if (!el) return;
+    ANS[q] = v; paint(el); n++;
+  });
+  return n;
+}
+
+/* ---- sentence segmentation and cue ranking --------------------------------
+   Sentence level, not line level. PDF text wraps at arbitrary columns, so a
+   "line" is a fragment and marking one marks half a clause. */
+function sentences(text){
+  const out = [];
+  let start = 0;
+  const re = /([.!?])(\s|$)/g;
+  let m;
+  while ((m = re.exec(text)) !== null){
+    const end = m.index + 1;
+    if (end - start > 12) { out.push([start, end]); start = re.lastIndex; }
+  }
+  if (text.length - start > 12) out.push([start, text.length]);
+  return out;
+}
+/* A marked span longer than this is not a search aid, it is a wall. Ordinary
+   Methods sentences run 100 to 250 characters. */
+const MAXSEG = 320;
+/* Tuned on the STAR Protocols key-resources table. 70/90 let adjacent windows merge
+   into 300-character blobs; 30/40 was too tight to read a row in context. At 45/55
+   that table marks two separate RRID rows instead of one merged run, and drops from
+   100% of the block marked to about 9%. */
+const WIN_BEFORE = 45, WIN_AFTER = 55;
+
+function snapL(s, i){ const j = s.lastIndexOf(' ', i); return j > i - 25 && j >= 0 ? j + 1 : i; }
+function snapR(s, i){ const j = s.indexOf(' ', i);     return j >= 0 && j < i + 25 ? j : i; }
+
+/* Windows around each value hit inside an over-long block.
+   STAR Protocols and Cell Press papers carry a KEY RESOURCES TABLE that survives PDF
+   extraction as one 2,500-character run with almost no sentence punctuation. Marking
+   the containing "sentence" marked the entire reagent list for a question about one
+   RRID. Requiring a value hit and marking a window around it turns that into two tight
+   marks on the two RRIDs actually present. */
+function windows(text, s, e, valSrc, out){
+  const seg = text.slice(s, e);
+  let re;
+  try{ re = new RegExp(valSrc, 'gi'); }catch(err){ return; }
+  let m, n = 0;
+  while ((m = re.exec(seg)) !== null && n < 6){
+    const a = snapL(seg, Math.max(0, m.index - WIN_BEFORE));
+    const b = snapR(seg, Math.min(seg.length, m.index + m[0].length + WIN_AFTER));
+    out.push({s: s + a, e: s + b, score: 2});
+    n++;
+    if (m.index === re.lastIndex) re.lastIndex++;
+  }
+}
+
+function merge(spans){
+  if (!spans.length) return [];
+  spans.sort((a,b)=> a.s - b.s);
+  const out = [spans[0]];
+  for (let i = 1; i < spans.length; i++){
+    const last = out[out.length-1], cur = spans[i];
+    if (cur.s <= last.e){
+      last.e = Math.max(last.e, cur.e);
+      last.score = Math.max(last.score, cur.score);
+    } else out.push(cur);
+  }
+  return out;
+}
+
+function rank(text, item){
+  const c = CUES[item];
+  if (!c) return [];
+  let ctx;
+  try{ ctx = new RegExp(c[0],'i'); }catch(e){ return []; }
+  const hasVal = seg => { try{ return new RegExp(c[1],'i').test(seg); }catch(e){ return false; } };
+  const segs = sentences(text);
+  let scored = [];
+
+  for (const [s,e] of segs){
+    const seg = text.slice(s,e);
+    if (!ctx.test(seg)) continue;              // context is required, not optional
+    if (e - s <= MAXSEG){ scored.push({s, e, score: 1 + (hasVal(seg) ? 1 : 0)}); continue; }
+    windows(text, s, e, c[1], scored);         // long block: narrow to the value hits
+  }
+
+  // Requiring context is what makes the marking precise, but when a paper phrases
+  // something no context cue anticipated, shading nothing is worse than shading
+  // loosely. Drop to value cues alone rather than leave a blank pane.
+  if (!scored.length){
+    for (const [s,e] of segs){
+      const seg = text.slice(s,e);
+      if (!hasVal(seg)) continue;
+      if (e - s <= MAXSEG) scored.push({s, e, score: 1});
+      else windows(text, s, e, c[1], scored);
+    }
+  }
+
+  scored = merge(scored);
+  scored.sort((a,b)=> b.score - a.score || (a.e - a.s) - (b.e - b.s) || a.s - b.s);
+  const top = scored.slice(0, 8);
+  top.sort((a,b)=> a.s - b.s);
+  return top;
+}
+
+let curBox = null, curMarks = [], curIdx = -1;
+function highlight(pmcid, item){
+  const box = document.getElementById('m_' + pmcid);
+  if (!box) return;
+  curBox = box;
+  const raw = box.dataset.raw;
+  const spans = rank(raw, item);
+  let out = '', at = 0;
+  for (const sp of spans){
+    out += esc(raw.slice(at, sp.s)) + '<mark>' + esc(raw.slice(sp.s, sp.e)) + '</mark>';
+    at = sp.e;
+  }
+  out += esc(raw.slice(at));
+  box.innerHTML = out;
+  curMarks = [...box.querySelectorAll('mark')];
+  curIdx = -1;
+  const lab = document.getElementById('hits_' + pmcid);
+  if (lab) lab.textContent = curMarks.length
+    ? curMarks.length + ' likely passage' + (curMarks.length>1?'s':'')
+    : 'nothing obvious, read the section';
+  if (curMarks.length) jump(1);
+}
+function jump(d){
+  if (!curMarks.length) return;
+  if (curIdx >= 0) curMarks[curIdx].classList.remove('cur');
+  curIdx = (curIdx + d + curMarks.length) % curMarks.length;
+  curMarks[curIdx].classList.add('cur');
+  curMarks[curIdx].scrollIntoView({block:'center', behavior:'smooth'});
+}
+
+/* ---- selection capture -----------------------------------------------------
+   Offsets are computed against the raw text, not the marked-up DOM, so a stored
+   span is comparable to stage 2's own match offsets regardless of highlighting. */
+function textOffset(container, node, off){
+  const w = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+  let n, acc = 0;
+  while ((n = w.nextNode())){
+    if (n === node) return acc + off;
+    acc += n.nodeValue.length;
+  }
+  return -1;
+}
+function getSel(box){
+  const s = window.getSelection();
+  if (!s || s.rangeCount === 0 || s.isCollapsed) return null;
+  const r = s.getRangeAt(0);
+  if (!box.contains(r.commonAncestorContainer)) return null;
+  const a = textOffset(box, r.startContainer, r.startOffset);
+  const b = textOffset(box, r.endContainer, r.endOffset);
+  if (a < 0 || b < 0 || b <= a) return null;
+  return {start:a, end:b, text:s.toString()};
+}
+
+/* ---- answering ------------------------------------------------------------ */
+function activeEl(){ return document.querySelector('.q.active'); }
+function activate(el){
+  if (!el) return;
+  document.querySelectorAll('.q.active').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  highlight(el.dataset.pmcid, el.dataset.item);
+}
+function tidy(s){ return s.replace(/\s+/g,' ').trim(); }
+
+function paint(el){
+  const q = el.dataset.q, v = ANS[q];
+  const tag = el.querySelector('.ans');
+  const grab = el.querySelector('.grab');
+  const list = el.querySelector('.spans');
+  const moreBox = el.querySelector('.morewrap');
+  const doneBtn = el.querySelector('[data-act="done"]');
+
+  if (!v){
+    el.classList.remove('done'); tag.textContent = '';
+    grab.classList.remove('on'); list.innerHTML = '';
+    moreBox.classList.remove('on'); doneBtn.style.display = 'none';
+    return;
+  }
+  if (v.answer === 'marked'){
+    grab.classList.add('on');
+    moreBox.classList.toggle('on', !el.classList.contains('done'));
+    doneBtn.style.display = el.classList.contains('done') ? 'none' : '';
+    list.innerHTML = v.spans.map((s,i)=>
+      '<li><span>' + esc(tidy(s.text)) + '</span>'
+      + '<button type="button" class="quiet x" data-act="drop" data-i="' + i + '">'
+      + 'Remove</button></li>').join('');
+    el.querySelector('.morebox').checked = !!v.more;
+    const n = v.spans.length;
+    tag.textContent = n === 1 ? '\u201C' + tidy(v.spans[0].text).slice(0,52) + '\u201D'
+                              : n + ' marked' + (v.more ? ', more not marked' : '');
+  } else {
+    grab.classList.remove('on'); list.innerHTML = '';
+    moreBox.classList.remove('on'); doneBtn.style.display = 'none';
+    tag.textContent = v.answer === 'not_stated' ? 'Not stated' : 'Unclear';
+  }
+  el.classList.toggle('done', !!v.done);
+}
+function mark(el){
+  const box = document.getElementById('m_' + el.dataset.pmcid);
+  const sel = getSel(box);
+  if (!sel){ flash('Select the words in the Methods text first, then press this.'); return; }
+  const q = el.dataset.q;
+  const v = ANS[q] && ANS[q].answer === 'marked'
+    ? ANS[q] : (ANS[q] = {answer:'marked', spans:[], more:false, done:false});
+  v.answer = 'marked'; v.done = false;
+  const key = tidy(sel.text).toLowerCase();
+  if (!v.spans.some(s=>tidy(s.text).toLowerCase() === key)){
+    v.spans.push({text:sel.text, start:sel.start, end:sel.end});
+  } else {
+    flash('You already marked that one.');
+  }
+  window.getSelection().removeAllRanges();
+  paint(el); refresh();
+}
+function dropSpan(el, i){
+  const v = ANS[el.dataset.q];
+  if (!v) return;
+  v.spans.splice(i, 1);
+  if (!v.spans.length) delete ANS[el.dataset.q];
+  paint(el); refresh();
+}
+function finish(el){
+  const v = ANS[el.dataset.q];
+  if (!v || !v.spans.length) return;
+  v.more = el.querySelector('.morebox').checked;
+  v.done = true;
+  paint(el); refresh(); nextOpen(el);
+}
+function plain(el, a){
+  ANS[el.dataset.q] = {answer:a, spans:[], more:false, done:true};
+  paint(el); refresh(); nextOpen(el);
+}
+function reopen(el){
+  const v = ANS[el.dataset.q];
+  if (v && v.answer === 'marked') v.done = false; else delete ANS[el.dataset.q];
+  paint(el); activate(el); refresh();
+  el.scrollIntoView({block:'center', behavior:'smooth'});
+}
+function nextOpen(from){
+  const all = [...document.querySelectorAll('[data-q]')];
+  for (let k = all.indexOf(from)+1; k < all.length; k++){
+    if (!ANS[all[k].dataset.q]){
+      activate(all[k]);
+      all[k].scrollIntoView({block:'center', behavior:'smooth'});
+      return;
+    }
+  }
+}
+function guide(on, item){
+  document.getElementById('guide').classList.toggle('on', on);
+  document.getElementById('scrim').classList.toggle('on', on);
+  if (on){
+    const el = activeEl();
+    const sel = document.getElementById('ask_item');
+    if (sel) sel.value = item || (el ? el.dataset.item : sel.value);
+  }
+}
+
+/* ---- rules assistant -------------------------------------------------------
+   Definitions only. The paper text is never sent, and a question carrying a long
+   verbatim run from the Methods pane is refused here rather than upstream, because
+   the cheapest place to keep the gold standard clean is before the request leaves
+   the browser. */
+function pastedFromPaper(q){
+  const boxes = [...document.querySelectorAll('.methods')];
+  const s = q.replace(/\s+/g,' ').trim();
+  if (s.length < 60) return false;
+  for (const b of boxes){
+    const hay = (b.dataset.raw || '').replace(/\s+/g,' ');
+    for (let i = 0; i + 60 <= s.length; i += 10){
+      if (hay.indexOf(s.slice(i, i+60)) >= 0) return true;
+    }
+  }
+  return false;
+}
+async function ask(){
+  const out = document.getElementById('ask_out');
+  const q = document.getElementById('ask_q').value.trim();
+  const item = document.getElementById('ask_item').value;
+  if (!q){ out.textContent = 'Type a question about the rule first.'; return; }
+  if (pastedFromPaper(q)){
+    out.textContent = 'That looks like text from the paper. This assistant only '
+      + 'explains the rules, and deciding what a paper says is the job the study is '
+      + 'measuring. Ask what the rule means instead.';
+    return;
+  }
+  if (!ENDPOINT){ out.textContent = 'No endpoint configured, so the assistant is off. '
+      + 'The rules above are the reference.'; return; }
+  const d = DEFS[item] || ['','',''];
+  // Send the whole rule set, not just the selected item. It is about 1,500 tokens
+  // and it is what lets the assistant answer the questions reviewers actually ask,
+  // which are comparative: how is acquisition software different from
+  // quantification software, does a lot number count as a catalogue number.
+  const all = Object.entries(DEFS)
+    .map(([k,v])=> v[0] + ' :: ' + v[1] + ' :: mark: ' + v[2]).join('\n');
+  out.textContent = 'Thinking...';
+  try{
+    const r = await fetch(ENDPOINT, {method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({action:'assist', batch:BATCH.batch,
+        reviewer: document.getElementById('rev').value.trim(),
+        item, item_label:d[0], definition:d[1], rule:d[2],
+        all_rules: all, question:q})});
+    const t = (await r.text()).trim();
+    if (t.indexOf('ASSIST_OK') === 0) out.textContent = t.slice(9).trim();
+    else if (t.indexOf('ASSIST_OFF') === 0) out.textContent =
+      'The assistant is switched off for this study. The rules above are the reference.';
+    else out.textContent = 'The assistant is unavailable. The rules above are the reference.';
+  }catch(e){
+    out.textContent = 'The assistant is unavailable. The rules above are the reference.';
+  }
+}
+let flashT = null;
+function flash(msg){
+  const h = document.getElementById('hint');
+  h.textContent = msg; h.classList.add('on');
+  clearTimeout(flashT);
+  flashT = setTimeout(()=>h.classList.remove('on'), 2600);
+}
+
+/* ---- submit --------------------------------------------------------------- */
+/* One row per span, so a question answered with eight RRIDs is eight rows sharing a
+   judgement_id. n_spans is carried on every row so the scorer can tell a truncated
+   submission from a complete one without regrouping first. */
+function collect(){
+  const rows = [];
+  document.querySelectorAll('[data-q]').forEach(el=>{
+    const v = ANS[el.dataset.q];
+    const base = {judgement_id: el.dataset.q, pmcid: el.dataset.pmcid,
+                  item: el.dataset.item};
+    if (!v || v.answer !== 'marked'){
+      rows.push(Object.assign({}, base, {answer: v ? v.answer : '', span_index: 0,
+        span_text: '', span_start: -1, span_end: -1, span_len: 0,
+        n_spans: 0, more_unmarked: ''}));
+      return;
+    }
+    v.spans.forEach((s,i)=>{
+      rows.push(Object.assign({}, base, {answer:'marked', span_index: i,
+        span_text: s.text, span_start: s.start, span_end: s.end,
+        span_len: (s.text||'').length, n_spans: v.spans.length,
+        more_unmarked: v.more ? 1 : 0}));
+    });
+  });
+  return {batch: BATCH.batch, reviewer: document.getElementById('rev').value.trim(),
+          submitted_at: new Date().toISOString(),
+          minutes: Math.round((Date.now()-T0)/60000), rows};
+}
+function download(){
+  const p = collect();
+  const head = 'batch,reviewer,submitted_at,judgement_id,pmcid,item,answer,span_index,'
+             + 'span_text,span_start,span_end,span_len,n_spans,more_unmarked\n';
+  const q = s => '"' + String(s==null?'':s).replace(/"/g,'""') + '"';
+  const body = p.rows.map(r=>[p.batch,p.reviewer,p.submitted_at,r.judgement_id,r.pmcid,
+      r.item,r.answer,r.span_index,r.span_text,r.span_start,r.span_end,r.span_len,
+      r.n_spans,r.more_unmarked]
+      .map(q).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([head+body], {type:'text/csv'}));
+  a.download = 'A6_' + p.batch + '_' + (p.reviewer||'anon').replace(/\W+/g,'_') + '.csv';
+  a.click();
+}
+async function send(){
+  const st = document.getElementById('status');
+  if (!ENDPOINT){ st.innerHTML = '<b>No endpoint set.</b> Use Download CSV.'; return; }
+  st.textContent = 'Sending...';
+  try{
+    const r = await fetch(ENDPOINT, {method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(collect())});
+    const t = await r.text();
+    if (t.indexOf('OK') >= 0){
+      st.innerHTML = '<b>Submitted.</b> Thank you, you can close this tab.';
+      document.getElementById('send').disabled = true;
+      try{ localStorage.removeItem(KEY); }catch(e){}
+    } else {
+      st.innerHTML = '<b>Rejected.</b> ' + esc(t.slice(0,140)) + ' Use Download CSV.';
+    }
+  }catch(e){
+    st.innerHTML = '<b>Send failed.</b> Use Download CSV and email the file.';
+  }
+}
+
+/* ---- wiring --------------------------------------------------------------- */
+document.addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-act]');
+  if (btn){
+    const el = btn.closest('[data-q]');
+    const a = btn.dataset.act;
+    if (a === 'mark') mark(el);
+    else if (a === 'done') finish(el);
+    else if (a === 'drop') dropSpan(el, parseInt(btn.dataset.i, 10));
+    else if (a === 'reopen') reopen(el);
+    else plain(el, a);
+    return;
+  }
+  const head = e.target.closest('.q.done .qname');
+  if (head){ reopen(head.closest('[data-q]')); return; }
+  const q = e.target.closest('[data-q]');
+  if (q && !q.classList.contains('done')) activate(q);
+});
+document.addEventListener('input', e=>{ if (e.target.id === 'rev') refresh(); });
+document.addEventListener('keydown', e=>{ if (e.key === 'Escape') guide(false); });
+document.addEventListener('mouseup', ()=>{
+  const el = activeEl();
+  if (!el) return;
+  const box = document.getElementById('m_' + el.dataset.pmcid);
+  if (box && getSel(box)) flash('Press "Use highlighted text" on the open question.');
+});
+window.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.methods').forEach(b=>{ b.dataset.raw = b.textContent; });
+  const n = restore();
+  const first = [...document.querySelectorAll('[data-q]')].find(el=>!ANS[el.dataset.q]);
+  activate(first || document.querySelector('[data-q]'));
+  refresh();
+  if (n) document.getElementById('status').innerHTML =
+    '<b>Restored ' + n + ' saved answer' + (n>1?'s':'') + '</b> from this browser.';
+});
+window.addEventListener('beforeunload', e=>{
+  if (answered() > 0 && !document.getElementById('send').disabled){
+    e.preventDefault(); e.returnValue = '';
+  }
+});
+</script></body></html>
